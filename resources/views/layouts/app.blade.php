@@ -28,7 +28,7 @@
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 </head>
 <body>
-  
+
   <!-- preloader -->
   <div class="preloader">
       <div class="spinner"></div>
@@ -47,12 +47,12 @@
               </div>
               <div class="col s6">
                   <div class="content-center">
-                      <a href="index.html"><h1>{{ config('app.name') }}</h1></a>
+                      <a href="{{route('home')}}"><h1>{{ config('app.name') }}</h1></a>
                   </div>
               </div>
               <div class="col s3">
                   <div class="content-right">
-                      <a href="reservation.html"><i class="fa fa-clipboard"></i></a>
+                      <a href="#"><i class="fa fa-clipboard"></i></a>
                   </div>
               </div>
           </div>
@@ -60,62 +60,6 @@
   </div>
   <!-- end navbar -->
 
-    <!-- <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <!-- <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <!-- <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <!-- <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                @endif
-                            </li>
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <main class="py-4">
-            '@'yield('content')
-        </main> -->
-    <!-- </div>  -->
     <!-- sidebar -->
     <div class="sidebar-panel">
         <ul id="slide-out" class="collapsible sidenav side-left side-nav">
@@ -125,29 +69,18 @@
                         <img src="images/bg-user.html" alt="">
                     </div>
                     <h2><span></span>{{ config('app.name') }}</h2>
-                    <p>Cafe & Restaurant</p>
+                    <p>Validation Management System</p>
                 </div>
             </li>
-            <li><a href="#!"><i class="fa fa-home"></i>Home</a></li>
+            @auth
+            <li><a href="{{route('home')}}"><i class="fa fa-home"></i>Home</a></li>
             <li>
                 <div class="collapsible-header">
-                    <i class="fa fa-list"></i>Menu<span><i class="fa fa-caret-right right"></i></span>
+                    <i class="fa fa-file"></i>Attendance<span><i class="fa fa-caret-right right"></i></span>
                 </div>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="menu-list.html">Menu</a></li>
-                        <li><a href="menu-details.html">Menu Details</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">
-                    <i class="fa fa-user-circle-o"></i>Chef<span><i class="fa fa-caret-right right"></i></span>
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="chef.html">Chef</a></li>
-                        <li><a href="chef-details.html">Chef Details</a></li>
+                        <li><a href="{{route('attendance.history')}}"><i class="fa fa-table"></i>History</a></li>
                     </ul>
                 </div>
             </li>
@@ -157,73 +90,25 @@
                 </div>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="edit-profile.html">Edit Profile</a></li>
-                        <li><a href="forgot-password.html">Forgot Password</a></li>
-                        <li><a href="reset-password.html">Reset Password</a></li>
-                        <li><a href="login.html">Sign In</a></li>
-                        <li><a href="#!.html">Logout</a></li>
+                        <li><a href="{{route('profile')}}"><i class="fa fa-user-circle-o"></i>Profile</a></li>
+                        <li><a href="{{route('profile.edit')}}"><i class="fa fa-edit"></i>Edit Profile</a></li>
                     </ul>
                 </div>
             </li>
-            <li>
-                <div class="collapsible-header">
-                    <i class="fa fa-file"></i>Pages<span><i class="fa fa-caret-right right"></i></span>
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="testimonial.html">Testimonial</a></li>
-                        <li><a href="pricing-table.html">Pricing Table</a></li>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="register.html">Register</a></li>
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">
-                    <i class="fa fa-tags"></i>Category<span><i class="fa fa-caret-right right"></i></span>
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="category.html">Category</a></li>
-                        <li><a href="category-details.html">Category Details</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">
-                    <i class="fa fa-shopping-cart"></i>Shop<span><i class="fa fa-caret-right right"></i></span>
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="category.html">Category</a></li>
-                        <li><a href="cart.html">Cart</a></li>
-                        <li><a href="checkout.html">Checkout</a></li>
-                        <li><a href="done-process.html">Done</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">
-                    <i class="fa fa-rss"></i>Blog<span><i class="fa fa-caret-right right"></i></span>
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="blog-single.html">Blog Single</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li><a href="reservation.html"><i class="fa fa-book"></i>Reservation</a></li>
-            <li><a href="open-hours.html"><i class="fa fa-clock-o"></i>Open Hours</a></li>
-            <li><a href="contact.html"><i class="fa fa-envelope"></i>Contact</a></li>
-            <li><a href="login.html"><i class="fa fa-sign-in"></i>Login</a></li>
-            <li><a href="register.html"><i class="fa fa-user-plus"></i>Register</a></li>
-            <li><a href="#!"><i class="fa fa-sign-out"></i>Logout</a></li>
+            @else
+            <li><a href="{{route('login')}}"><i class="fa fa-sign-in"></i>Login</a></li>
+            <li><a href="{{route('register')}}"><i class="fa fa-user-plus"></i>Register</a></li>
+            <li><a href="{{route('password.request')}}"><i class="fa fa-key"></i>Forgot Password</a></li>
+            @endauth
+            @auth
+            <li><a
+                  href="{{route('logout')}}" onclick="event.preventDefault();
+                          document.getElementById('logout-form').submit();"
+                ><i class="fa fa-sign-out"></i>Logout</a></li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            @endauth
         </ul>
     </div>
     <!-- end sidebar -->
