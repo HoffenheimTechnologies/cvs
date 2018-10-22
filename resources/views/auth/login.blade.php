@@ -86,7 +86,7 @@ input[type=checkbox]:checked:disabled + label:before {
                   </li>
                 </ul>
             </div>
-            <button type="submit" class="button">Login</button>
+            <button type="submit" class="button"><i class="fa fa-cog fa-spin"></i> Login</button>
         </form>
         <!-- <div class="wrap-media">
           <h5>Login with</h5>

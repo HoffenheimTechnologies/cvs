@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{URL::asset('css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/owl.theme.default.min.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/style.css')}}">
 
     <!-- Fonts -->
@@ -72,15 +73,16 @@
                     <p>Validation Management System</p>
                 </div>
             </li>
+            <hr>
             @auth
             <li><a href="{{route('home')}}"><i class="fa fa-home"></i>Home</a></li>
             <li>
                 <div class="collapsible-header">
-                    <i class="fa fa-file"></i>Attendance<span><i class="fa fa-caret-right right"></i></span>
+                    <i class="fa fa-file"></i>Attendance<span><i class="fa fa-caret-right right fa-spin"></i></span>
                 </div>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="{{route('attendance.history')}}"><i class="fa fa-table"></i>History</a></li>
+                        <li><a href="{{route('attendance.history')}}"><i class="fa fa-table fa-spin"></i>History</a></li>
                     </ul>
                 </div>
             </li>
@@ -90,21 +92,21 @@
                 </div>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="{{route('profile')}}"><i class="fa fa-user-circle-o"></i>Profile</a></li>
-                        <li><a href="{{route('profile.edit')}}"><i class="fa fa-edit"></i>Edit Profile</a></li>
+                        <li><a href="{{route('profile')}}"><i class="fa fa-user-circle-o fa-spin"></i>Profile</a></li>
+                        <li><a href="{{route('profile.edit')}}"><i class="fa fa-edit fa-spin"></i>Edit Profile</a></li>
                     </ul>
                 </div>
             </li>
             @else
-            <li><a href="{{route('login')}}"><i class="fa fa-sign-in"></i>Login</a></li>
-            <li><a href="{{route('register')}}"><i class="fa fa-user-plus"></i>Register</a></li>
-            <li><a href="{{route('password.request')}}"><i class="fa fa-key"></i>Forgot Password</a></li>
+            <li><a href="{{route('login')}}"><i class="fa fa-sign-in fa-spin"></i>Login</a></li>
+            <li><a href="{{route('register')}}"><i class="fa fa-user-plus fa-spin"></i>Register</a></li>
+            <li><a href="{{route('password.request')}}"><i class="fa fa-key fa-spin"></i>Forgot Password</a></li>
             @endauth
             @auth
             <li><a
                   href="{{route('logout')}}" onclick="event.preventDefault();
                           document.getElementById('logout-form').submit();"
-                ><i class="fa fa-sign-out"></i>Logout</a></li>
+                ><i class="fa fa-sign-out fa-spin"></i>Logout</a></li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
@@ -136,5 +138,6 @@
     <script src="{{URL::asset('js/materialize.min.js')}}"></script>
     <script src="{{URL::asset('js/owl.carousel.min.js')}}"></script>
     <script src="{{URL::asset('js/main.js')}}"></script>
+    @yield('script')
   </body>
 </html>

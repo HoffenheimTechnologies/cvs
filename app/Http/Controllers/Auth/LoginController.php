@@ -37,32 +37,32 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function authenticate(Request $request)
-    {
-        // if (Auth::attempt(['email' => $email, 'password' => $password])) {
-        //     // Authentication passed...
-        //     return redirect()->intended('/');
-        // }
-
-        $name = $request->email; //the input field has name='username' in form
-
-        if(filter_var($name, FILTER_VALIDATE_EMAIL)) {
-            //user sent their email
-            Auth::attempt(['email' => $name, 'password' => $password]);
-        } else {
-            //they sent their username instead
-            Auth::attempt(['name' => $name, 'password' => $password]);
-        }
-
-        //was any of those correct ?
-        if ( Auth::check() ) {
-          //send them where they are going
-          return redirect()->intended('/');
-        }
-
-        //Nope, something wrong during authentication
-        return redirect()->back()->withErrors([
-            'credentials' => 'Oh! Credentials do not match our records'
-        ]);
-    }
+    // public function authenticate(Request $request)
+    // {
+    //     // if (Auth::attempt(['email' => $email, 'password' => $password])) {
+    //     //     // Authentication passed...
+    //     //     return redirect()->intended('/');
+    //     // }
+    //
+    //     $name = $request->email; //the input field has name='username' in form
+    //
+    //     if(filter_var($name, FILTER_VALIDATE_EMAIL)) {
+    //         //user sent their email
+    //         Auth::attempt(['email' => $name, 'password' => $password]);
+    //     } else {
+    //         //they sent their username instead
+    //         Auth::attempt(['name' => $name, 'password' => $password]);
+    //     }
+    //
+    //     //was any of those correct ?
+    //     if ( Auth::check() ) {
+    //       //send them where they are going
+    //       return redirect()->intended('/');
+    //     }
+    //
+    //     //Nope, something wrong during authentication
+    //     return redirect()->back()->withErrors([
+    //         'credentials' => 'Oh! Credentials do not match our records'
+    //     ]);
+    // }
 }

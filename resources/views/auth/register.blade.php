@@ -71,15 +71,15 @@ input:valid + span:after {
                   <strong>{{ $errors->first('role') }}</strong>
               </span>
           @endif
-          <select class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role" required style="display:block">
+          <select class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="gender" required style="display:block">
             <option value="" disabled selected>Gender</option>
             <option value="1">Male</option>
             <option value="0">Female</option>
           </select>
           <span class="validity"></span>
-          @if ($errors->has('role'))
+          @if ($errors->has('gender'))
               <span class="invalid-feedback" role="alert">
-                  <strong>{{ $errors->first('role') }}</strong>
+                  <strong>{{ $errors->first('gender') }}</strong>
               </span>
           @endif
           <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required type="password" placeholder="password">

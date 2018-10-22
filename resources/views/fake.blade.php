@@ -6,18 +6,18 @@
         <div class="container">
             <div class="content">
                 <i class="fa fa-check"></i>
-                <p>{{isset($message) ? $message : ''}}</p>
+                <p>{{isset($message)}}</p>
             </div>
         </div>
     </div>
 	<!-- end done process -->
 <!-- slide -->
-<div class="container bg-primary" id="question" style="{{isset($success) && ($success == 1 ) || !(isset($message)) ? 'display:block' : 'display:none'}}">
+<div class="container bg-primary" id="question">
     <div class="slide">
         <div class="slide-show owl-carousel owl-theme">
           <div class="row">
             <div class="col-md-12">
-              <div class="user-card-block card" id="prompt">
+              <div class="user-card-block card">
                 <div class="card-block">
                   <div class="top-card text-center section-title">
                     <!-- <i class="fa fa-user-circle"></i> -->
@@ -25,22 +25,17 @@
                     <h5 class="text-capitalize p-b-10">Gregory Johnes</h5>
                   </div>
                   <div class="card-contain text-center p-t-40">
-                    <h5 class="text-capitalize p-b-10">Will you attend the service on below date?</h5>
-                    <p class="text-muted">Sunday, October 28, 2018</p>
+                    <h5 class="text-capitalize p-b-10">Will you attend the {service} on below date?</h5>
+                    <p class="text-muted">Sunday, October 21, 2018</p>
                   </div>
 
                   <div class="card-button p-t-50">
-                    <form id="mark_form" method="post" onsubmit="event.preventDefault();">
-                      @csrf
-                      <input id="attendance_input" type="hidden" name="attendance" />
-                      <input id="" type="hidden" name="event_date" value="2018-10-21" />
                       <div class="col-6 pull-right">
-                        <button id="yes" class="btn btn-success btn-round" onclick="mark(1);"><i class="fa fa-thumbs-up"></i> Yes</button>
+                        <button id="no" class="btn btn-danger btn-round"><i class="fa fa-thumbs-down"></i> No</button>
                       </div>
                       <div class="col-6 pull-left">
-                        <button id="no" class="btn btn-danger btn-round" onclick="mark(0);"><i class="fa fa-thumbs-down"></i> No</button>
+                        <button id="yes" class="btn btn-success btn-round"><i class="fa fa-thumbs-up"></i> Yes</button>
                       </div>
-                    </form>
                   </div>
                 </div>
               </div>
@@ -362,40 +357,13 @@
     $('#close').click(function(){
       $('#done').hide();
     });
-
-    $('#prompt').effect('shake');
     //
-    // $('#yes, #no').click(function(){
-    //   $('#question').hide();
-    //   $('#done').show();
-    // });
+    $('#question').effect('shake');
+    //
+    $('#yes, #no').click(function(){
+      $('#question').hide();
+      $('#done').show();
+    });
   });
-  function mark(num){
-    $('#attendance_input').val(num);
-    let confirmed = confirm('Confirm Submission');
-    if(confirmed){
-      var values = {};
-        $.each($('#mark_form').serializeArray(), function(i, field) {
-          values[field.name] = field.value;
-        });
-      $('#mark_form').submit(function(){
-        //process the form
-        $.ajax({
-            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : "{{route('mark')}}", // the url where we want to POST
-            data        : values, // our data object
-            dataType    : 'json', // what type of data do we expect back from the server
-            encode      : true
-        }).done(function(response){
-          if(response.status){
-            window.location.replace("{{route('home')}}?success=2");
-          }else{
-            window.location.replace("{{route('home')}}?fail=-2");
-            console.log(response.e);
-          }
-        });
-      });
-    }
-  }
 </script>
 @endsection
