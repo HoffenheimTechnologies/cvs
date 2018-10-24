@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<?php $user = Auth::user(); ?>
 <!-- done process -->
     <div class="done-process segments-page" id="done" style="{{isset($message) ? 'display:block' : 'display:none'}}">
         <div class="container">
             <div class="content">
                 <i class="fa fa-check"></i>
-                <p>{{isset($message) ? $message : ''}}</p>
+                <p id="message-text">{{isset($message) ? $message : ''}}</p>
             </div>
         </div>
     </div>
@@ -22,18 +23,18 @@
                   <div class="top-card text-center section-title">
                     <!-- <i class="fa fa-user-circle"></i> -->
                     <h5 class="p-b-10">Hello!</h5>
-                    <h5 class="text-capitalize p-b-10">Gregory Johnes</h5>
+                    <h5 class="text-capitalize p-b-10">{{ucwords($user->firstname.' '.$user->lastname)}}</h5>
                   </div>
                   <div class="card-contain text-center p-t-40">
                     <h5 class="text-capitalize p-b-10">Will you attend the service on below date?</h5>
-                    <p class="text-muted">Sunday, October 28, 2018</p>
+                    <p class="text-muted">Sunday, October 29, 2018</p>
                   </div>
 
                   <div class="card-button p-t-50">
                     <form id="mark_form" method="post" onsubmit="event.preventDefault();">
                       @csrf
                       <input id="attendance_input" type="hidden" name="attendance" />
-                      <input id="" type="hidden" name="event_date" value="2018-10-21" />
+                      <input id="" type="hidden" name="event_date" value="2018-10-29" />
                       <div class="col-6 pull-right">
                         <button id="yes" class="btn btn-success btn-round" onclick="mark(1);"><i class="fa fa-thumbs-up"></i> Yes</button>
                       </div>
@@ -388,14 +389,25 @@
             encode      : true
         }).done(function(response){
           if(response.status){
-            window.location.replace("{{route('home')}}?success=2");
+            status('Attendance Marked Successfully');
+            // window.location.replace("{{route('home')}}?success=2");
           }else{
-            window.location.replace("{{route('home')}}?fail=-2");
-            console.log(response.e);
+            if(response.e){
+                console.log(response.e);
+                alert('Exemption Catched. Please try again');
+            }else{
+                status(response.reason);
+                // window.location.replace("{{route('home')}}");
+            }
           }
         });
       });
     }
+  }
+  function status(message){
+    $('#question').hide();
+    $('#message-text').html(message);
+    $('#done').show();
   }
 </script>
 @endsection

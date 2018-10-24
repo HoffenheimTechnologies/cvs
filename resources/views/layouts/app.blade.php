@@ -121,8 +121,8 @@
     <footer>
         <div class="container">
             <div class="desc">
-                <p>58 Poland Street, London</p>
-                <span>United Kingdom</span>
+                <p>Hoffenheim Technologies Limited</p>
+                <!-- <span>United Kingdom</span> -->
             </div>
             <ul>
                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>

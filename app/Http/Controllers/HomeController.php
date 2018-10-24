@@ -32,6 +32,8 @@ class HomeController extends Controller
           // code...
           $message = 'You Have Successfully Registered';
           return view('home', compact('message', 'success'));
+        }elseif($request->fail = -1){
+          $message = 'You Have Successfully Registered';
         }else{
           $message = 'Attendance Marked';
           return view('home', compact('message', 'success'));
@@ -62,9 +64,9 @@ class HomeController extends Controller
       $event_date = $request->event_date;
       //check if attendance for that date has already been created by the user
       try {
-        $exists = Attendane::where('user_id', $user)->where('event_date', date('Y-m-d',strtotime($event_date)))->get();
+        $exists = Attendance::where('user_id', $user)->where('event_date', date('Y-m-d',strtotime($event_date)) )->get(['id'])->count();
         if($exists > 0){
-          return response()->json(['status' => false, 'reason' => 'Attendance for that date already exists']);
+          return response()->json(['status' => false, 'reason' => 'Attendance already marked']);
         }
       } catch (\Exception $e) {
         return response()->json(['status' => false, 'reason' => 'couldnt check attendance', "e" => $e]);
@@ -74,7 +76,7 @@ class HomeController extends Controller
         Attendance::create([
           'attendance' => $attendance,
           'user_id' => $user,
-          'event_date' => $event_date
+          'event_date' => date('Y-m-d',strtotime($event_date))
         ]);
       } catch (\Exception $e) {
         return response()->json(['status' => false, "e" => $e]);
