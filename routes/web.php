@@ -19,6 +19,8 @@ Route::get('/history', 'HomeController@history')->name('attendance.history');
 Route::get('/profile', 'HomeController@profile')->name('profile');
 Route::get('/profile/edit', 'HomeController@profileEdit')->name('profile.edit');
 Route::post('/attendance/mark', 'HomeController@mark')->name('mark');
+Route::get('/admin', 'HomeController@admin')->name('admin');
+Route::post('/event/create', 'HomeController@eventCreate')->name('event.create');
 Route::get('/weerrr', function () {
     return view('welcome');
 });

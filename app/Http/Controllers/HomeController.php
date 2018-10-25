@@ -102,4 +102,38 @@ class HomeController extends Controller
       //return data
       return response()->json(['status' => true]);
     }
+
+    public function admin(){
+      return view('admin');
+    }
+
+    public function eventCreate(Request $request){
+      $event_date =  date('Y-m-d',strtotime($request->event_date));
+      //check for past date
+        if (NOW() >= $event_date)
+        {
+          return response()->json(['status' => false, 'reason' => 'Date already past']);
+        }
+      //check if already exists
+      $exists = Event::where('event_date', $event_date)->get(['id'])->count();
+        if($exists > 0){
+          return response()->json(['status' => false, 'reason' => 'Event exists for that date']);
+        }
+      //try to create
+      $create = Event::create([
+        'event_date' => $event_date,
+      ]); 
+      if ($create) {
+        # deactivate ative event
+        $active = Event::where('active', 1)->where('id', '!=', $create->id)->get();
+        foreach ($active as $key => $value) {
+          # code...
+          $value->active = 0;
+          $value->save();
+        }
+        return response()->json(['status' => true]);
+      }else{
+        return response()->json(['status' => fale, 'reason' => 'Unkown error occured']);
+      }
+    }
 }
