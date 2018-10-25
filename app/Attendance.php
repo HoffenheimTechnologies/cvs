@@ -8,11 +8,11 @@ class Attendance extends Model
 {
     //
     protected $fillable = [
-        'attendance', 'event_date', 'user_id'
+        'attendance', 'event_id', 'user_id'
     ];
 
     public function user(){
-      return $this->belongsTo(Users::class);
+      return $this->belongsTo(User::class);
     }
 
     public function event(){

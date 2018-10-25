@@ -2,6 +2,7 @@
 
 @section('content')
 <?php $user = Auth::user(); ?>
+
 <!-- done process -->
     <div class="done-process segments-page" id="done" style="{{isset($message) ? 'display:block' : 'display:none'}}">
         <div class="container">
@@ -12,6 +13,7 @@
         </div>
     </div>
 	<!-- end done process -->
+@if(isset($pending_attendance))
 <!-- slide -->
 <div class="container bg-primary" id="question" style="{{isset($success) && ($success == 1 ) || !(isset($message)) ? 'display:block' : 'display:none'}}">
     <div class="slide">
@@ -27,19 +29,19 @@
                   </div>
                   <div class="card-contain text-center p-t-40">
                     <h5 class="text-capitalize p-b-10">Will you attend the service on below date?</h5>
-                    <p class="text-muted">Sunday, October 29, 2018</p>
+                    <p class="text-muted">{{date('l jS \of F Y', strtotime($pending_attendance->event_date))}}</p>
                   </div>
 
                   <div class="card-button p-t-50">
                     <form id="mark_form" method="post" onsubmit="event.preventDefault();">
                       @csrf
                       <input id="attendance_input" type="hidden" name="attendance" />
-                      <input id="" type="hidden" name="event_date" value="2018-10-29" />
+                      <input id="" type="hidden" name="event_id" value="{{$pending_attendance->id}}" />
                       <div class="col-6 pull-right">
-                        <button id="yes" class="btn btn-success btn-round" onclick="mark(1);"><i class="fa fa-thumbs-up"></i> Yes</button>
+                        <button id="yes" class="btn btn-success btn-round"><i class="fa fa-thumbs-up"></i> Yes</button>
                       </div>
                       <div class="col-6 pull-left">
-                        <button id="no" class="btn btn-danger btn-round" onclick="mark(0);"><i class="fa fa-thumbs-down"></i> No</button>
+                        <button id="no" class="btn btn-danger btn-round"><i class="fa fa-thumbs-down"></i> No</button>
                       </div>
                     </form>
                   </div>
@@ -51,7 +53,25 @@
     </div>
 </div>
 <!-- end slide -->
-
+@else
+<!-- No event yet -->
+<div class="container segments-page" style="{{isset($success) && !($success == 1 ) || !(isset($message)) ? 'display:block' : 'display:none'}}">
+    <div class="col-md-6 col-xl-3">
+        <div class="bg-primary card week-status-card">
+            <div class="card-block-big text-center">
+                <p>No Attendance Yet</p>
+                <h2>Check back later.{{$user->Admin()}}</h2>
+            </div>
+            <div class="card-footer">
+                <p class="text-right m-0">
+                    {{NOW()}} <span> </span> <i class="icofont icofont-caret-down text-danger"></i>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end no event yet -->
+@endif
 <!-- category -->
 <!-- <div class="category segments">
     <div class="container">
@@ -365,6 +385,12 @@
     });
 
     $('#prompt').effect('shake');
+    $('#yes').click(function(){
+        mark(1);
+    });
+    $('#no').click(function(){
+        mark(0);
+    });
     //
     // $('#yes, #no').click(function(){
     //   $('#question').hide();

@@ -37,7 +37,7 @@
   <!-- end preloader -->
 
   <!-- navbar -->
-  <div class="navbar navbar-home">
+  <div class="navbar navbar-home" style="">
       <div class="container">
           <div class="row">
               <div class="col s3">
@@ -139,5 +139,11 @@
     <script src="{{URL::asset('js/owl.carousel.min.js')}}"></script>
     <script src="{{URL::asset('js/main.js')}}"></script>
     @yield('script')
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var navHeight = $('#nav').height();
+        $('body').css("padding-top", navHeight);
+      });
+    </script>
   </body>
 </html>

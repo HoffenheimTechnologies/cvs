@@ -31,4 +31,8 @@ class User extends Authenticatable
     public function attendance(){
       return $this->hasMany(Attendance::class);
     }
+
+    public function Admin(){
+        return $this->admin;
+    }
 }
