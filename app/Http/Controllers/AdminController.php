@@ -59,7 +59,8 @@ class AdminController extends Controller
           SUM(CASE when attendance = 1 then 1 else 0 end) As yes,
           SUM(CASE when attendance = 0 then 1 else 0 end) As no,
           (SELECT COUNT(events.id) FROM events LIMIT 1) as event')
-          ->where('user_id', $user->id)->join('users', 'attendances.user_id', 'users.id')->groupby('users.firstname', 'users.lastname', 'users.role')->first());
+          ->where('user_id', $user->id)->join('users', 'attendances.user_id', 'users.id')
+          ->groupby('users.firstname', 'users.lastname', 'users.role')->first());
       }
       //initial
       $active = Event::where('active', '1')->first();
