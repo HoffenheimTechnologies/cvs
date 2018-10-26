@@ -4,7 +4,7 @@
 <?php $user = Auth::user(); ?>
 
 <!-- done process -->
-    <div class="done-process segments-page" id="done" style="{{isset($message) ? 'display:block' : 'display:none'}}">
+    <div class="done-process" id="done" style="{{isset($message) ? 'display:block' : 'display:none'}}">
         <div class="container">
             <div class="content">
                 <i class="fa fa-check"></i>
@@ -55,7 +55,7 @@
 <!-- end slide -->
 @else
 <!-- No event yet -->
-<div class="container segments-page" style="{{isset($success) && !($success == 1 ) || !(isset($message)) ? 'display:block' : 'display:none'}}">
+<div class="container" style="{{isset($success) && !($success == 1 ) || !(isset($message)) ? 'display:block' : 'display:none'}}">
     <div class="col-md-12 col-xl-12">
         <div class="bg-primary card week-status-card">
             <div class="card-block-big text-center">
