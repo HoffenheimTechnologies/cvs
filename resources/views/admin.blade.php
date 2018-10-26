@@ -62,6 +62,57 @@
 			</div>
 		</div>
 
+		<div class="col-lg-12 col-xl-12">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="card-header-text">Active Event</h5>
+					<div class="card-header-right">
+						<i class="icofont icofont-rounded-down"></i>
+						<i class="icofont icofont-refresh"></i>
+						<i class="icofont icofont-close-circled"></i>
+					</div>
+				</div>
+				<div class="card-block" style="">
+					<div class="row" id="draggableWithoutImg">
+						<div class="col-md-3 col-xs-12 m-b-20">
+							<div class="card-sub">
+								<div class="card-block">
+									<h4 class="card-title">{{date('l jS \of F Y', strtotime($active->event_date))}}</h4>
+									<!-- <div class="col-6 counter-card-icon card-block-big">
+										<i class="icofont icofont-chart-line"></i>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					<!-- <div class="col-md-3 col-xs-6">
+						<div class="card-sub">
+							<div class="card-block">
+								<h4 class="card-title">Yes</h4>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 col-xs-6">
+						<div class="card-sub">
+							<div class="card-block">
+								<h4 class="card-title">No</h4>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 col-xs-12">
+						<div class="card-sub">
+							<div class="card-block">
+								<h4 class="card-title">Yet to respond</h4>
+								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							</div>
+						</div>
+					</div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="page-header">
 			<div class="page-header-title">
 				<h4>Create Event</h4>
@@ -77,7 +128,7 @@
 						<div class="card-block">
 
 							<div class="row">
-								<div class="col-sm-6 mobile-inputs">
+								<div class="col-xs-6 mobile-inputs">
 									<h4 class="sub-title">Event Date</h4>
 									<form>
 										<div class="form-group">
@@ -85,9 +136,11 @@
 										</div>
 									</form>
 								</div>
-								<div class="col-sm-6 mobile-inputs">
+								<div class="col-xs-6 mobile-inputs">
 									<h4 class="sub-title">Submit</h4>
-									<button id="create" class="btn btn-inverse"><i class="icofont icofont-exchange"></i>Create event</button>
+									<button style="background-color: #dd4b39;" id="create" class="btn btn-inverse">
+										<i class="icofont icofont-exchange"></i>Create event
+									</button>
 								</div>
 							</div>
 						</div>
@@ -102,10 +155,14 @@
 
 @section('script')
 <script type="text/javascript">
-    $(document).ready(function(){
-        
-    	$('#dropper-default').dateDropper();
+  $(document).ready(function(){
+
+  	$('#dropper-default').dateDropper();
 		$('#create').click(function(){
+			if ($('#dropper-default').val() === '') {
+				swal("Oops", "Please choose event date", "error");
+				return ;
+			}
 			swal({
 			  title: "Are you sure you want to create the event?",
 			  text: "Oncreation will remove active event",
@@ -125,22 +182,15 @@
 			  			swal("Oops", ""+response.reason, "error");
 			  		}
           		}).error(function(data) {
-			        swal("Oops", "Error occured! Error: "+data, "error");
+								console.log(data.responseText);
+			        swal("Oops", "Error occured! Error: "+data.statusText, "error");
 			    });
 			});
-
-
-			// .then((willDelete) => {
-			//   if (willDelete) {
-			  	
-			//     swal("Poof! Your imaginary file has been deleted!", {
-			//       icon: "success",
-			//     });
-			//   } else {
-			//     swal("Your imaginary file is safe!");
-			//   }
-			// });
 	 	});
-   	});
+ 	});
 </script>
+@endsection
+
+@section('jslink')
+<script src="{{URL::asset('js/datedropper.min.js')}}"></script>
 @endsection

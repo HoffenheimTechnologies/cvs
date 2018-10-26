@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{URL::asset('css/stylemashable.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/datedropper.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/sweetalert.css')}}">
-    
+
     <!-- Fonts -->
     <!-- <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> -->
@@ -102,7 +102,17 @@
                 </div>
             </li>
             @if(Auth::user()->Admin())
-              <li><a href="{{route('admin')}}"><i class="fa fa-lock"></i>Admin</a></li>
+              <li>
+                <div class="collapsible-header">
+                    <i class="fa fa-lock"></i>Admin<span><i class="fa fa-caret-right right fa-spin"></i></span>
+                </div>
+                <div class="collapsible-body">
+                    <ul>
+                      <li><a href="{{route('event')}}"><i class="fa fa-lock"></i>Event</a></li>
+                      <li><a href="{{route('report')}}"><i class="icofont icofont-chart-histogram"></i>Report</a></li>
+                    </ul>
+                </div>
+              </li>
             @endif
             @else
             <li><a href="{{route('login')}}"><i class="fa fa-sign-in fa-spin"></i>Login</a></li>
@@ -145,14 +155,16 @@
     <script src="{{URL::asset('js/materialize.min.js')}}"></script>
     <script src="{{URL::asset('js/owl.carousel.min.js')}}"></script>
     <script src="{{URL::asset('js/main.js')}}"></script>
-    <script src="{{URL::asset('js/datedropper.min.js')}}"></script>
     <script src="{{URL::asset('js/sweetalert.min.js')}}"></script>
-    
+    <!-- <script src="{{URL::asset('js/script.js')}}"></script> -->
+    <script src="{{URL::asset('js/canvasjs.min.js')}}"></script>
+    @yield('jslink')
+
     @yield('script')
     <script type="text/javascript">
       $(document).ready(function(){
-        
-        
+
+
       });
     </script>
   </body>

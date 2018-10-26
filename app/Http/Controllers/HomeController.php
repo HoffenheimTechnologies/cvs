@@ -103,8 +103,9 @@ class HomeController extends Controller
       return response()->json(['status' => true]);
     }
 
-    public function admin(){
-      return view('admin');
+    public function event(){
+      $active = Event::where('active', '1')->first();
+      return view('admin', compact('active'));
     }
 
     public function eventCreate(Request $request){
@@ -121,8 +122,8 @@ class HomeController extends Controller
         }
       //try to create
       $create = Event::create([
-        'event_date' => $event_date,
-      ]); 
+        'event_date' => 1//$event_date,
+      ]);
       if ($create) {
         # deactivate ative event
         $active = Event::where('active', 1)->where('id', '!=', $create->id)->get();
@@ -135,5 +136,9 @@ class HomeController extends Controller
       }else{
         return response()->json(['status' => fale, 'reason' => 'Unkown error occured']);
       }
+    }
+
+    public function report(){
+      
     }
 }

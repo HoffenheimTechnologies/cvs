@@ -28,8 +28,8 @@
                     <h5 class="text-capitalize p-b-10">{{ucwords($user->firstname.' '.$user->lastname)}}</h5>
                   </div>
                   <div class="card-contain text-center p-t-40">
-                    <h5 class="text-capitalize p-b-10">Will you attend the service on below date?</h5>
-                    <p class="text-muted">{{date('l jS \of F Y', strtotime($pending_attendance->event_date))}}</p>
+                    <h5 class="text-capitalize p-b-10">Will you attend the service on:</h5>
+                    <p class="text-muted">{{date('l jS \of F Y', strtotime($pending_attendance->event_date))}}?</p>
                   </div>
 
                   <div class="card-button p-t-50">
@@ -124,12 +124,12 @@
                 setTimeout(location.reload.bind(location), 2000);
           }else{
             if(response.e){
-                console.log(response.e);
-                swal("Oops", "Error occured! Error: "+response.e, "error");
-                setTimeout(location.reload.bind(location), 2000);
+              console.log(response.e);
+              swal("Oops", "Error occured! Error: "+response.e, "error");
+              setTimeout(location.reload.bind(location), 2000);
             }else{
-                swal("Oops", ""+response.reason, "error");
-                setTimeout(location.reload.bind(location), 2000);
+              swal("Oops", ""+response.reason, "error");
+              setTimeout(location.reload.bind(location), 2000);
             }
           }
         });
