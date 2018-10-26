@@ -12,8 +12,8 @@
 <div class="row">
 <div class="col-sm-4 weather-card-1  text-center">
 <div class="mob-bg-calender bg-primary">
-<h3 class="text-uppercase">Monday</h3>
-<h1 class="weather-temp">27</h1>
+<h3 class="text-uppercase">{{date('l', strtotime(NOW()))}}</h3>
+<h1 class="weather-temp">{{date('d', strtotime(NOW()))}}</h1>
 </div>
 </div>
 <div class="col-sm-8 p-l-0">
