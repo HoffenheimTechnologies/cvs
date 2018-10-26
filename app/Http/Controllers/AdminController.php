@@ -30,7 +30,7 @@ class AdminController extends Controller
         }
       //try to create
       $create = Event::create([
-        'event_date' => 1//$event_date,
+        'event_date' => $event_date,
       ]);
       if ($create) {
         # deactivate ative event
