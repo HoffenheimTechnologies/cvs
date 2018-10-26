@@ -1,28 +1,139 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{URL::asset('css/pignose.calendar.min.css')}}">
+<link rel="stylesheet" href="{{URL::asset('css/datatables.min.css')}}">
+@endsection
 @section('content')
 <div class="col-md-12 col-xl-7">
-  <div class="row">
-  <div class="col-sm-12">
-  <div class="card borderless-card">
-  <div class="row">
-  <div class="col-sm-4 weather-card-1  text-center">
-  <div class="mob-bg-calender bg-primary">
-  <h3 class="text-uppercase">Monday</h3>
-  <h1 class="weather-temp">27</h1>
+<div class="row">
+<div class="col-sm-12">
+<div class="card borderless-card">
+<div class="row">
+<div class="col-sm-4 weather-card-1  text-center">
+<div class="mob-bg-calender bg-primary">
+<h3 class="text-uppercase">Monday</h3>
+<h1 class="weather-temp">27</h1>
+</div>
+</div>
+<div class="col-sm-8 p-l-0">
+<div class="weather-calender">
+<div class="widget-calender"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h5>Last Event Report</h5>
+    <div class="card-header-right">
+      <i class="icofont icofont-rounded-down"></i>
+      <i class="icofont icofont-refresh"></i>
+      <i class="icofont icofont-close-circled"></i>
+    </div>
   </div>
+  <div class="card-block">
+    <div class="table-responsive dt-responsive">
+      <table id="myTable" class="table table-striped table-bordered nowrap">
+        <thead>
+        <tr>
+          <th>Fistname</th>
+          <th>Lastname</th>
+          <th>Department</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+      <tbody>
+      </tbody>
+      </table>
+    </div>
   </div>
-  <div class="col-sm-8 p-l-0">
-  <div class="weather-calender">
-  <div class="widget-calender"><div class="pignose-calendar pignose-calendar-light pignose-calendar-default">												<div class="pignose-calendar-top">													<a href="#" class="pignose-calendar-top-nav pignose-calendar-top-prev">														<span class="icon-arrow-left pignose-calendar-top-icon icofont icofont-rounded-left"></span>													</a>													<div class="pignose-calendar-top-date">														<span class="pignose-calendar-top-month">October</span>														<span class="pignose-calendar-top-year">2018</span>													</div>													<a href="#" class="pignose-calendar-top-nav pignose-calendar-top-next">														<span class="icon-arrow-right pignose-calendar-top-icon icofont icofont-rounded-right"></span>													</a>												</div>												<div class="pignose-calendar-header"><div class="pignose-calendar-week pignose-calendar-week-sun">SUN</div><div class="pignose-calendar-week pignose-calendar-week-mon">MON</div><div class="pignose-calendar-week pignose-calendar-week-tue">TUE</div><div class="pignose-calendar-week pignose-calendar-week-wed">WED</div><div class="pignose-calendar-week pignose-calendar-week-thu">THU</div><div class="pignose-calendar-week pignose-calendar-week-fri">FRI</div><div class="pignose-calendar-week pignose-calendar-week-sat">SAT</div></div>												<div class="pignose-calendar-body"><div class="pignose-calendar-row"><div class="pignose-calendar-unit pignose-calendar-unit-sun"></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-mon" data-date="2018-10-01"><a href="#">1</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-tue" data-date="2018-10-02"><a href="#">2</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-wed" data-date="2018-10-03"><a href="#">3</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-thu" data-date="2018-10-04"><a href="#">4</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-fri" data-date="2018-10-05"><a href="#">5</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-sat" data-date="2018-10-06"><a href="#">6</a></div></div><div class="pignose-calendar-row"><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-sun" data-date="2018-10-07"><a href="#">7</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-mon" data-date="2018-10-08"><a href="#">8</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-tue" data-date="2018-10-09"><a href="#">9</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-wed" data-date="2018-10-10"><a href="#">10</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-thu" data-date="2018-10-11"><a href="#">11</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-fri" data-date="2018-10-12"><a href="#">12</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-sat" data-date="2018-10-13"><a href="#">13</a></div></div><div class="pignose-calendar-row"><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-sun pignose-calendar-unit-active pignose-calendar-unit-first-active" data-date="2018-10-14"><a href="#">14</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-mon" data-date="2018-10-15"><a href="#">15</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-tue" data-date="2018-10-16"><a href="#">16</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-wed" data-date="2018-10-17"><a href="#">17</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-thu" data-date="2018-10-18"><a href="#">18</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-fri" data-date="2018-10-19"><a href="#">19</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-sat" data-date="2018-10-20"><a href="#">20</a></div></div><div class="pignose-calendar-row"><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-sun" data-date="2018-10-21"><a href="#">21</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-mon" data-date="2018-10-22"><a href="#">22</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-tue" data-date="2018-10-23"><a href="#">23</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-wed" data-date="2018-10-24"><a href="#">24</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-thu" data-date="2018-10-25"><a href="#">25</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-fri" data-date="2018-10-26"><a href="#">26</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-sat" data-date="2018-10-27"><a href="#">27</a></div></div><div class="pignose-calendar-row"><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-sun" data-date="2018-10-28"><a href="#">28</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-mon" data-date="2018-10-29"><a href="#">29</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-tue" data-date="2018-10-30"><a href="#">30</a></div><div class="pignose-calendar-unit pignose-calendar-unit-date pignose-calendar-unit-wed" data-date="2018-10-31"><a href="#">31</a></div><div class="pignose-calendar-unit pignose-calendar-unit-thu"></div><div class="pignose-calendar-unit pignose-calendar-unit-fri"></div><div class="pignose-calendar-unit pignose-calendar-unit-sat"></div></div></div>											</div></div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h5>History</h5>
+    <div class="card-header-right">
+      <i class="icofont icofont-rounded-down"></i>
+      <i class="icofont icofont-refresh"></i>
+      <i class="icofont icofont-close-circled"></i>
+    </div>
   </div>
-  </div>
-  </div>
-  </div>
-  </div>
+  <div class="card-block">
+    <div class="table-responsive dt-responsive">
+      <table id="history" class="table table-striped table-bordered nowrap">
+        <thead>
+        <tr>
+          <th>Fistname</th>
+          <th>Lastname</th>
+          <th>Department</th>
+          <th>Coming</th>
+          <th>Not Coming</th>
+          <th>Ignored</th>
+        </tr>
+        </thead>
+      <tbody>
+      </tbody>
+      </table>
+    </div>
   </div>
 </div>
 @endsection
 
 @section('script')
+<script>
+$(document).ready(function() {
+  //get the datas
+  let values = {'i': 'i', '_token': '{{ csrf_token() }}'};
+  $.ajax({
+    type: "GET", url: "{{route('event.report')}}", data: values, dataType: "json", encode: true
+  }).done(function(data){
+    $('#myTable tbody').html('');
+    $('#history tbody').html('');
+    data.report.forEach(function(report){
+      let attend = report.attendance ? 'Yes' : 'No';
+      $('#myTable tbody').append(`<tr>
+        <td>${report.firstname}</td>
+        <td>${report.lastname}</td>
+        <td>${report.role}</td>`+
+        '<td>'+attend+'</td>   </tr>');
+      });
+
+    //append for history
+  data.history.forEach(function(history){
+    $('#history tbody').append(`<tr>
+      <td>${history.firstname}</td>
+      <td>${history.lastname}</td>
+      <td>${history.role}</td>
+      <td>${history.yes}</td>
+      <td>${history.no}</td>`+
+      '<td>'+(history.event - history.yes - history.no)+'</td>   </tr>');
+  });
+    // $('#myTable').DataTable().rows().invalidate('data').draw(false);
+    // $('#history').DataTable().rows().invalidate('data').draw(false);
+  });
+  $(function() {
+    $('.widget-calender').pignoseCalendar();
+  });
+  $('#history').DataTable();
+  $('#myTable').DataTable(
+    // {
+    //     "processing": true,
+    //     "serverSide": true,
+    //     "sServerMethod": "GET",
+    //     "iDisplayLength": 50,
+    //     "ajax": {"url": "{{route('event.report')}}", "data": {'i': 'i', '_token': '{{ csrf_token() }}'}}
+    // }
+  );
+});
+</script>
+@endsection
+
+@section('jslink')
+<script src="{{URL::asset('js/pignose.calendar.full.min.js')}}"></script>
+<script src="{{URL::asset('js/datatables.min.js')}}"></script>
 @endsection

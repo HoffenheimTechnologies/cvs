@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{URL::asset('css/stylemashable.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/datedropper.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/sweetalert.css')}}">
+    @yield('css')
 
     <!-- Fonts -->
     <!-- <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -132,7 +133,9 @@
     </div>
     <!-- end sidebar -->
     <!-- <main class="py-4"> -->
-        @yield('content')
+    <div class="container segments-page">
+      @yield('content')
+    </div>
     <!-- </main> -->
     <!-- footer -->
     <footer>
