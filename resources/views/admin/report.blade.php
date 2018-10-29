@@ -29,7 +29,7 @@
 
 <div class="card">
   <div class="card-header">
-    <h5>Last Event Report</h5>
+    <h5>Active Event Report</h5>
     <div class="card-header-right">
       <i class="icofont icofont-rounded-down"></i>
       <i class="icofont icofont-refresh"></i>
@@ -45,6 +45,7 @@
           <th>Lastname</th>
           <th>Department</th>
           <th>Action</th>
+          <th>Date</th>
         </tr>
         </thead>
       <tbody>
@@ -88,20 +89,13 @@
 <script>
 $(document).ready(function() {
   //get the datas
-  let values = {'i': 'i', '_token': '{{ csrf_token() }}'};
+  let values = {'alltime': true, '_token': '{{ csrf_token() }}'};
   $.ajax({
     type: "GET", url: "{{route('event.report')}}", data: values, dataType: "json", encode: true
   }).done(function(data){
     $('#myTable tbody').html('');
     $('#history tbody').html('');
-    data.report.forEach(function(report){
-      let attend = report.attendance ? 'Yes' : 'No';
-      $('#myTable tbody').append(`<tr>
-        <td>${report.firstname}</td>
-        <td>${report.lastname}</td>
-        <td>${report.role}</td>`+
-        '<td>'+attend+'</td>   </tr>');
-      });
+    appendRow(data);
 
     //append for history
   data.history.forEach(function(history){
@@ -111,25 +105,52 @@ $(document).ready(function() {
       <td>${history.role}</td>
       <td>${history.yes}</td>
       <td>${history.no}</td>`+
-      '<td>'+(history.event - history.yes - history.no)+'</td>   </tr>');
+      '<td>'+(history.ignored)+'</td></tr>');
   });
     // $('#myTable').DataTable().rows().invalidate('data').draw(false);
     // $('#history').DataTable().rows().invalidate('data').draw(false);
   });
+  function handleSelect(date, context){
+    var text = 'You applied date ';
+    if (date[0] !== null) {
+      let sdate = date[0].format('YYYY-MM-DD');
+      $.ajax({url: "{{route('event.report')}}", type: "GET", data: {'find': true, 'date': sdate}, dataType: 'json', encode: true})
+      .done(function(response){
+        if (response.status) {
+          swal('Success!', `Report for ${response.report[0].event_date} fetched`, 'success');
+          $('#myTable tbody').html('');
+          appendRow(response);
+        }else{
+          swal("Oops", `No Report for ${response.date}`, "error");
+        }
+      })
+      .error(function(data) {
+        console.log(data.responseText);
+      swal("Oops", "Error occured! Error: "+data.statusText, "error");
+      });
+    }
+
+  }
   $(function() {
-    $('.widget-calender').pignoseCalendar();
+    $('.widget-calender').pignoseCalendar({
+      theme: 'blue',
+      select: handleSelect,
+    });
   });
-  $('#history').DataTable();
-  $('#myTable').DataTable(
-    // {
-    //     "processing": true,
-    //     "serverSide": true,
-    //     "sServerMethod": "GET",
-    //     "iDisplayLength": 50,
-    //     "ajax": {"url": "{{route('event.report')}}", "data": {'i': 'i', '_token': '{{ csrf_token() }}'}}
-    // }
-  );
+  $('table').DataTable();
+//  $('#myTable').DataTable();
 });
+
+function appendRow(data){
+  data.report.forEach(function(report){
+    let attend = report.attendance ? report.attendance == 1 ? 'Yes' : 'No response' : 'No';
+    $('#myTable tbody').append(`<tr>
+      <td>${report.firstname}</td>
+      <td>${report.lastname}</td>
+      <td>${report.role}</td>`+
+      '<td>'+attend+'</td> <td>'+report.event_date+'</td>   </tr>');
+    });
+}
 </script>
 @endsection
 

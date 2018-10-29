@@ -61,7 +61,7 @@
 				</div>
 			</div>
 		</div>
-
+		@if(isset($active->event_date))
 		<div class="col-lg-12 col-xl-12">
 			<div class="card">
 				<div class="card-header">
@@ -84,35 +84,11 @@
 								</div>
 							</div>
 						</div>
-					<!-- <div class="col-md-3 col-xs-6">
-						<div class="card-sub">
-							<div class="card-block">
-								<h4 class="card-title">Yes</h4>
-								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-6">
-						<div class="card-sub">
-							<div class="card-block">
-								<h4 class="card-title">No</h4>
-								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12">
-						<div class="card-sub">
-							<div class="card-block">
-								<h4 class="card-title">Yet to respond</h4>
-								<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							</div>
-						</div>
-					</div> -->
 					</div>
 				</div>
 			</div>
 		</div>
-
+		@endif
 		<div class="page-header">
 			<div class="page-header-title">
 				<h4>Create Event</h4>

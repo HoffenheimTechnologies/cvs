@@ -84,7 +84,7 @@
       $('#done').hide();
     });
 
-    $('#prompt').effect('shake');
+    //$('#prompt').effect('shake');
     $('#yes').click(function(){
         mark(1);
     });
@@ -126,7 +126,7 @@
             if(response.e){
               console.log(response.e);
               swal("Oops", "Error occured! Error: "+response.e, "error");
-              setTimeout(location.reload.bind(location), 2000);
+              //setTimeout(location.reload.bind(location), 2000);
             }else{
               swal("Oops", ""+response.reason, "error");
               setTimeout(location.reload.bind(location), 2000);

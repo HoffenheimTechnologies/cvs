@@ -20,6 +20,7 @@ Route::get('/profile', 'HomeController@profile')->name('profile');
 Route::get('/profile/edit', 'HomeController@profileEdit')->name('profile.edit');
 Route::post('/attendance/mark', 'HomeController@mark')->name('mark');
 Route::get('/event', 'AdminController@event')->name('event');
+Route::get('/event/get', 'HomeController@getevent')->name('getevent');
 Route::post('/event/create', 'AdminController@eventCreate')->name('event.create');
 Route::get('/report', 'AdminController@report')->name('report');
 Route::get('/event/report', 'AdminController@eventReport')->name('event.report');
