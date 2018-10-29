@@ -57,7 +57,7 @@
 
 <div class="card">
   <div class="card-header">
-    <h5>History</h5>
+    <h5>Historical Till Date</h5>
     <div class="card-header-right">
       <i class="icofont icofont-rounded-down"></i>
       <i class="icofont icofont-refresh"></i>
@@ -143,7 +143,7 @@ $(document).ready(function() {
 
 function appendRow(data){
   data.report.forEach(function(report){
-    let attend = report.attendance ? report.attendance == 1 ? 'Yes' : 'No response' : 'No';
+    let attend = report.attendance ? report.attendance == 1 ? 'Yes' : 'No response/Ignored' : 'No';
     $('#myTable tbody').append(`<tr>
       <td>${report.firstname}</td>
       <td>${report.lastname}</td>

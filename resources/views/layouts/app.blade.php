@@ -160,7 +160,6 @@
     <script src="{{URL::asset('js/main.js')}}"></script>
     <script src="{{URL::asset('js/sweetalert.min.js')}}"></script>
     <!-- <script src="{{URL::asset('js/script.js')}}"></script> -->
-    <script src="{{URL::asset('js/canvasjs.min.js')}}"></script>
     @yield('jslink')
 
     @yield('script')

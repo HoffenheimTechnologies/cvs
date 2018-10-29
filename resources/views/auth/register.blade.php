@@ -82,6 +82,48 @@ input:valid + span:after {
                   <strong>{{ $errors->first('gender') }}</strong>
               </span>
           @endif
+          <!-- <input class="form-control{{ $errors->has('adddress1') ? ' is-invalid' : '' }}" name="address1" value="{{ old('address1') }}" required type="text" placeholder="Address1">
+          <span class="validity"></span>
+          @if ($errors->has('address1'))
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first('address1') }}</strong>
+              </span>
+          @endif
+          <input class="form-control{{ $errors->has('address2') ? ' is-invalid' : '' }}" name="address2" value="{{ old('address2') }}"  type="text" placeholder="Address2">
+          <span class="validity"></span>
+          @if ($errors->has('address2'))
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first('address2') }}</strong>
+              </span>
+          @endif
+          <input class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" value="{{ old('city') }}"  type="text" placeholder="City">
+          <span class="validity"></span>
+          @if ($errors->has('city'))
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first('city') }}</strong>
+              </span>
+          @endif
+          <input class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}" name="state" value="{{ old('state') }}"  type="text" placeholder="State">
+          <span class="validity"></span>
+          @if ($errors->has('state'))
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first('state') }}</strong>
+              </span>
+          @endif
+          <input class="form-control{{ $errors->has('postalcode') ? ' is-invalid' : '' }}" name="postalcode" value="{{ old('postalcode') }}"  type="text" placeholder="Postalcode">
+          <span class="validity"></span>
+          @if ($errors->has('postalcode'))
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first('postalcode') }}</strong>
+              </span>
+          @endif
+          <input class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" value="{{ old('country') }}"  type="text" placeholder="Country">
+          <span class="validity"></span>
+          @if ($errors->has('country'))
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first('country') }}</strong>
+              </span>
+          @endif -->
           <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required type="password" placeholder="password">
           <span class="validity"></span>
           @if ($errors->has('password'))
