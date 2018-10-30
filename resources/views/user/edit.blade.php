@@ -4,7 +4,8 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.4/css/buttons.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css">
-<link rel="stylesheet" href="https://editor.datatables.net/extensions/Editor/css/editor.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css">
 @endsection
 @section('content')
 <div class="card">
@@ -19,19 +20,22 @@
   </div>
   <div class="card-block">
     <div class="table-responsive">
-<table id="example" class="display" cellspacing="0" width="100%">
-  <thead>
-      <tr>
-          <th></th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Position</th>
-          <th>Office</th>
-          <th width="18%">Start date</th>
-          <th>Salary</th>
-      </tr>
-  </thead>
-</table>
+      <table class="datatable mdl-data-table dataTable" cellspacing="0"
+          width="100%" role="grid" style="width: 100%;">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Gender</th>
+                  <th>Country</th>
+                  <th>Salary</th>
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
 </div>
 </div>
 </div>
@@ -42,68 +46,15 @@
 var editor; // use a global for the submit and return data rendering in the examples
 
 $(document).ready(function() {
-  editor = new $.fn.dataTable.Editor( {
-      ajax: "{{route('at')}}",
-      table: "#example",
-      fields: [ {
-              label: "First name:",
-              name: "first_name"
-          }, {
-              label: "Last name:",
-              name: "last_name"
-          }, {
-              label: "Position:",
-              name: "position"
-          }, {
-              label: "Office:",
-              name: "office"
-          }, {
-              label: "Extension:",
-              name: "extn"
-          }, {
-              label: "Start date:",
-              name: "start_date",
-              type: "datetime"
-          }, {
-              label: "Salary:",
-              name: "salary"
-          }
-      ]
-  } );
-
-  // Activate an inline edit on click of a table cell
-  $('#example').on( 'click', 'tbody td:not(:first-child)', function (e) {
-      editor.inline( this );
-  } );
-
-  $('#example').DataTable( {
-      dom: "Bfrtip",
-      ajax: "../php/staff.php",
-      order: [[ 1, 'asc' ]],
-      columns: [
-          {
-              data: null,
-              defaultContent: '',
-              className: 'select-checkbox',
-              orderable: false
-          },
-          { data: "first_name" },
-          { data: "last_name" },
-          { data: "position" },
-          { data: "office" },
-          { data: "start_date" },
-          { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
-      ],
-      select: {
-          style:    'os',
-          selector: 'td:first-child'
-      },
-      buttons: [
-          { extend: "create", editor: editor },
-          { extend: "edit",   editor: editor },
-          { extend: "remove", editor: editor }
-      ]
-  } );
+  $('.datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('serverSide') }}",
+            columnDefs: [{
+                targets: [0, 1, 2],
+                className: 'mdl-data-table__cell--non-numeric'
+            }]
+        })
 } );
 </script>
 @endsection
@@ -113,5 +64,6 @@ $(document).ready(function() {
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.4/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
-<script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.material.min.js"></script>
 @endsection

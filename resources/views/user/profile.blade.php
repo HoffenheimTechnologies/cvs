@@ -21,17 +21,17 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>firstname</th>
-            <th>lastname</th>
-            <th>phone</th>
-            <th>role</th>
-            <th>gender</th>
-            <th>address1</th>
-            <th>address2</th>
-            <th>city</th>
-            <th>state</th>
-            <th>postalcode</th>
-            <th>country</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Phone</th>
+            <!-- <th>role</th> -->
+            <!-- <th>gender</th> -->
+            <th>Address1</th>
+            <th>Address2</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Postalcode</th>
+            <th>Country</th>
           </tr>
         </thead>
         <tbody>
@@ -46,16 +46,16 @@
             <td class="tabledit-view-mode"><span class="tabledit-span">{{$user->phone}}</span>
               <input class="tabledit-input form-control input-sm" type="text" name="phone" value="{{$user->phone}}">
             </td>
-            <td class="tabledit-view-mode"><span class="tabledit-span">{{$user->role}}</span>
+            <!-- <td class="tabledit-view-mode"><span class="tabledit-span">{{$user->role}}</span>
               <input class="tabledit-input form-control input-sm" type="text" name="role" value="{{$user->role}}">
-            </td>
-            <td class="tabledit-view-mode"><span class="tabledit-span">{{$user->gender ? 'Male' : 'Female'}}</span>
-              <!-- <input class="tabledit-input form-control input-sm" type="text" name="gender" value="{{$user->gender}}"> -->
+            </td> -->
+            <!-- <td class="tabledit-view-mode"><span class="tabledit-span">{{$user->gender ? 'Male' : 'Female'}}</span>
+              <input class="tabledit-input form-control input-sm" type="text" name="gender" value="{{$user->gender}}"> -->
               <!-- <select name="gender" class="tabledit-input form-control input-sm" disabled="" style="display:block;">
                 <option "{{$user->gender ? 'selected' : ''}}" value="1">Male</option>
                 <option "{{$user->gender ? '' : 'selected'}}" value="0">Female</option>
-              </select> -->
-            </td>
+              </select>
+            </td> -->
             <td class="tabledit-view-mode"><span class="tabledit-span">{{$user->address1}}</span>
               <input class="tabledit-input form-control input-sm" type="text" name="address1" value="{{$user->address1}}">
             </td>
@@ -209,27 +209,12 @@ $(document).ready(function(){
     editButton:true,
     deleteButton:false,hideIdentifier:true,
     columns:{
-      identifier:[0,'id'],editable:[[1,'firstname'],[2,'lastname'],[3,'phone'],[4,'role'],[5,'gender','{"1": "Male", "0": "Female"}'],[6,'address1'],[7,'address2'],[8,'state'],[9,'postalcode'],[10,'country'],[11,'_token']]
+      identifier:[0,'id'],editable:[[1,'firstname'],[2,'lastname'],[3,'phone'],
+      //[4,'role'],[5,'gender','{"1": "Male", "0": "Female"}'],
+      [4,'address1'],[5,'address2'],[7,'state'],[8,'postalcode'],[9,'country'],[6,'city'],]//[10,'_token'],
     }
   });
 });
-
-function add_row(){
-  var table=document.getElementById("example-1");
-  var t1=(table.rows.length);
-  var row=table.insertRow(t1);
-  var cell1=row.insertCell(0);
-  var cell2=row.insertCell(1);
-  var cell3=row.insertCell(2);
-  cell1.className='abc';
-  cell2.className='abc';
-  $('<span class="tabledit-span" >Click Me To Edit</span><input class="tabledit-input form-control input-sm" type="text" name="First" value="undefined" disabled="">')
-  .appendTo(cell1);
-  $('<span class="tabledit-span" >Click Me To Edit</span><input class="tabledit-input form-control input-sm" type="text" name="Last" value="undefined"  disabled="">')
-  .appendTo(cell2);
-  $('<span class="tabledit-span" >@mdo</span><select class="tabledit-input form-control input-sm" name="Nickname"  disabled="" ><option value="1">@mdo</option><option value="2">@fat</option><option value="3">@twitter</option></select>')
-  .appendTo(cell3);
-};
 </script>
 @endsection
 

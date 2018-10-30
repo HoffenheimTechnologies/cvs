@@ -28,3 +28,8 @@ Route::get('/event/report', 'AdminController@eventReport')->name('event.report')
 Route::get('/weerrr', function () {
     return view('welcome');
 });
+Route::get('/serverSide',  function () {
+        $users = App\User::all();
+        return Datatables::of($users)->make();
+    }
+)->name('serverSide');

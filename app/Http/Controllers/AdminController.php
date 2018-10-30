@@ -6,9 +6,19 @@ use Illuminate\Http\Request;
 use App\Attendance;
 use App\Event;
 use App\User;
+use Datatables;
 
 class AdminController extends Controller
 {
+  /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
     //
 
     public function event(){
@@ -66,24 +76,34 @@ class AdminController extends Controller
     public function eventReport(Request $request){
       if ($request) {
         // code...
-        if ($request->alltime) {
+        if ($request->draw) {
           // code...
-          $users = User::all();
-          $history = [];
-          foreach ($users as $key => $user) {
+          if ($request->history) {
             // code...
-            array_push($history, Attendance::selectRaw('users.firstname, users.lastname, users.role,
-              SUM(CASE when attendance = 1 then 1 else 0 end) As yes,
-              SUM(CASE when attendance = 0 then 1 else 0 end) As no,
-              SUM(CASE when attendance = 3 then 1 else 0 end) As ignored')
-              ->where('user_id', $user->id)->join('users', 'attendances.user_id', 'users.id')->groupby('users.firstname', 'users.lastname', 'users.role')->first());
+            $users = User::all();
+            $history = collect(new Attendance);//[];
+            foreach ($users as $key => $user) {
+              // code...
+              //array_push($history, Attendance::selectRaw('users.firstname, users.lastname, users.role,
+              $attendance = Attendance::selectRaw('users.firstname, users.lastname, users.role,
+                SUM(CASE when attendance = 1 then 1 else 0 end) As yes,
+                SUM(CASE when attendance = 0 then 1 else 0 end) As no,
+                SUM(CASE when attendance = 3 then 1 else 0 end) As ignored')
+                ->where('user_id', $user->id)->join('users', 'attendances.user_id', 'users.id')->groupby('users.firstname', 'users.lastname', 'users.role')->first();
+                $history->push($attendance);
+            }
+            return Datatables::of($history)->make();
           }
-          //initial
-          $active = Event::where('active', '1')->first();
-          $report = User::select('users.firstname', 'users.lastname','users.role', 'events.event_date', 'attendances.attendance')
-            ->where('event_id', $active->id)->leftjoin('attendances', 'users.id', 'attendances.user_id')
-            ->leftjoin('events', 'events.id', 'attendances.event_id')->get();
-          return response()->json(['status' => true, 'message' => 'Success', 'report' => $report, 'history' => $history]);
+          if ($request->report) {
+            // code...
+            //initial
+            $active = Event::where('active', '1')->first();
+            $report = User::select('users.firstname', 'users.lastname','users.role', 'events.event_date', 'attendances.attendance')
+              ->where('event_id', $active->id)->leftjoin('attendances', 'users.id', 'attendances.user_id')
+              ->leftjoin('events', 'events.id', 'attendances.event_id')->get();
+            return Datatables::of($report)->make();
+          }
+          //return response()->json(['status' => true, 'message' => 'Success', 'report' => $report, 'history' => $history]);
         }elseif ($request->find) {
           // code...for finding event
           $query_date = $request->date;

@@ -85,19 +85,8 @@ class HomeController extends Controller
             $user->$value = $request->$value;
           }
         }
-        // if($request[$index[1]]){
-        //   $user[$index[1]] = $request[$index[1]];
-        // }
-        // if($request->name){
-        //   $user->name = $request->name;
-        // }
-        // if ($request->firstname) {
-        //   $user->firstname = $request->firstname;
-        // }
-        //
-        // $user->lastname = $request->lastname;
         $user->save();
-        return $request['lastname'];
+        return 'True';
       }
       return view('user.profile', compact('user'));
     }
@@ -139,7 +128,7 @@ class HomeController extends Controller
           $mark->save();
         }
       } catch (\Exception $e) {
-        return response()->json(['status' => false, "e" => $e]);
+        return response()->json(['status' => false, "e" => $e->getMessage()]);
       }
       //return data
       return response()->json(['status' => true]);

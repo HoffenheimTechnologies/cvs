@@ -1,8 +1,14 @@
 @extends('layouts.app')
 
+<!-- <link rel="stylesheet" href="{{URL::asset('css/datatables.min.css')}}"> -->
+
 @section('css')
 <link rel="stylesheet" href="{{URL::asset('css/pignose.calendar.min.css')}}">
-<link rel="stylesheet" href="{{URL::asset('css/datatables.min.css')}}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.4/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css">
 @endsection
 @section('content')
 <div class="col-md-12 col-xl-7">
@@ -38,7 +44,7 @@
   </div>
   <div class="card-block">
     <div class="table-responsive dt-responsive">
-      <table id="myTable" class="table table-striped table-bordered nowrap">
+      <table id="report" class="table table-striped table-bordered nowrap">
         <thead>
         <tr>
           <th>Fistname</th>
@@ -89,27 +95,27 @@
 <script>
 $(document).ready(function() {
   //get the datas
-  let values = {'alltime': true, '_token': '{{ csrf_token() }}'};
-  $.ajax({
-    type: "GET", url: "{{route('event.report')}}", data: values, dataType: "json", encode: true
-  }).done(function(data){
-    $('#myTable tbody').html('');
-    $('#history tbody').html('');
-    appendRow(data);
-
-    //append for history
-  data.history.forEach(function(history){
-    $('#history tbody').append(`<tr>
-      <td>${history.firstname}</td>
-      <td>${history.lastname}</td>
-      <td>${history.role}</td>
-      <td>${history.yes}</td>
-      <td>${history.no}</td>`+
-      '<td>'+(history.ignored)+'</td></tr>');
-  });
-    // $('#myTable').DataTable().rows().invalidate('data').draw(false);
-    // $('#history').DataTable().rows().invalidate('data').draw(false);
-  });
+  // let values = {'alltime': true, '_token': '{{ csrf_token() }}'};
+  // $.ajax({
+  //   type: "GET", url: "{{route('event.report')}}", data: values, dataType: "json", encode: true
+  // }).done(function(data){
+  //   $('#myTable tbody').html('');
+  //   $('#history tbody').html('');
+  //   appendRow(data);
+  //
+  //   //append for history
+  // data.history.forEach(function(history){
+  //   $('#history tbody').append(`<tr>
+  //     <td>${history.firstname}</td>
+  //     <td>${history.lastname}</td>
+  //     <td>${history.role}</td>
+  //     <td>${history.yes}</td>
+  //     <td>${history.no}</td>`+
+  //     '<td>'+(history.ignored)+'</td></tr>');
+  // });
+  //   // $('#myTable').DataTable().rows().invalidate('data').draw(false);
+  //   // $('#history').DataTable().rows().invalidate('data').draw(false);
+  // });
   function handleSelect(date, context){
     var text = 'You applied date ';
     if (date[0] !== null) {
@@ -137,8 +143,30 @@ $(document).ready(function() {
       select: handleSelect,
     });
   });
-  $('table').DataTable();
-//  $('#myTable').DataTable();
+  //history table
+  $('#history').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+      "url": "{{route('event.report')}}",
+      "type": "GET",
+      "data": {
+         "history": "1"
+      }
+    }
+  });
+  //report table
+  $('#report').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+      "url": "{{route('event.report')}}",
+      "type": "GET",
+      "data": {
+         "report": "1"
+      }
+    }
+  });
 });
 
 function appendRow(data){
@@ -156,5 +184,10 @@ function appendRow(data){
 
 @section('jslink')
 <script src="{{URL::asset('js/pignose.calendar.full.min.js')}}"></script>
-<script src="{{URL::asset('js/datatables.min.js')}}"></script>
+<!-- <script src="{{URL::asset('js/datatables.min.js')}}"></script> -->
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.4/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.material.min.js"></script>
 @endsection
