@@ -6,25 +6,25 @@
 @endsection
 @section('content')
 <div class="col-md-12 col-xl-7">
-<div class="row">
-<div class="col-sm-12">
-<div class="card borderless-card">
-<div class="row">
-<div class="col-sm-4 weather-card-1  text-center">
-<div class="mob-bg-calender bg-primary">
-<h3 class="text-uppercase">{{date('l', strtotime(NOW()))}}</h3>
-<h1 class="weather-temp">{{date('d', strtotime(NOW()))}}</h1>
-</div>
-</div>
-<div class="col-sm-8 p-l-0">
-<div class="weather-calender">
-<div class="widget-calender"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card borderless-card">
+        <div class="row">
+          <div class="col-sm-4 weather-card-1  text-center">
+            <div class="mob-bg-calender bg-primary">
+              <h3 class="text-uppercase">{{date('l', strtotime(NOW()))}}</h3>
+              <h1 class="weather-temp">{{date('d', strtotime(NOW()))}}</h1>
+            </div>
+          </div>
+          <div class="col-sm-8 p-l-0">
+            <div class="weather-calender">
+              <div class="widget-calender"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="card">

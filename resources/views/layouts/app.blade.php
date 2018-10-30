@@ -91,7 +91,8 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li><a href="{{route('profile')}}"><i class="fa fa-user-circle-o fa-spin"></i>Profile</a></li>
+            <!-- <li>
                 <div class="collapsible-header">
                     <i class="fa fa-user"></i>Profile<span><i class="fa fa-caret-right right"></i></span>
                 </div>
@@ -101,7 +102,7 @@
                         <li><a href="{{route('profile.edit')}}"><i class="fa fa-edit fa-spin"></i>Edit Profile</a></li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
             @if(Auth::user()->Admin())
               <li>
                 <div class="collapsible-header">

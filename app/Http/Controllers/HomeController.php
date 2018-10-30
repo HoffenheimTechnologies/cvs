@@ -74,15 +74,37 @@ class HomeController extends Controller
       return view('history', compact('attendance', 'attendance_dates'));
     }
 
-    public function profile()
+    public function profile(Request $request)
     {
       $user = Auth::user();
+      if ($request->action == 'edit') {
+        $index = ['firstname','lastname','phone','gender','role', 'city','address1','address2','state','postalcode','country'];
+        foreach ($index as $key => $value) {
+          // code...
+          if($request->$value){
+            $user->$value = $request->$value;
+          }
+        }
+        // if($request[$index[1]]){
+        //   $user[$index[1]] = $request[$index[1]];
+        // }
+        // if($request->name){
+        //   $user->name = $request->name;
+        // }
+        // if ($request->firstname) {
+        //   $user->firstname = $request->firstname;
+        // }
+        //
+        // $user->lastname = $request->lastname;
+        $user->save();
+        return $request['lastname'];
+      }
       return view('user.profile', compact('user'));
     }
 
     public function profileEdit()
     {
-        return 'edit-profile';
+        return view('user.edit');
     }
 
     public function mark(Request $request)
@@ -132,5 +154,9 @@ class HomeController extends Controller
       }else{
         return response()->json(['success' => false]);
       }
+    }
+    public function at(){
+      $at = Attendance::all();
+      return response()->json(['at' => $at]);
     }
 }
