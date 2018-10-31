@@ -30,6 +30,7 @@
                   <div class="card-contain text-center p-t-40">
                     <h5 class="text-capitalize p-b-10">Will you attend the service on:</h5>
                     <p class="text-muted">{{date('l jS \of F Y', strtotime($pending_attendance->event_date))}}?</p>
+                    <h1 id='timer'> </h1>
                   </div>
 
                   <div class="card-button p-t-50">
@@ -79,6 +80,21 @@
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script>
   $(document).ready(function(){
+    var Countdown = new countdown({
+  selector: '#timer',
+  msgBefore: 'Will start at Christmas!',
+  msgAfter: 'Happy new year folks!',
+  msgPattern:
+    '{days} days, {hours} hours and {minutes} minutes before new year!',
+  dateStart: new Date('2018/10/31 18:27'),
+  dateEnd: new Date('Jan 1, 2019 12:00'),
+  onStart: function() {
+    console.log('Merry Christmas!')
+  },
+  onEnd: function() {
+    console.log('Happy New Year!')
+  }
+  });
     //
     $('#close').click(function(){
       $('#done').hide();
@@ -142,4 +158,7 @@
     // $('#done').show();
   }
 </script>
+@endsection
+@section('jslink')
+<script src="{{URL::asset('js/countdown.min.js')}}"></script>
 @endsection

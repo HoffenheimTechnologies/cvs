@@ -27,20 +27,22 @@ class AdminController extends Controller
     }
 
     public function eventCreate(Request $request){
-      $event_date =  date('Y-m-d',strtotime($request->event_date));
+      $event_sdate =  $request->event_sdate;
+      $event_edate =  $request->event_edate;//date('Y-m-d',strtotime());
       //check for past date
-        if (NOW() >= $event_date)
+        if (NOW() > $event_sdate)
         {
           return response()->json(['status' => false, 'reason' => 'Date already past']);
         }
       //check if already exists
-      $exists = Event::where('event_date', $event_date)->get(['id'])->count();
+      $exists = Event::where('event_sdate', $event_sdate)->get(['id'])->count();
         if($exists > 0){
           return response()->json(['status' => false, 'reason' => 'Event exists for that date']);
         }
       //try to create
       $create = Event::create([
-        'event_date' => $event_date,
+        'event_sdate' => $event_sdate,
+        'event_edate' => $event_edate,
       ]);
       if ($create) {
         # deactivate ative event
@@ -95,24 +97,29 @@ class AdminController extends Controller
             return Datatables::of($history)->make();
           }
 
-          if ($request->report) {
-            // code...
-            //initial
-            $active = Event::where('active', '1')->first();
-            $report = User::select('users.firstname', 'users.lastname','users.role', 'attendances.attendance', 'events.event_date')
-              ->where('event_id', $active->id)->leftjoin('attendances', 'users.id', 'attendances.user_id')
-              ->leftjoin('events', 'events.id', 'attendances.event_id')->get();
-            return Datatables::of($report)->make();
-          }
+          // if ($request->report) {
+          //   // code...
+          //
+          //   $report = User::select('users.firstname', 'users.lastname','users.role', 'attendances.attendance', 'attendances.updated_at')
+          //     ->where('event_id', $active->id)->leftjoin('attendances', 'users.id', 'attendances.user_id')
+          //     ->leftjoin('events', 'events.id', 'attendances.event_id')->get();
+          //   return Datatables::of($report)->make();
+          // }
 
-          if ($request->find) {
-            // code...for finding event
-            $squery_date = $request->sdate;
-            $sdate = Event::where('event_date', $squery_date)->first();
-            if ($sdate) {
+          if ($request->find || $request->report) {
+            if ($request->find) {
+              // code...for finding event
+              $squery_date = $request->sdate;
+              $event = Event::where('event_sdate', $squery_date)->first();
+            }else {
+              //initial
+              $event = Event::where('active', '1')->first();
+            }
+
+            if ($event) {
               // code...
-              $report = User::select('users.firstname', 'users.lastname','users.role', 'attendances.attendance', 'events.event_date')
-                ->where('event_id', $sdate->id)->leftjoin('attendances', 'users.id', 'attendances.user_id')
+              $report = User::select('users.firstname', 'users.lastname','users.role', 'attendances.attendance', 'attendances.updated_at')
+                ->where('event_id', $event->id)->leftjoin('attendances', 'users.id', 'attendances.user_id')
                 ->leftjoin('events', 'events.id', 'attendances.event_id')->get();
               return Datatables::of($report)->make();
               // return response()->json(['status' => true, 'message' => 'Success', 'report' => $report]);

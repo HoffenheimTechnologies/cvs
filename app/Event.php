@@ -8,7 +8,7 @@ class Event extends Model
 {
     //
     protected $fillable = [
-    	'event_date', 'active'
+    	'event_sdate', 'active','event_edate',
 	];
 
     public function attendance(){

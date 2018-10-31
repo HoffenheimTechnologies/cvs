@@ -136,7 +136,7 @@ class HomeController extends Controller
 
     public function getevent(Request $request){
       $date = $request->date;
-      $date = Event::where('event_date', $date)->first();
+      $date = Event::where('event_sdate', $date)->first();
       if ($date) {
         // code...
         return response()->json(['success' => true, 'date' => $date]);

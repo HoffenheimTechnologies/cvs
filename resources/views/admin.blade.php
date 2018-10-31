@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{URL::asset('css/bootstrap-datetimepicker.min.css')}}">
+@endsection
 @section('content')
 <div class="container segments-page">
 
@@ -104,15 +107,30 @@
 						<div class="card-block">
 
 							<div class="row">
-								<div class="col-xs-6 mobile-inputs">
+								<div class="col-xs-12 col-md-6 mobile-inputs">
 									<h4 class="sub-title">Event Date</h4>
 									<form>
 										<div class="form-group">
-											<input id="dropper-default" class="form-control form-txt-primary" type="text" placeholder="Select your event date" readonly="readonly">
+											<div class="input-group">
+												<input id="start" class="form-control form-txt-primary datetimepicker" type="text" placeholder="Select event start date&time" readonly="readonly">
+												<span class="input-group-addon bg-default">
+													<span class="icofont icofont-ui-calendar"></span>
+												</span>
+											</div>
+										</div>
+									</form>
+									<form>
+										<div class="form-group">
+											<div class="input-group">
+												<input id="end" class="form-control form-txt-primary datetimepicker" type="text" placeholder="Select event end date&time" readonly="readonly">
+												<span class="input-group-addon bg-default">
+													<span class="icofont icofont-ui-calendar"></span>
+												</span>
+											</div>
 										</div>
 									</form>
 								</div>
-								<div class="col-xs-6 mobile-inputs">
+								<div class="col-xs-12 col-md-6 mobile-inputs">
 									<h4 class="sub-title">Submit</h4>
 									<button style="background-color: #dd4b39;" id="create" class="btn btn-inverse">
 										<i class="icofont icofont-exchange"></i>Create event
@@ -132,12 +150,31 @@
 @section('script')
 <script type="text/javascript">
   $(document).ready(function(){
-
-  	$('#dropper-default').dateDropper();
+		//time picker
+		$(function(){
+   		$('.datetimepicker').datetimepicker({
+				format: 'yyyy-mm-dd hh:mm',
+				autoclose: true,
+				startDate: "{{NOW()}}",
+        // pickDate: false,
+				// pickTime: true,
+        pickSeconds: false,
+        pick12HourFormat: true
+	    });
+		});
+  	// $('#dropper-default').dateDropper();
 		$('#create').click(function(){
-			if ($('#dropper-default').val() === '') {
-				swal("Oops", "Please choose event date", "error");
+			let sdate = $('#start').val();
+			let edate = $('#end').val();
+			//validate on empty fields
+			if (sdate === '' || edate === '') {
+				swal("Oops", "Please choose event dates", "error");
 				return ;
+			}
+			//validate on invalid dates
+			if (new Date(sdate) > new Date(edate)) {
+				swal("Oops", "End date must be greater than the start date", "error");
+				return;
 			}
 			swal({
 			  title: "Are you sure you want to create the event?",
@@ -147,8 +184,7 @@
 			  dangerMode: true,
 			  showCancelButton: true,
 			},function(){
-				let event_date = $('#dropper-default').val();
-				let values = {'event_date': event_date, '_token': '{{ csrf_token() }}'};
+				let values = {'event_sdate': sdate, 'event_edate': edate, '_token': '{{ csrf_token() }}'};
 			  	$.ajax(
 			  		{type: "POST", url: "{{route('event.create')}}", data: values, dataType: "json", encode: true}
 			  	).done(function(response){
@@ -168,5 +204,6 @@
 @endsection
 
 @section('jslink')
-<script src="{{URL::asset('js/datedropper.min.js')}}"></script>
+<!-- <script src="{{URL::asset('js/datedropper.min.js')}}"></script> -->
+<script src="{{URL::asset('js/bootstrap-datetimepicker.min.js')}}"></script>
 @endsection
