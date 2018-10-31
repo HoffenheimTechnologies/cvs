@@ -94,61 +94,44 @@
 @section('script')
 <script>
 $(document).ready(function() {
-  //get the datas
-  // let values = {'alltime': true, '_token': '{{ csrf_token() }}'};
-  // $.ajax({
-  //   type: "GET", url: "{{route('event.report')}}", data: values, dataType: "json", encode: true
-  // }).done(function(data){
-  //   $('#myTable tbody').html('');
-  //   $('#history tbody').html('');
-  //   appendRow(data);
-  //
-  //   //append for history
-  // data.history.forEach(function(history){
-  //   $('#history tbody').append(`<tr>
-  //     <td>${history.firstname}</td>
-  //     <td>${history.lastname}</td>
-  //     <td>${history.role}</td>
-  //     <td>${history.yes}</td>
-  //     <td>${history.no}</td>`+
-  //     '<td>'+(history.ignored)+'</td></tr>');
-  // });
-  //   // $('#myTable').DataTable().rows().invalidate('data').draw(false);
-  //   // $('#history').DataTable().rows().invalidate('data').draw(false);
-  // });
   function handleSelect(date, context){
     var text = 'You applied date ';
     if (date[0] !== null) {
       let sdate = date[0].format('YYYY-MM-DD');
-      // $.ajax({url: "{{route('event.report')}}", type: "GET", data: {'find': true, 'sdate': sdate}, dataType: 'json', encode: true})
-      // .done(function(response){
-      //   if (response.status) {
-      //     swal('Success!', `Report for ${response.report[0].event_date} fetched`, 'success');
-          reportTable.destroy();
-          reportTable = $('#report').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-              "url": "{{route('event.report')}}",
-              "type": "GET",
-              data: {"find": "1", 'sdate': sdate},
-            dataType: 'json', encode: true}
-          });
-          // reportTable.clear().draw();
-          // reportTable.rows.add(response.report); // Add new data
-          // reportTable.columns.adjust().draw(); // Redraw the DataTable
-          //$('#report tbody').html('');
-          //appendRow(response);
-      //   }else{
-      //     swal("Oops", `No Report for ${response.date}`, "error");
-      //   }
-      // })
-      // .error(function(data) {
-      //   console.log(data.responseText);
-      // swal("Oops", "Error occured! Error: "+data.statusText, "error");
-      // });
+        reportTable.destroy();
+        reportTable = $('#report').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: {
+            "url": "{{route('event.report')}}",
+            "type": "GET",
+            data: {"find": "1", 'sdate': sdate},
+            dataType: 'json', encode: true,
+            error: function(response){
+              alert('Error Occured');
+            },
+            dataSrc: function (response) {
+              if(response.data.length > 0){
+                swal('Success!', `Report for ${response.data[0][4]} fetched`, 'success');
+              }else{
+                swal("Oops", `No Report for ${sdate}`, "error");
+              }
+              return response.data;
+            },
+          },
+          "columns": [
+             { title: "Firstname","data": "0" },
+             { "data": "1" },
+             { "data": "2" },
+             { "data": "3",
+               render : function( data, type, full, meta ) {
+                 return data ? data == 1 ? 'Yes' : 'No response/Ignored' : 'No'
+               }
+             },
+             { "data": "4" }
+           ]
+       });
     }
-
   }
   $(function() {
     $('.widget-calender').pignoseCalendar({
@@ -178,7 +161,18 @@ $(document).ready(function() {
       "data": {
          "report": "1"
       }
-    }
+    },
+    "columns": [
+       { title: "Firstname","data": "0" },
+       { "data": "1" },
+       { "data": "2" },
+       { "data": "3",
+         render : function( data, type, full, meta ) {
+           return data ? data == 1 ? 'Yes' : 'No response/Ignored' : 'No'
+         }
+       },
+       { "data": "4" }
+     ]
   });
 });
 
