@@ -18,7 +18,7 @@
         <div class="row">
           <div class="col-sm-4 weather-card-1  text-center">
             <div class="mob-bg-calender bg-primary">
-              <h3 class="text-uppercase">{{date('l', strtotime(NOW()))}}</h3>
+              <h3 class="text-uppercase" style="margin-top:0px;">{{date('l', strtotime(NOW()))}}</h3>
               <h1 class="weather-temp">{{date('d', strtotime(NOW()))}}</h1>
             </div>
           </div>
@@ -47,7 +47,7 @@
       <table id="report" class="table table-striped table-bordered nowrap">
         <thead>
         <tr>
-          <th>Fistname</th>
+          <th>Firstname</th>
           <th>Lastname</th>
           <th>Department</th>
           <th>Action</th>
@@ -75,7 +75,7 @@
       <table id="history" class="table table-striped table-bordered nowrap">
         <thead>
         <tr>
-          <th>Fistname</th>
+          <th>Firstname</th>
           <th>Lastname</th>
           <th>Department</th>
           <th>Coming</th>
@@ -120,20 +120,33 @@ $(document).ready(function() {
     var text = 'You applied date ';
     if (date[0] !== null) {
       let sdate = date[0].format('YYYY-MM-DD');
-      $.ajax({url: "{{route('event.report')}}", type: "GET", data: {'find': true, 'date': sdate}, dataType: 'json', encode: true})
-      .done(function(response){
-        if (response.status) {
-          swal('Success!', `Report for ${response.report[0].event_date} fetched`, 'success');
-          $('#myTable tbody').html('');
-          appendRow(response);
-        }else{
-          swal("Oops", `No Report for ${response.date}`, "error");
-        }
-      })
-      .error(function(data) {
-        console.log(data.responseText);
-      swal("Oops", "Error occured! Error: "+data.statusText, "error");
-      });
+      // $.ajax({url: "{{route('event.report')}}", type: "GET", data: {'find': true, 'sdate': sdate}, dataType: 'json', encode: true})
+      // .done(function(response){
+      //   if (response.status) {
+      //     swal('Success!', `Report for ${response.report[0].event_date} fetched`, 'success');
+          reportTable.destroy();
+          reportTable = $('#report').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+              "url": "{{route('event.report')}}",
+              "type": "GET",
+              data: {"find": "1", 'sdate': sdate},
+            dataType: 'json', encode: true}
+          });
+          // reportTable.clear().draw();
+          // reportTable.rows.add(response.report); // Add new data
+          // reportTable.columns.adjust().draw(); // Redraw the DataTable
+          //$('#report tbody').html('');
+          //appendRow(response);
+      //   }else{
+      //     swal("Oops", `No Report for ${response.date}`, "error");
+      //   }
+      // })
+      // .error(function(data) {
+      //   console.log(data.responseText);
+      // swal("Oops", "Error occured! Error: "+data.statusText, "error");
+      // });
     }
 
   }
@@ -156,7 +169,7 @@ $(document).ready(function() {
     }
   });
   //report table
-  $('#report').DataTable({
+  var reportTable = $('#report').DataTable({
     processing: true,
     serverSide: true,
     ajax: {
@@ -172,7 +185,7 @@ $(document).ready(function() {
 function appendRow(data){
   data.report.forEach(function(report){
     let attend = report.attendance ? report.attendance == 1 ? 'Yes' : 'No response/Ignored' : 'No';
-    $('#myTable tbody').append(`<tr>
+    $('#report tbody').append(`<tr>
       <td>${report.firstname}</td>
       <td>${report.lastname}</td>
       <td>${report.role}</td>`+
