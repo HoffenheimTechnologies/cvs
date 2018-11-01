@@ -134,7 +134,7 @@
     </div>
     <!-- end sidebar -->
     <!-- <main class="py-4"> -->
-    <div class="container segments-page">
+    <div class="segments-page">
       @yield('content')
     </div>
     <!-- </main> -->
