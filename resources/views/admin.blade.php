@@ -6,7 +6,6 @@
 @endsection
 @section('content')
 <div class="container">
-	<div class="row">
 		@if(isset($active->event_edate))
 		<div class="col-lg-12 col-xl-12">
 			<div class="card">
@@ -177,7 +176,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 </div>
 @endsection
 
