@@ -12,10 +12,10 @@ function counter(date){
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     // Output the result"
-    jQuery('#countdown #day').html(days);
-    jQuery('#countdown #hour').html(hours);
-    jQuery('#countdown #min').html(minutes);
-    jQuery('#countdown #sec').html(seconds);
+    jQuery('#countdown #day').html(("0" + days).slice(-2));
+    jQuery('#countdown #hour').html(("0" + hours).slice(-2));
+    jQuery('#countdown #min').html(("0" + minutes).slice(-2));
+    jQuery('#countdown #sec').html(("0" + seconds).slice(-2));
     // If the count down is over, hide the event
     if (distance < 0) {
       clearInterval(x);

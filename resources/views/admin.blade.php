@@ -2,6 +2,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{URL::asset('css/bootstrap-datetimepicker.min.css')}}">
+<link rel="stylesheet" href="{{URL::asset('css/counter.css')}}">
 @endsection
 @section('content')
 <div class="container">
@@ -20,7 +21,7 @@
 				<div class="row">
 				<div class="card-block" style="">
 					<div class="row" id="draggableWithoutImg">
-						<div class="col-md-3 col-xs-12 m-b-20">
+						<div class="col-md-3 col-sm-offset-4 col-xs-12 m-b-20 text-center">
 							<div class="card-sub">
 								<div class="card-block">
 									<h4 class="card-title">{{date('l jS \of F Y', strtotime($active->event_edate))}}</h4>
@@ -30,17 +31,41 @@
 								</div>
 							</div>
 						</div>
+						<div id="timer">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 countdown-wrapper text-center mb20" style="padding-right: 15px; padding-left: 0;">
+									<div class="card-header">
+										<h5 class="card-header-text">Event Countdown</h5>
+									</div>
+									<div id="countdown">
+											<div class="row" >
+												<div class="col-xs-3">
+													<span id="day" class="timer bg-success"></span>
+													<span id="" class="">Days</span>
+												</div>
+												<div class="col-xs-3">
+													<span id="hour" class="timer bg-primary"></span>
+													<span id="" class="">Hrs</span>
+												</div>
+												<div class="col-xs-3">
+													<span id="min" class="timer bg-info"></span>
+													<span id="" class="">Mins</span>
+												</div>
+												<div class="col-xs-3">
+													<span id="sec" class="timer bg-danger"></span>
+													<span id="" class="">Secs</span>
+												</div>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="card-header">
 					<h5 class="card-header-text">Stat</h5>
-					<div class="card-header-right">
-						<i class="icofont icofont-rounded-down"></i>
-						<i class="icofont icofont-refresh"></i>
-						<i class="icofont icofont-close-circled"></i>
-					</div>
 				</div>
-				<div class="col-sm-4 col-xl-4">
+				<div class="col-sm-12 col-md-4 col-xl-4">
 					<div class="card counter-card-1">
 						<div class="card-block-big">
 							<div class="row">
@@ -58,7 +83,7 @@
 					</div>
 				</div>
 
-				<div class="col-sm-4 col-xl-4">
+				<div class="col-sm-12 col-md-4 col-xl-4">
 					<div class="card counter-card-2">
 						<div class="card-block-big">
 							<div class="row">
@@ -76,7 +101,7 @@
 					</div>
 				</div>
 
-				<div class="col-sm-4 col-xl-4">
+				<div class="col-sm-12 col-md-4 col-xl-4">
 					<div class="card counter-card-3">
 						<div class="card-block-big">
 							<div class="row">
@@ -159,6 +184,8 @@
 @section('script')
 <script type="text/javascript">
   $(document).ready(function(){
+		//counter
+		counter("{{$active->event_edate}}");
 		//time picker
 		$(function(){
    		$('.datetimepicker').datetimepicker({
@@ -215,4 +242,5 @@
 @section('jslink')
 <!-- <script src="{{URL::asset('js/datedropper.min.js')}}"></script> -->
 <script src="{{URL::asset('js/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="{{URL::asset('js/counter.js')}}"></script>
 @endsection
