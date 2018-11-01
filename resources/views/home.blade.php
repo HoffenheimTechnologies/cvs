@@ -1,5 +1,131 @@
 @extends('layouts.app')
 
+@section('css')
+<style>
+@import url(http://fonts.googleapis.com/css?family=Lato:100,400);
+.mb20{
+    margin-bottom:20px;
+}
+section {
+    padding: 40px 0;
+}
+#timer .countdown-wrapper {
+    margin: 0 auto;
+}
+#timer #countdown {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    color: #eee;
+    text-shadow: 1px 1px 5px black;
+    padding: 0px 0;
+}
+#timer .countdown-wrapper #countdown .timer {
+    margin: 10px;
+    padding: 20px;
+    font-size: 90px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#timer .col-md-4.countdown-wrapper #countdown .timer {
+    margin: 10px;
+    padding: 20px;
+    font-size: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#timer .countdown-wrapper #countdown #day {
+    -webkit-box-shadow: 0 0 0 5px rgba(92, 184, 92, .5);
+    -moz-box-shadow: 0 0 0 5px rgba(92, 184, 92, .5);
+    box-shadow: 0 0 0 5px rgba(92, 184, 92, .5);
+}
+#timer .countdown-wrapper #countdown #day:hover {
+    -webkit-box-shadow: 0px 0px 15px 1px rgba(92, 184, 92, 1);
+    -moz-box-shadow: 0px 0px 15px 1px rgba(92, 184, 92, 1);
+    box-shadow: 0px 0px 15px 1px rgba(92, 184, 92, 1);
+}
+#timer .countdown-wrapper #countdown #hour {
+    -webkit-box-shadow: 0 0 0 5px rgba(91, 192, 222, .5);
+    -moz-box-shadow: 0 0 0 5px rgba(91, 192, 222, .5);
+    box-shadow: 0 0 0 5px rgba(91, 192, 222, .5);
+}
+#timer .countdown-wrapper #countdown #hour:hover {
+    -webkit-box-shadow: 0px 0px 15px 1px rgba(91, 192, 222, 1);
+    -moz-box-shadow: 0px 0px 15px 1px rgba(91, 192, 222, 1);
+    box-shadow: 0px 0px 15px 1px rgba(91, 192, 222, 1);
+}
+#timer .countdown-wrapper #countdown #min {
+    -webkit-box-shadow: 0 0 0 5px rgba(91, 192, 222, .5);
+    -moz-box-shadow: 0 0 0 5px rgba(91, 192, 222, .5);
+    box-shadow: 0 0 0 5px rgba(91, 192, 222, .5);
+}
+#timer .countdown-wrapper #countdown #min:hover {
+    -webkit-box-shadow: 0px 0px 15px 1px rgb(91, 192, 222);
+    -moz-box-shadow: 0px 0px 15px 1px rgb(91, 192, 222);
+    box-shadow: 0px 0px 15px 1px rgb(91, 192, 222);
+}
+#timer .countdown-wrapper #countdown #sec {
+    -webkit-box-shadow: 0 0 0 5px rgba(255, 0, 0, .5);
+    -moz-box-shadow: 0 0 0 5px rgba(255, 0, 0, .5);
+    box-shadow: 0 0 0 5px rgba(255, 0, 0, .5)
+}
+#timer .countdown-wrapper #countdown #sec:hover {
+    -webkit-box-shadow: 0px 0px 15px 1px rgba(255, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 15px 1px rgba(255, 0, 0, 1);
+    box-shadow: 0px 0px 15px 1px rgba(255, 0, 0, 1);
+}
+#timer .countdown-wrapper .card .card-footer .btn {
+    margin: 2px 0;
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    #timer .countdown-wrapper #countdown .timer {
+        margin: 10px;
+        padding: 20px;
+        font-size: 65px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+     #timer .countdown-wrapper #countdown .timer {
+        margin: 10px;
+        padding: 20px;
+        font-size: 72px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+}
+@media (max-width: 768px) {
+    #timer .countdown-wrapper #countdown .timer {
+        margin: 10px;
+        padding: 20px;
+        font-size: 73px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+}
+@media (max-width: 767px) {
+    #timer .countdown-wrapper #countdown #day,
+    #timer .countdown-wrapper #countdown #hour,
+    #timer .countdown-wrapper #countdown #min,
+    #timer .countdown-wrapper #countdown #sec {
+        font-size: 60px;
+        border-radius: 4%;
+    }
+}
+@media (max-width: 576px){
+  #timer .countdown-wrapper #countdown #day,
+    #timer .countdown-wrapper #countdown #hour,
+    #timer .countdown-wrapper #countdown #min,
+    #timer .countdown-wrapper #countdown #sec {
+        font-size: 25px;
+        border-radius: 4%;
+    }
+    #timer .countdown-wrapper #countdown .timer {
+        padding: 13px;
+    }
+}
+</style>
+@endsection
 @section('content')
 <?php $user = Auth::user(); ?>
 
@@ -27,13 +153,38 @@
                     <h5 class="p-b-10">Hello!</h5>
                     <h5 class="text-capitalize p-b-10">{{ucwords($user->firstname.' '.$user->lastname)}}</h5>
                   </div>
-                  <div class="card-contain text-center p-t-40">
+                  <div class="card-contain text-center p-t-10">
                     <h5 class="text-capitalize p-b-10">Will you attend the service on:</h5>
-                    <p class="text-muted">{{date('l jS \of F Y', strtotime($pending_attendance->event_date))}}?</p>
-                    <h1 id='timer'> </h1>
+                    <p class="text-muted">{{date('l jS \of F Y', strtotime($pending_attendance->event_edate))}}?</p>
+                    <div id="timer">
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 countdown-wrapper text-center mb20" style="padding-right: 15px; padding-left: 0;">
+        	                <div id="countdown">
+                            <p class="text-muted">Time Left</p>
+                              <div class="row" >
+                                <div class="col-xs-3">
+                                  <span id="day" class="timer bg-success"></span>
+                                  <span id="" class="">Days</span>
+                                </div>
+                                <div class="col-xs-3">
+                                  <span id="hour" class="timer bg-primary"></span>
+                                  <span id="" class="">Hrs</span>
+                                </div>
+                                <div class="col-xs-3">
+                                  <span id="min" class="timer bg-info"></span>
+                                  <span id="" class="">Mins</span>
+                                </div>
+                                <div class="col-xs-3">
+                                  <span id="sec" class="timer bg-danger"></span>
+                                  <span id="" class="">Secs</span>
+                                </div>
+                              </div>
+                        	</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-
-                  <div class="card-button p-t-50">
+                  <div class="card-button"><!-- p-t-50 -->
                     <form id="mark_form" method="post" onsubmit="event.preventDefault();">
                       @csrf
                       <input id="attendance_input" type="hidden" name="attendance" />
@@ -80,22 +231,30 @@
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script>
   $(document).ready(function(){
-    var Countdown = new countdown({
-  selector: '#timer',
-  msgBefore: 'Will start at Christmas!',
-  msgAfter: 'Happy new year folks!',
-  msgPattern:
-    '{days} days, {hours} hours and {minutes} minutes before new year!',
-  dateStart: new Date('2018/10/31 18:27'),
-  dateEnd: new Date('Jan 1, 2019 12:00'),
-  onStart: function() {
-    console.log('Merry Christmas!')
-  },
-  onEnd: function() {
-    console.log('Happy New Year!')
-  }
-  });
-    //
+    var countDownDate = new Date("{{$pending_attendance->event_edate}}").getTime();
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+      // Get todays date and time
+      var now = new Date().getTime();
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      // Output the result"
+      jQuery('#countdown #day').html(days);
+      jQuery('#countdown #hour').html(hours);
+      jQuery('#countdown #min').html(minutes);
+      jQuery('#countdown #sec').html(seconds);
+      // If the count down is over, hide the event
+      if (distance < 0) {
+        clearInterval(x);
+        $('#question').hide();
+      }
+    }, 1000);
+
     $('#close').click(function(){
       $('#done').hide();
     });
@@ -160,5 +319,4 @@
 </script>
 @endsection
 @section('jslink')
-<script src="{{URL::asset('js/countdown.min.js')}}"></script>
 @endsection
