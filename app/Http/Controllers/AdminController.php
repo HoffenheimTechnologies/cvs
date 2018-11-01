@@ -7,6 +7,7 @@ use App\Attendance;
 use App\Event;
 use App\User;
 use Datatables;
+use App\Service;
 
 class AdminController extends Controller
 {
@@ -96,8 +97,8 @@ class AdminController extends Controller
           if ($request->find || $request->report) {
             if ($request->find) {
               // code...for finding event
-              $squery_date = $request->sdate;
-              $event = Event::getEventByEndDate();
+              $event_date = $request->sdate;
+              $event = Event::getEventByEndDate($event_date);
             }else {
               //initial
               $event = Event::getActive();
@@ -118,5 +119,24 @@ class AdminController extends Controller
         }
         return 1;
       }
+    }
+
+    public function createService(Request $request){
+      $name = $request->name;
+      $sdays = $request->sdays;
+      $edays = $request->edays;
+      //check conflit name
+
+      //create service
+      $service = Service::create([
+        'name' => $name,
+        'sdays' => $sdays,
+        'edays' => $edays,
+      ]);
+      if ($service) {
+        // code...
+        return response()->json(['status' => true]);
+      }
+      return;
     }
 }

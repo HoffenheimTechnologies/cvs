@@ -16,8 +16,8 @@ class Event extends Model
     return Event::where('active', '1')->first();
   }
 
-  public static function getEventByEndDate(){
-    return Event::where('event_edate', $squery_date)->first();
+  public static function getEventByEndDate($event_date){
+    return Event::where('event_edate', $event_date)->first();
   }
 
   public static function getUserStat(Event $event){

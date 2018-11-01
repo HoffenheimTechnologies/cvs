@@ -166,7 +166,13 @@
     @yield('script')
     <script type="text/javascript">
       $(document).ready(function(){
-
+        $(".card-header-right .icofont-rounded-down").on('click',function(){
+          var $this=$(this);var port=$($this.parents('.card'));
+          var card=$(port).children('.card-block').slideToggle();$(this).toggleClass("icon-up").fadeIn('slow');
+        });
+          $(".icofont-refresh").on('mouseenter mouseleave',function(){
+            $(this).toggleClass("rotate-refresh").fadeIn('slow');
+          });
 
       });
     </script>

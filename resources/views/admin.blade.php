@@ -7,7 +7,6 @@
 @section('content')
 <div class="container">
 		@if(isset($active->event_edate))
-		<div class="col-lg-12 col-xl-12">
 			<div class="card">
 				<div class="card-header">
 					<h5 class="card-header-text">Active Event</h5>
@@ -121,7 +120,6 @@
 			</div>
 
 			</div>
-		</div>
 
 		@endif
 		<div class="page-body">
@@ -176,15 +174,116 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="page-body">
+			<div class="row">
+				<div class="col-sm-12">
+
+					<div class="card">
+						<div class="card-header">
+							<h5 class="card-header-text">Create Service</h5>
+							<div class="card-header-right">
+								<i class="icofont icofont-rounded-down"></i>
+								<i class="icofont icofont-refresh"></i>
+								<i class="icofont icofont-close-circled"></i>
+							</div>
+						</div>
+						<div class="card-block">
+
+							<div class="row">
+								<div class="col-xs-12 col-md-6 mobile-inputs">
+									<h4 class="sub-title">Service Name</h4>
+										<div class="form-group">
+											<div class="input-group">
+												<input id="name" class="form-control form-txt-primary" type="text" placeholder="" >
+												<span class="input-group-addon bg-default">
+													<span class="fa fa-keyboard-o"></span>
+												</span>
+											</div>
+										</div>
+								</div>
+								<div class="col-xs-12 col-md-6 mobile-inputs">
+									<h4 class="sub-title">Service Start Day Day
+										<!-- And Time -->
+									</h4>
+										<div class="form-group">
+											<div class="input-group">
+												<select class="form-control form-txt-primary" id="service_start" required style="display:block">
+													<option selected disabled value="">Choose day</option>
+													<option value="Sundays">Sundays</option>
+													<option value="Monndays">Monndays</option>
+													<option value="Tuesdays">Tuesdays</option>
+													<option value="Wednesdays">Wednesdays</option>
+													<option value="Thursdays">Thursdays</option>
+													<option value="Fridays">Fridays</option>
+													<option value="Saturdays">Saturdays</option>
+												</select>
+												<span class="input-group-addon bg-default">
+													<span class="icofont icofont-ui-calendar"></span>
+												</span>
+											</div>
+										</div>
+								</div>
+								<div class="col-xs-12 col-md-6 mobile-inputs">
+									<h4 class="sub-title">Service End Day
+										<!-- And Time -->
+									</h4>
+										<div class="form-group">
+											<div class="input-group">
+												<select class="form-control form-txt-primary" id="service_end" required style="display:block">
+													<option selected disabled value="">Choose day</option>
+													<option value="Sundays">Sundays</option>
+													<option value="Monndays">Monndays</option>
+													<option value="Tuesdays">Tuesdays</option>
+													<option value="Wednesdays">Wednesdays</option>
+													<option value="Thursdays">Thursdays</option>
+													<option value="Fridays">Fridays</option>
+													<option value="Saturdays">Saturdays</option>
+												</select>
+												<span class="input-group-addon bg-default">
+													<span class="icofont icofont-ui-calendar"></span>
+												</span>
+											</div>
+										</div>
+								</div>
+								<div class="col-xs-12 col-md-6 mobile-inputs">
+									<h4 class="sub-title">Submit</h4>
+									<button style="background-color: #dd4b39;" id="create_service" class="btn btn-inverse">
+										<i class="icofont icofont-exchange"></i>Create Service
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
 </div>
 @endsection
 
 @section('script')
 <script type="text/javascript">
   $(document).ready(function(){
+		//create service
+		$('#create_service').click(function(){
+			let name = $('#name').val();
+			let sdate = $('#service_start').val();
+			let edate = $('#service_end').val();
+			//check empty fields
+			if (name === '') {
+				swal("Oops", "Please input service name", "error");
+				return ;
+			}
+			if (!sdate  || !edate ) {
+				swal("Oops", "Please choose service days", "error");
+				return ;
+			}
+			//process the form
+		});
 		//counter
 		counter("{{$active->event_edate}}");
-		//time picker
+		//time picker for create event
 		$(function(){
    		$('.datetimepicker').datetimepicker({
 				format: 'yyyy-mm-dd hh:mm',

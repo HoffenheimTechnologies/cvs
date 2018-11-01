@@ -91,7 +91,7 @@ class HomeController extends Controller
 
     public function mark(Request $request)
     {
-      $user =  Auth::user()->id;
+      $user =  Auth::user();
       $attendance = $request->attendance;
       $event = Event::find($request->event_id);
       //check if attendance for that date has already been marked by the user
@@ -105,13 +105,13 @@ class HomeController extends Controller
       //mark the attendance
       try {
         $active = Event::getActive()->id;
-        $mark = Attendance::where('user_id', $user)->where('event_id', $active)->first();
+        $mark = Attendance::where('user_id', $user->id)->where('event_id', $active)->first();
         //probably the user might be a new user
         if (!$mark) {
           // code...
           Attendance::create([
             'attendance' => $attendance,
-            'user_id' => $user,
+            'user_id' => $user->id,
             'event_id' => $active
           ]);
         }else{
