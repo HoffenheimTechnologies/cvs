@@ -44,11 +44,10 @@ class HomeController extends Controller
       }
       $marked = false;
       //check for active event
-      $pending_attendance = Event::where('active', '1')->first();
+      $pending_attendance = Event::getActive();
       if($pending_attendance){
         //check if user already marked the event attendance
-        if(Attendance::where('event_id', $pending_attendance->id)->where('user_id', $user->id)
-          ->where('attendance', '!=', 3)->first()){
+        if(Attendance::isMarked($pending_attendance, $user)){
           $marked = true;
         }
       }
@@ -61,15 +60,9 @@ class HomeController extends Controller
 
     public function history()
     {
-      $user = Auth::user()->id;
-      $attendance = Attendance::selectRaw("SUM(CASE when attendance = 1 then 1 else 0 end) As yes,
-        SUM(CASE when attendance = 0 then 1 else 0 end) As no,
-        SUM(CASE when attendance = 3 then 1 else 0 end) As ignored")
-        ->where('user_id', $user)->first();
-      $attendance_dates = Attendance::selectRaw('(CASE WHEN attendance = 1 then created_at end) as yesdates,
-        (CASE WHEN attendance = 0 then created_at end) as nodates,
-        (CASE WHEN attendance = 3 then created_at end) as ignoredates')
-        ->where('user_id', $user)->get();
+      $user = Auth::user();
+      $attendance = Attendance::getUserStat($user);
+      $attendance_dates = Attendance::getUserHistoryDate($user);
         // dd($attendance_dates);
       return view('history', compact('attendance', 'attendance_dates'));
     }
@@ -100,12 +93,10 @@ class HomeController extends Controller
     {
       $user =  Auth::user()->id;
       $attendance = $request->attendance;
-      $event_id = $request->event_id;
+      $event = Event::find($request->event_id);
       //check if attendance for that date has already been marked by the user
       try {
-        $exists = Attendance::where('user_id', $user)->where('event_id', $event_id)
-          ->where('attendance', '!=', 3)->get(['id'])->count();
-        if($exists > 0){
+        if(Attendance::isMarked($event, $user)){
           return response()->json(['status' => false, 'reason' => 'Attendance already marked']);
         }
       } catch (\Exception $e) {
@@ -113,7 +104,7 @@ class HomeController extends Controller
       }
       //mark the attendance
       try {
-        $active = Event::where('active', 1)->first()->id;
+        $active = Event::getActive()->id;
         $mark = Attendance::where('user_id', $user)->where('event_id', $active)->first();
         //probably the user might be a new user
         if (!$mark) {
@@ -136,7 +127,7 @@ class HomeController extends Controller
 
     public function getevent(Request $request){
       $date = $request->date;
-      $date = Event::where('event_sdate', $date)->first();
+      $date = Event::where('event_edate', $date)->first();
       if ($date) {
         // code...
         return response()->json(['success' => true, 'date' => $date]);

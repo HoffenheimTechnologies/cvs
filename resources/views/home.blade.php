@@ -161,6 +161,7 @@ section {
                         <div class="col-xs-12 col-sm-12 col-md-12 countdown-wrapper text-center mb20" style="padding-right: 15px; padding-left: 0;">
         	                <div id="countdown">
                             <p class="text-muted">Time Left</p>
+                            <br>
                               <div class="row" >
                                 <div class="col-xs-3">
                                   <span id="day" class="timer bg-success"></span>
@@ -231,29 +232,9 @@ section {
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script>
   $(document).ready(function(){
-    var countDownDate = new Date("{{$pending_attendance->event_edate}}").getTime();
-    // Update the count down every 1 second
-    var x = setInterval(function() {
-      // Get todays date and time
-      var now = new Date().getTime();
-      // Find the distance between now and the count down date
-      var distance = countDownDate - now;
-      // Time calculations for days, hours, minutes and seconds
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      // Output the result"
-      jQuery('#countdown #day').html(days);
-      jQuery('#countdown #hour').html(hours);
-      jQuery('#countdown #min').html(minutes);
-      jQuery('#countdown #sec').html(seconds);
-      // If the count down is over, hide the event
-      if (distance < 0) {
-        clearInterval(x);
-        $('#question').hide();
-      }
-    }, 1000);
+    @if(isset($pending_attendance))
+    counter("{{$pending_attendance->event_edate}}");
+    @endif
 
     $('#close').click(function(){
       $('#done').hide();
@@ -275,13 +256,13 @@ section {
   function mark(num){
     $('#attendance_input').val(num);
     swal({
-              title: "Are you sure?",
-              text: "After success wait till the next event",
-              type: "warning",
-              buttons: true,
-              dangerMode: true,
-              showCancelButton: true,
-            },function(){
+          title: "Are you sure?",
+          text: "After success wait till the next event",
+          type: "warning",
+          buttons: true,
+          dangerMode: true,
+          showCancelButton: true,
+        },function(){
         var values = {};
         $.each($('#mark_form').serializeArray(), function(i, field) {
           values[field.name] = field.value;
@@ -319,4 +300,5 @@ section {
 </script>
 @endsection
 @section('jslink')
+
 @endsection

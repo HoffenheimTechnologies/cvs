@@ -4,67 +4,9 @@
 <link rel="stylesheet" href="{{URL::asset('css/bootstrap-datetimepicker.min.css')}}">
 @endsection
 @section('content')
-<div class="container segments-page">
-
-</div>
 <div class="container">
 	<div class="row">
-		<div class="row">
-			<div class="col-sm-4 col-xl-4">
-				<div class="card counter-card-1">
-					<div class="card-block-big">
-						<div class="row">
-							<div class="col-6 counter-card-icon">
-								<i class="icofont icofont-chart-histogram"></i>
-							</div>
-							<div class="col-6  text-right">
-								<div class="counter-card-text">
-									<h3>23%</h3>
-									<p>Attending</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-4 col-xl-4">
-				<div class="card counter-card-2">
-					<div class="card-block-big">
-						<div class="row">
-							<div class="col-6 counter-card-icon">
-								<i class="icofont icofont-chart-line-alt"></i>
-							</div>
-							<div class="col-6 text-right">
-								<div class="counter-card-text">
-									<h3>15%</h3>
-									<p>Missing</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-4 col-xl-4">
-				<div class="card counter-card-3">
-					<div class="card-block-big">
-						<div class="row">
-							<div class="col-6 counter-card-icon">
-								<i class="icofont icofont-chart-line"></i>
-							</div>
-							<div class="col-6 text-right">
-								<div class="counter-card-text">
-									<h3>35%</h3>
-									<p>Ignoring</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		@if(isset($active->event_date))
+		@if(isset($active->event_edate))
 		<div class="col-lg-12 col-xl-12">
 			<div class="card">
 				<div class="card-header">
@@ -75,12 +17,13 @@
 						<i class="icofont icofont-close-circled"></i>
 					</div>
 				</div>
+				<div class="row">
 				<div class="card-block" style="">
 					<div class="row" id="draggableWithoutImg">
 						<div class="col-md-3 col-xs-12 m-b-20">
 							<div class="card-sub">
 								<div class="card-block">
-									<h4 class="card-title">{{date('l jS \of F Y', strtotime($active->event_date))}}</h4>
+									<h4 class="card-title">{{date('l jS \of F Y', strtotime($active->event_edate))}}</h4>
 									<!-- <div class="col-6 counter-card-icon card-block-big">
 										<i class="icofont icofont-chart-line"></i>
 									</div> -->
@@ -89,21 +32,87 @@
 						</div>
 					</div>
 				</div>
+				<div class="card-header">
+					<h5 class="card-header-text">Stat</h5>
+					<div class="card-header-right">
+						<i class="icofont icofont-rounded-down"></i>
+						<i class="icofont icofont-refresh"></i>
+						<i class="icofont icofont-close-circled"></i>
+					</div>
+				</div>
+				<div class="col-sm-4 col-xl-4">
+					<div class="card counter-card-1">
+						<div class="card-block-big">
+							<div class="row">
+								<div class="col-6 counter-card-icon">
+									<i class="icofont icofont-chart-histogram"></i>
+								</div>
+								<div class="col-6  text-right">
+									<div class="counter-card-text">
+										<h3>{{$stat->yes}}</h3>
+										<p>Coming</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4 col-xl-4">
+					<div class="card counter-card-2">
+						<div class="card-block-big">
+							<div class="row">
+								<div class="col-6 counter-card-icon">
+									<i class="icofont icofont-chart-line-alt"></i>
+								</div>
+								<div class="col-6 text-right">
+									<div class="counter-card-text">
+										<h3>{{$stat->no}}</h3>
+										<p>Not Coming</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4 col-xl-4">
+					<div class="card counter-card-3">
+						<div class="card-block-big">
+							<div class="row">
+								<div class="col-6 counter-card-icon">
+									<i class="icofont icofont-chart-line"></i>
+								</div>
+								<div class="col-6 text-right">
+									<div class="counter-card-text">
+										<h3>{{$stat->ignored}}</h3>
+										<p>Ignoring</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
 			</div>
 		</div>
+
 		@endif
-		<div class="page-header">
-			<div class="page-header-title">
-				<h4>Create Event</h4>
-			</div>
-		</div>
-
-
 		<div class="page-body">
 			<div class="row">
 				<div class="col-sm-12">
 
 					<div class="card">
+						<div class="card-header">
+							<h5 class="card-header-text">Create Event</h5>
+							<div class="card-header-right">
+								<i class="icofont icofont-rounded-down"></i>
+								<i class="icofont icofont-refresh"></i>
+								<i class="icofont icofont-close-circled"></i>
+							</div>
+						</div>
 						<div class="card-block">
 
 							<div class="row">

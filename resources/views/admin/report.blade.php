@@ -112,7 +112,7 @@ $(document).ready(function() {
             },
             dataSrc: function (response) {
               if(response.data.length > 0){
-                swal('Success!', `Report for ${response.data[0][4]} fetched`, 'success');
+                swal('Success!', `Report for ${response.data[0][4].split(' ')[0]} fetched`, 'success');
               }else{
                 swal("Oops", `No Report for ${sdate}`, "error");
               }

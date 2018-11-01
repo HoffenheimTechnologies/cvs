@@ -22,23 +22,24 @@ class AdminController extends Controller
     //
 
     public function event(){
-      $active = Event::where('active', '1')->first();
-      return view('admin', compact('active'));
+      $active = Event::getActive();
+      $stat = Event::getUsersStat($active);
+      return view('admin', compact('active', 'stat'));
     }
 
     public function eventCreate(Request $request){
       $event_sdate =  $request->event_sdate;
       $event_edate =  $request->event_edate;//date('Y-m-d',strtotime());
       //check for past date
-        if (NOW() > $event_sdate)
+        if (NOW() > $event_edate)
         {
           return response()->json(['status' => false, 'reason' => 'Date already past']);
         }
       //check if already exists
-      $exists = Event::where('event_sdate', $event_sdate)->get(['id'])->count();
-        if($exists > 0){
-          return response()->json(['status' => false, 'reason' => 'Event exists for that date']);
-        }
+      // $exists = Event::where('event_sdate', $event_edate)->get(['id'])->count();
+      //   if($exists > 0){
+      //     return response()->json(['status' => false, 'reason' => 'Event exists for that date']);
+      //   }
       //try to create
       $create = Event::create([
         'event_sdate' => $event_sdate,
@@ -77,7 +78,7 @@ class AdminController extends Controller
 
     public function eventReport(Request $request){
       if ($request) {
-        // code...
+        // if request from datatables
         if ($request->draw) {
           // code...
           if ($request->history) {
@@ -85,42 +86,26 @@ class AdminController extends Controller
             $users = User::all();
             $history = collect(new Attendance);//[];
             foreach ($users as $key => $user) {
-              // code...
               //array_push($history, Attendance::selectRaw('users.firstname, users.lastname, users.role,
-              $attendance = Attendance::selectRaw('users.firstname, users.lastname, users.role,
-                SUM(CASE when attendance = 1 then 1 else 0 end) As yes,
-                SUM(CASE when attendance = 0 then 1 else 0 end) As no,
-                SUM(CASE when attendance = 3 then 1 else 0 end) As ignored')
-                ->where('user_id', $user->id)->join('users', 'attendances.user_id', 'users.id')->groupby('users.firstname', 'users.lastname', 'users.role')->first();
+              $attendance = Attendance::getUserTotalStat($user);
                 $history->push($attendance);
             }
             return Datatables::of($history)->make();
           }
-
-          // if ($request->report) {
-          //   // code...
-          //
-          //   $report = User::select('users.firstname', 'users.lastname','users.role', 'attendances.attendance', 'attendances.updated_at')
-          //     ->where('event_id', $active->id)->leftjoin('attendances', 'users.id', 'attendances.user_id')
-          //     ->leftjoin('events', 'events.id', 'attendances.event_id')->get();
-          //   return Datatables::of($report)->make();
-          // }
-
+          //for finding report
           if ($request->find || $request->report) {
             if ($request->find) {
               // code...for finding event
               $squery_date = $request->sdate;
-              $event = Event::where('event_sdate', $squery_date)->first();
+              $event = Event::getEventByEndDate();
             }else {
               //initial
-              $event = Event::where('active', '1')->first();
+              $event = Event::getActive();
             }
 
             if ($event) {
               // code...
-              $report = User::select('users.firstname', 'users.lastname','users.role', 'attendances.attendance', 'attendances.updated_at')
-                ->where('event_id', $event->id)->leftjoin('attendances', 'users.id', 'attendances.user_id')
-                ->leftjoin('events', 'events.id', 'attendances.event_id')->get();
+              $report = Event::getUserStat($event);
               return Datatables::of($report)->make();
               // return response()->json(['status' => true, 'message' => 'Success', 'report' => $report]);
             }else{
