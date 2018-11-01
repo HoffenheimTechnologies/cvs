@@ -8,7 +8,7 @@ array("label"=> "No", "y"=> $attendance->no),
 array("label"=> "Yes", "y"=> $attendance->yes),
 );
 ?>
-<div class="container segments-page">
+<div class="container">
 	<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 	<div class="page-header">
 		<div class="page-header-title">
