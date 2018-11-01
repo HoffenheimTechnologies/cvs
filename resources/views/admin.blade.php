@@ -211,7 +211,7 @@
 												<select class="form-control form-txt-primary" id="service_start" required style="display:block">
 													<option selected disabled value="">Choose day</option>
 													<option value="Sundays">Sundays</option>
-													<option value="Monndays">Monndays</option>
+													<option value="Mondays">Monndays</option>
 													<option value="Tuesdays">Tuesdays</option>
 													<option value="Wednesdays">Wednesdays</option>
 													<option value="Thursdays">Thursdays</option>
@@ -233,7 +233,7 @@
 												<select class="form-control form-txt-primary" id="service_end" required style="display:block">
 													<option selected disabled value="">Choose day</option>
 													<option value="Sundays">Sundays</option>
-													<option value="Monndays">Monndays</option>
+													<option value="Mondays">Monndays</option>
 													<option value="Tuesdays">Tuesdays</option>
 													<option value="Wednesdays">Wednesdays</option>
 													<option value="Thursdays">Thursdays</option>
@@ -280,6 +280,28 @@
 				return ;
 			}
 			//process the form
+			swal({
+			  title: "Are you sure you want to the service?",
+			  text: "...",
+			  type: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			  showCancelButton: true,
+			},function(){
+				let values = {'sdays': sdate, 'edays': edate, 'name': name, '_token': '{{ csrf_token() }}'};
+			  	$.ajax(
+			  		{type: "POST", url: "{{route('service.create')}}", data: values, dataType: "json", encode: true}
+			  	).done(function(response){
+			  		if(response.status){
+          				swal("Success!", "Service Created", "success");
+			  		}else{
+			  			swal("Oops", ""+response.reason, "error");
+			  		}
+          		}).error(function(data) {
+								console.log(data.responseText);
+			        swal("Oops", "Error occured! Error: "+data.statusText, "error");
+			    });
+			});
 		});
 		//counter
 		counter("{{$active->event_edate}}");

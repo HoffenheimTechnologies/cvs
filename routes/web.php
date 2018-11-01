@@ -25,6 +25,9 @@ Route::post('/event/create', 'AdminController@eventCreate')->name('event.create'
 Route::get('/report', 'AdminController@report')->name('report');
 Route::get('/attendances', 'HomeController@at')->name('at');
 Route::get('/event/report', 'AdminController@eventReport')->name('event.report');
+//service
+Route::post('/service/create', 'AdminController@createService')->name('service.create');
+//
 Route::get('/weerrr', function () {
     return view('welcome');
 });
