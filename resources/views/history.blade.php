@@ -160,7 +160,7 @@ array("label"=> "Yes", "y"=> $attendance->yes),
 @section('script')
 <script>
 window.onload = function () {
-
+askPermission();
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	exportEnabled: true,
@@ -189,4 +189,5 @@ chart.render();
 @section('jslink')
 <!-- <script src="{{URL::asset('js/datatables.min.js')}}"></script> -->
 <script src="{{URL::asset('js/canvasjs.min.js')}}"></script>
+<script src="{{URL::asset('js/push.js')}}"></script>
 @endsection

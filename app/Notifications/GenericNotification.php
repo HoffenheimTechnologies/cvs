@@ -10,7 +10,7 @@ use NotificationChannels\WebPush\WebPushChannel;
 class GenericNotification extends Notification
 {
     use Queueable;
-    public $title, $body;
+    public $title, $body, $action;
 
     /**
      * Create a new notification instance.
@@ -22,6 +22,7 @@ class GenericNotification extends Notification
         //
         $this->title = $title;
         $this->body = $body;
+        // $this->action = $action;
     }
 
     /**
@@ -35,15 +36,25 @@ class GenericNotification extends Notification
         return [WebPushChannel::class];
     }
 
+    // public function toWebPush($notifiable, $notification)
+    // {
+    //   $time = \Carbon\Carbon::now();
+    //     return (new WebPushMessage)
+    //         // ->id($notification->id)
+    //         ->title($this->title)
+    //         ->icon(url('/push.png'))
+    //         ->body($this->body)
+    //         ->action('View Account', 'view_account');
+    // }
+
     public function toWebPush($notifiable, $notification)
     {
-      $time = \Carbon\Carbon::now();
-        return WebPushMessage::create()
-            // ->id($notification->id)
+        return (new WebPushMessage)
             ->title($this->title)
             ->icon(url('/push.png'))
-            ->body($this->body);
-            //->action('View account', 'view_account');
+            ->body($this->body)
+            ->action('View Account', 'view_account')
+            ->data(['id' => $notification->id]);
     }
 
 }
