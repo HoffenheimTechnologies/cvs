@@ -25,7 +25,7 @@ Route::post('/save-subscription/{id}',function($id, Request $request){
   return response()->json([
     'success' => true
   ]);
-});
+})->name('push.save');
 
 Route::post('/send-notification/{id}', function($id, Request $request){
   $user = \App\User::findOrFail($id);
@@ -33,4 +33,4 @@ Route::post('/send-notification/{id}', function($id, Request $request){
   return response()->json([
     'success' => true
   ]);
-});
+})->name('push.send');

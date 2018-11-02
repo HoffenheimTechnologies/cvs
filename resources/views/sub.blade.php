@@ -28,7 +28,7 @@ var data = new FormData();
 data.append('title', document.getElementById('title').value);
 data.append('body', document.getElementById('body').value);
 var xhr = new XMLHttpRequest();
-xhr.open('POST', "{{url('cvs/api/send-notification/'.auth()->user()->id)}}", true);
+xhr.open('POST', "{{route('push.send', ['id' => auth()->user()->id])}}", true);
 xhr.onload = function () {
 // do something to response
 console.log(this.responseText);
