@@ -36,3 +36,12 @@ Route::get('/serverSide',  function () {
         return Datatables::of($users)->make();
     }
 )->name('serverSide');
+//shared server clear cache
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    // return what you want
+});
+//push admin
+Route::get('/sub', function () {
+    return view('sub');
+});
