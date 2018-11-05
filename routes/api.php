@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use  App\Notifications\GenericNotification;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +29,10 @@ Route::post('/save-subscription/{id}',function($id, Request $request){
   ]);
 })->name('push.save');
 
-Route::post('/send-notification/{id}', function($id, Request $request){
-  $user = \App\User::findOrFail($id);
-  $user->notify(new GenericNotification($request->title, $request->body));
+Route::post('/send-notification/', function(Request $request){
+  // $user = \App\User::findOrFail($id);
+  // $user->notify(new GenericNotification($request->title, $request->body));
+  Notification::send(User::all(), new  GenericNotification($request->title, $request->body));
   return response()->json([
     'success' => true
   ]);

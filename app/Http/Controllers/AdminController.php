@@ -8,6 +8,8 @@ use App\Event;
 use App\User;
 use Datatables;
 use App\Service;
+use App\Notifications\NewEventNotification;
+use Notification;
 
 class AdminController extends Controller
 {
@@ -67,6 +69,12 @@ class AdminController extends Controller
           $value->active = 0;
           $value->save();
         }
+        $users = User::all();
+        foreach ($users as $key => $user) {
+          // code...
+          $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event_edate, $user->id, $create->id));
+        }
+        // Notification::send($user = User::all(), );
         return response()->json(['status' => true]);
       }else{
         return response()->json(['status' => fale, 'reason' => 'Unkown error occured']);

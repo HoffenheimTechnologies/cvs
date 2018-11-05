@@ -91,7 +91,9 @@ class HomeController extends Controller
 
     public function mark(Request $request)
     {
-      $user =  Auth::user();
+      if(!$user =  Auth::user()){
+        $user = User::findOrFail($request->user_id);
+      }
       $attendance = $request->attendance;
       $event = Event::find($request->event_id);
       //check if attendance for that date has already been marked by the user

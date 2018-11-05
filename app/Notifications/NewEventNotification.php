@@ -8,21 +8,24 @@ use Illuminate\Notifications\Messages\MailMessage;
 use NotificationChannels\WebPush\WebPushMessage;
 use NotificationChannels\WebPush\WebPushChannel;
 use Illuminate\Support\Carbon;
-class GenericNotification extends Notification
+class NewEventNotification extends Notification
 {
     use Queueable;
-    public $title, $body, $action;
+    public $title, $body, $action, $url, $user_id, $event_id;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($title, $body)
+    public function __construct($title, $body, $user_id, $event_id)
     {
         //
         $this->title = $title;
         $this->body = $body;
+        $this->user_id = $user_id;
+        $this->event_id = $event_id;
+        // $this->url = $url;
         // $this->action = $action;
     }
 
@@ -37,25 +40,15 @@ class GenericNotification extends Notification
         return [WebPushChannel::class];
     }
 
-    // public function toWebPush($notifiable, $notification)
-    // {
-    //   $time = \Carbon\Carbon::now();
-    //     return (new WebPushMessage)
-    //         // ->id($notification->id)
-    //         ->title($this->title)
-    //         ->icon(url('/push.png'))
-    //         ->body($this->body)
-    //         ->action('View Account', 'view_account');
-    // }
-
     public function toWebPush($notifiable, $notification)
     {
         return (new WebPushMessage)
             ->title($this->title)
             ->icon(url('/push.png'))
             ->body($this->body)
-            ->action('View', 'view_app')
-            ->data(['id' => $notification->id, 'url' => route('home')]);
+            ->action('Yes', 'yes')
+            ->action('No', 'no')
+            ->data(['id' => $notification->id, 'url' => $url=route('home'), 'user_id' => $this->user_id, 'event_id' => $this->event_id]);
     }
 
 }
