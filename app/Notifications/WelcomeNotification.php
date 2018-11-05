@@ -45,10 +45,10 @@ class WelcomeNotification extends Notification
      {
          return (new WebPushMessage)
              ->title($this->title)
-             ->icon('/push.png')
+             ->icon('../push.png')
              ->body($this->body)
              ->action('View It', 'view_app')
-             ->data(['id' => $notification->id]);
+             ->data(['id' => $notification->id, 'url' => route('home')]);
      }
 
     /**

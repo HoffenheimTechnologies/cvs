@@ -42,6 +42,7 @@
         @section('script')
         <script>
         var _token = '{{ csrf_token() }}'
+        var _registration = null;
         registerServiceWorker();
         askPermission()
         function registerServiceWorker() {
