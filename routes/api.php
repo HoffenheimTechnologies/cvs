@@ -19,17 +19,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/save-subscription/{id}',function($id, Request $request){
-  $this->validate($request, ['endpoint' => 'required']);
+  $user = \App\User::findOrFail($id);
 
-  $request->user()->updatePushSubscription(
-      $request->endpoint,
-      $request->key,
-      $request->token
-  );
-  // $user = \App\User::findOrFail($id);
-  //
-  // $user->updatePushSubscription($request->input('endpoint'), $request->input('keys.p256dh'), $request->input('keys.auth'));
-  $user->notify(new \App\Notifications\GenericNotification("Welcome To CVMS", "You will now get all of our event's notifications"));
+  $user->updatePushSubscription($request->input('endpoint'), $request->input('keys.p256dh'), $request->input('keys.auth'));
+  $user->notify(new GenericNotification("Welcome To CVMS", "You will now get all of our event's notifications"));
   return response()->json([
     'success' => true
   ]);

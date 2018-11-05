@@ -55,8 +55,7 @@ class GenericNotification extends Notification
             ->icon(url('/push.png'))
             ->body($this->body)
             ->action('View Account', 'view_account')
-            ->data(['id' => $notification->id])
-            ->data(['url' => route('home')]);
+            ->data(['id' => $notification->id, 'url' => route('home')]);
     }
 
 }
