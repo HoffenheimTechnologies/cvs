@@ -28,7 +28,7 @@ Route::get('/event/report', 'AdminController@eventReport')->name('event.report')
 //service
 Route::post('/service/create', 'AdminController@createService')->name('service.create');
 //
-Route::get('/weerrr', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 Route::get('/serverSide',  function () {
@@ -44,4 +44,20 @@ Route::get('/clear-cache', function() {
 //push admin
 Route::get('/sub', function () {
     return view('sub');
+});
+
+// Notifications
+Route::post('notifications', 'NotificationController@store')->name('notification.store');
+Route::get('notifications', 'NotificationController@index')->name('notification');
+
+// Push Subscriptions
+Route::post('subscriptions', 'PushSubscriptionController@update')->name('subscription.update');
+Route::post('subscriptions/delete', 'PushSubscriptionController@destroy')->name('subscription.delete');
+
+// Manifest file (optional if VAPID is used)
+Route::get('manifest.json', function () {
+    return [
+        'name' => config('app.name'),
+        'gcm_sender_id' => config('webpush.gcm.sender_id')
+    ];
 });

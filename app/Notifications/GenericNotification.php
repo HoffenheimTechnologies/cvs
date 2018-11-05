@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use NotificationChannels\WebPush\WebPushMessage;
 use NotificationChannels\WebPush\WebPushChannel;
+use Illuminate\Support\Carbon;
 class GenericNotification extends Notification
 {
     use Queueable;
@@ -54,7 +55,8 @@ class GenericNotification extends Notification
             ->icon(url('/push.png'))
             ->body($this->body)
             ->action('View Account', 'view_account')
-            ->data(['id' => $notification->id]);
+            ->data(['id' => $notification->id])
+            ->data(['url' => route('home')]);
     }
 
 }

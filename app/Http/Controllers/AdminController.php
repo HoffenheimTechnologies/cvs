@@ -77,6 +77,13 @@ class AdminController extends Controller
       return view('admin.report');
     }
 
+    public function sendNotification(Request $request)
+    {
+        $request->user()->notify(new GenericNotification('Title', 'Body'));
+
+        return response()->json('Notification sent.', 201);
+    }
+
     public function eventReport(Request $request){
       if ($request) {
         // if request from datatables

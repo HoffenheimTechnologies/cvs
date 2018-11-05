@@ -45,6 +45,7 @@
         alert('ok');
       }else{
         self.clients.openWindow('/')
+        this.notificationClose(event)
       }
     },
 
