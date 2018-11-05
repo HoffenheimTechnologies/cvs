@@ -42,7 +42,7 @@
         // Do something...
         console.log('manual action')
       } else if(event.action === 'view_app') {
-        alert('ok');
+        console.log('action clicked')
       }else{
         self.clients.openWindow('/')
         this.notificationClose(event)
