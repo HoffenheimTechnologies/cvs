@@ -144,6 +144,9 @@
         $.each($('#mark_form').serializeArray(), function(i, field) {
           values[field.name] = field.value;
         });
+        //disble buttons
+        $('#yes').prop('disabled', true);
+        $('#no').prop('disabled', true);
         //process the form
         $.ajax({
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)

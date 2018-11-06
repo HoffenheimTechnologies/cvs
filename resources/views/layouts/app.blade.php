@@ -58,7 +58,7 @@
               </div>
               <div class="col s3">
                   <div class="content-right">
-                      <a href="#"><i class="fa fa-clipboard"></i></a>
+                      <a href="#" onclick="askPermission();"><i class="fa fa-clipboard">Notification Subscription</i></a>
                   </div>
               </div>
           </div>
@@ -330,7 +330,7 @@
           type: "post",
           data: data, dataType: "json", encode: true
         })
-          .then(() => { alert('subscribed'); })
+          .then(() => {  })
       }
 
       /**
@@ -345,7 +345,7 @@
           dataType: "json", encode: true,
           data: { endpoint: subscription.endpoint }
         })
-        .then(() => { loading = false })
+        .then(() => { })
       }
 
       /**
@@ -359,7 +359,7 @@
           data: {_token: _token}
         })
           .error(error => console.log(error))
-          .then(() => { loading = false })
+          .then(() => {  })
       }
 
       /**

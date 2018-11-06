@@ -106,8 +106,8 @@ class HomeController extends Controller
       }
       //mark the attendance
       try {
-        $active = Event::getActive()->id;
-        $mark = Attendance::where('user_id', $user->id)->where('event_id', $active)->first();
+        $active = Event::getActive();
+        $mark = Attendance::where('user_id', $user->id)->where('event_id', $active->id)->first();
         //probably the user might be a new user
         if (!$mark) {
           // code...
@@ -119,6 +119,8 @@ class HomeController extends Controller
         }else{
           $mark->attendance = $attendance;
           $mark->save();
+          //notify successfull attendance
+          $user->notify(new \App\Notifications\WebNotice('Attendance Marked', 'You will '.($attendance ? 'attend ' : 'not attend ').explode(' ', $active->event_edate)[0].' event', route('home')));
         }
       } catch (\Exception $e) {
         return response()->json(['status' => false, "e" => $e->getMessage()]);
