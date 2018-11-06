@@ -48,7 +48,7 @@ class NewEventNotification extends Notification
             ->body($this->body)
             ->action('Yes', 'yes')
             ->action('No', 'no')
-            ->data(['id' => $notification->id, 'url' => $url=route('home'), 'user_id' => $this->user_id, 'event_id' => $this->event_id]);
+            ->data(['id' => $notification->id, 'url' => $url=route('mark'), 'user_id' => $this->user_id, 'event_id' => $this->event_id, 'token' => csrf_token()]);
     }
 
 }

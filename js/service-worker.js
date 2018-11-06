@@ -88,18 +88,14 @@
     },
 
     mark(datas, option){
-      const data = new FormData()
-      data.append('attendance', option)
-      data.append('user_id', datas.data.user_id)
-      data.append('event_id', datas.data.event_id)
-      // Mark the attendance
+      const data = {'attendance': option, 'user_id': datas.data.user_id, 'event_id': datas.data.event_id, '_token': datas.data.token}
       fetch(datas.data.url, {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: data
+        body: JSON.stringify(data)
       })
       datas.close();
     },
