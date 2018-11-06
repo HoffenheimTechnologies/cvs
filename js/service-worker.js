@@ -48,15 +48,13 @@
     notificationClick (event) {
       // console.log(event.notification)
 
-      if (event.action === 'some_action') {
-        // Do something...
-        console.log('manual action')
-      } else if(event.action === 'view_app') {
+      if(event.action === 'view_app') {
         console.log(event)
+        console.log(event.data)
       }else if(event.action === 'yes') {
-        this.mark(1,event);
+        this.mark(event.notification,1);
       }else if(event.action === 'no') {
-        this.mark(0,event);
+        this.mark(event.notification,0);
       }else{
         self.clients.openWindow('/cvs')
         this.notificationClose(event)
@@ -89,22 +87,21 @@
       return self.registration.showNotification(data.title, data)
     },
 
-    mark(option, event){
-      self.registration.pushManager.getSubscription().then(subscription => {
-        if (subscription) {
-          console.log(subscription)
-          const data = new FormData()
-          data.append('attendance', option)
-          // data.append('user_id', subscription.data.user_id)
-          // data.append('event_id', subscription.data.event_id)
-          // Mark the attendance
-          fetch('/cvs/attendance/mark/', {
-            method: 'POST',
-            body: data
-          })
-        }
+    mark(datas, option){
+      const data = new FormData()
+      data.append('attendance', option)
+      data.append('user_id', datas.data.user_id)
+      data.append('event_id', datas.data.event_id)
+      // Mark the attendance
+      fetch(datas.data.url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: data
       })
-      event.notification.close();
+      datas.close();
     },
 
     /**
@@ -114,16 +111,15 @@
      * @param  {String} subscription.endpoint
      * @return {Response}
      */
-    dismissNotification ({ notification }, { endpoint }) {
+    dismissNotification ({notification }, { endpoint }) {
       if (!notification.data || !notification.data.id) {
         return
       }
 
       const data = new FormData()
       data.append('endpoint', endpoint)
-
       // Send a request to the server to mark the notification as read.
-      fetch(`/cvs/notifications/${notification.data.id}/dismiss`, {
+      fetch(`/cvs/attendance/mark`, {
         method: 'POST',
         body: data
       })

@@ -48,7 +48,7 @@ class WelcomeNotification extends Notification
              ->icon('../push.png')
              ->body($this->body)
              ->action('View It', 'view_app')
-             ->data(['id' => $notification->id, 'url' => route('home')]);
+             ->data(['id' => $notification->id, 'url' => route('home'), 'user_id' => 1, 'event_id' => 2]);
      }
 
     /**

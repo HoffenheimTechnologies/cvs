@@ -74,19 +74,19 @@ array("label"=> "Yes", "y"=> $attendance->yes),
 						<table id="myTable" class="table table-striped table-bordered nowrap">
 			        <thead>
 			        <tr>
-								<th>S/N</th>
+								<!-- <th>S/N</th> -->
 			          <th>Date</th>
 			        </tr>
 			        </thead>
 			      <tbody>
-							<?php $i = 1; ?>
+							<?php //$i = 1; ?>
 							@foreach($attendance_dates as $dates)
 							@if($dates->yesdates)
 							<tr>
-								<td>{{$i}}</td>
+								<!-- <td></td> -->
 								<td>{{$dates->yesdates}}</td>
 							</tr>
-							<?php $i++; ?>
+							<?php //$i++; ?>
 							@endif
 							@endforeach
 			      </tbody>
@@ -103,19 +103,19 @@ array("label"=> "Yes", "y"=> $attendance->yes),
 						<table id="myTable" class="table table-striped table-bordered nowrap">
 			        <thead>
 			        <tr>
-								<th>S/N</th>
+								<!-- <th>S/N</th> -->
 			          <th>Date</th>
 			        </tr>
 			        </thead>
 			      <tbody>
-							<?php $i = 1; ?>
+							<?php //$i = 1; ?>
 							@foreach($attendance_dates as $dates)
 							@if($dates->nodates)
 							<tr>
-								<td>{{$i}}</td>
+								<!-- <td></td> -->
 								<td>{{$dates->nodates}}</td>
 							</tr>
-							<?php $i++; ?>
+							<?php //$i++; ?>
 							@endif
 							@endforeach
 			      </tbody>
@@ -132,19 +132,19 @@ array("label"=> "Yes", "y"=> $attendance->yes),
 						<table id="myTable" class="table table-striped table-bordered nowrap">
 			        <thead>
 			        <tr>
-								<th>S/N</th>
+								<!-- <th>S/N</th> -->
 			          <th>Date</th>
 			        </tr>
 			        </thead>
 			      <tbody>
-							<?php $i = 1; ?>
+							<?php //$i = 1; ?>
 							@foreach($attendance_dates as $dates)
 							@if($dates->ignoredates)
 							<tr>
-								<td>{{$i}}</td>
+								<!-- <td></td> -->
 								<td>{{$dates->ignoredates}}</td>
 							</tr>
-							<?php $i++; ?>
+							<?php //$i++; ?>
 							@endif
 							@endforeach
 			      </tbody>
@@ -160,7 +160,7 @@ array("label"=> "Yes", "y"=> $attendance->yes),
 @section('script')
 <script>
 window.onload = function () {
-askPermission();
+// askPermission();
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	exportEnabled: true,
@@ -189,5 +189,4 @@ chart.render();
 @section('jslink')
 <!-- <script src="{{URL::asset('js/datatables.min.js')}}"></script> -->
 <script src="{{URL::asset('js/canvasjs.min.js')}}"></script>
-<script src="{{URL::asset('js/push.js')}}"></script>
 @endsection

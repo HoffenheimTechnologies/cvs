@@ -25,8 +25,12 @@ class AdminController extends Controller
     //
 
     public function event(){
-      $active = Event::getActive();
-      $stat = Event::getUsersStat($active);
+      if ($active = Event::getActive()){
+        $stat = Event::getUsersStat($active);
+      }else{
+        $stat = [];
+        $active = new Event();
+      }
       return view('admin', compact('active', 'stat'));
     }
 
@@ -44,40 +48,40 @@ class AdminController extends Controller
       //     return response()->json(['status' => false, 'reason' => 'Event exists for that date']);
       //   }
       //try to create
-      $create = Event::create([
-        'event_sdate' => $event_sdate,
-        'event_edate' => $event_edate,
-      ]);
+      $create = 1; //Event::create([
+      //   'event_sdate' => $event_sdate,
+      //   'event_edate' => $event_edate,
+      // ]);
       if ($create) {
-        # deactivate ative event
-        $active = Event::where('active', 1)->where('id', '!=', $create->id)->get();
-        #set users that hasnt mark the active attendance to NULL
-        //select users not in attendance with active event
-        //$ignoring =  Users::select()->whereRaw()->with('users')->get();
-        //get all users and make each attendance to the newly created event = NULL
-        $users = User::select('id')->get();
-        foreach ($users as $key => $value) {
-          // code...
-          Attendance::create([
-            'attendance' => 3,
-            'user_id' => $value->id,
-            'event_id' => $create->id
-          ]);
-        }
-        foreach ($active as $key => $value) {
-          # code...
-          $value->active = 0;
-          $value->save();
-        }
+        // # deactivate ative event
+        // $active = Event::where('active', 1)->where('id', '!=', $create->id)->get();
+        // #set users that hasnt mark the active attendance to NULL
+        // //select users not in attendance with active event
+        // //$ignoring =  Users::select()->whereRaw()->with('users')->get();
+        // //get all users and make each attendance to the newly created event = NULL
+        // $users = User::select('id')->get();
+        // foreach ($users as $key => $value) {
+        //   // code...
+        //   Attendance::create([
+        //     'attendance' => 3,
+        //     'user_id' => $value->id,
+        //     'event_id' => $create->id
+        //   ]);
+        // }
+        // foreach ($active as $key => $value) {
+        //   # code...
+        //   $value->active = 0;
+        //   $value->save();
+        // }
         $users = User::all();
         foreach ($users as $key => $user) {
           // code...
-          $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event_edate, $user->id, $create->id));
+          $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event_edate, $user->id, $create));
         }
         // Notification::send($user = User::all(), );
         return response()->json(['status' => true]);
       }else{
-        return response()->json(['status' => fale, 'reason' => 'Unkown error occured']);
+        return response()->json(['status' => false, 'reason' => 'Unkown error occured']);
       }
     }
 

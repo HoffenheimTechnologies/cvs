@@ -332,29 +332,40 @@
 				return;
 			}
 			swal({
-			  title: "Are you sure you want to create the event?",
+				title: "Are you sure you want to create the event?",
 			  text: "Oncreation will remove active event",
+				showSpinner: true,
+				showLoaderOnConfirm: true,
+				confirmButtonText: 'Create',
 			  type: "warning",
 			  buttons: true,
 			  dangerMode: true,
+				allowOutsideClick: false,
 			  showCancelButton: true,
 			},function(){
 				let values = {'event_sdate': sdate, 'event_edate': edate, '_token': '{{ csrf_token() }}'};
+				toggleAble('#create', true);
 			  	$.ajax(
 			  		{type: "POST", url: "{{route('event.create')}}", data: values, dataType: "json", encode: true}
 			  	).done(function(response){
+						toggleAble('#create', false);
 			  		if(response.status){
           				swal("Success!", "Event Created", "success");
 			  		}else{
 			  			swal("Oops", ""+response.reason, "error");
 			  		}
           		}).error(function(data) {
+								toggleAble('#create', false);
 								console.log(data.responseText);
 			        swal("Oops", "Error occured! Error: "+data.statusText, "error");
 			    });
 			});
 	 	});
  	});
+	function toggleAble(element,bool){
+		$(element).prop('disabled', bool);
+		// $(element).find('#loader').show();
+	}
 </script>
 @endsection
 

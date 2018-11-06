@@ -1,3 +1,4 @@
+<script>
 var _token = '{{ csrf_token() }}'
 var _registration = null;
 registerServiceWorker();
@@ -205,3 +206,4 @@ function urlBase64ToUint8Array (base64String) {
 
     return outputArray
 }
+</script>
