@@ -11,27 +11,9 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css">
 @endsection
 @section('content')
-<div class="col-md-12 col-xl-7">
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="card borderless-card">
-        <div class="row">
-          <div class="col-sm-4 weather-card-1  text-center">
-            <div class="mob-bg-calender bg-primary">
-              <h3 class="text-uppercase" style="margin-top:0px;">{{date('l', strtotime(NOW()))}}</h3>
-              <h1 class="weather-temp">{{date('d', strtotime(NOW()))}}</h1>
-            </div>
-          </div>
-          <div class="col-sm-8 p-l-0">
-            <div class="weather-calender">
-              <div class="widget-calender"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="container">
+
+
 
 <div class="card">
   <div class="card-header">
@@ -43,20 +25,46 @@
     </div>
   </div>
   <div class="card-block">
-    <div class="table-responsive dt-responsive">
-      <table id="report" class="table table-striped table-bordered nowrap">
-        <thead>
-        <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Department</th>
-          <th>Action</th>
-          <th>Date</th>
-        </tr>
-        </thead>
-      <tbody>
-      </tbody>
-      </table>
+    <div class="row" >
+      <!-- <div class="col-md-12 col-xl-7">
+        <div class="row"> -->
+          <div class="col-sm-12 col-xl-12">
+            <div class="card borderless-card">
+              <div class="row">
+                <div class="col-sm-12 weather-card-1  text-center p-l-0">
+                  <div class="mob-bg-calender bg-primary">
+                    <h3 class="text-uppercase" style="margin-top:0px;">{{date('l', strtotime(NOW()))}}</h3>
+                    <h1 class="weather-temp">{{date('d', strtotime(NOW()))}}</h1>
+                  </div>
+                </div>
+                <div class="col-sm-12 p-l-0">
+                  <div class="weather-calender">
+                    <div class="widget-calender"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- </div>
+      </div> -->
+      <div class="col-sm-12 col-xl-12">
+        <div class="table-responsive dt-responsive">
+          <table id="report" class="table table-striped table-bordered nowrap">
+            <thead>
+            <tr>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Department</th>
+              <th>Action</th>
+              <th>Date</th>
+            </tr>
+            </thead>
+          <tbody>
+          </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -88,6 +96,7 @@
       </table>
     </div>
   </div>
+</div>
 </div>
 @endsection
 

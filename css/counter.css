@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:100,400);
+@import url(https://fonts.googleapis.com/css?family=Lato:100,400);
 .mb20{
     margin-bottom:20px;
 }
@@ -109,7 +109,7 @@ section {
     }
 }
 @media (max-width: 576px){
-  #timer .countdown-wrapper #countdown #day,
+    #timer .countdown-wrapper #countdown #day,
     #timer .countdown-wrapper #countdown #hour,
     #timer .countdown-wrapper #countdown #min,
     #timer .countdown-wrapper #countdown #sec {
@@ -119,4 +119,12 @@ section {
     #timer .countdown-wrapper #countdown .timer {
         padding: 13px;
     }
+}
+
+@media (min-width: 768px) {
+    #timer .countdown-wrapper #countdown .intervals {
+       background-color: black;
+       padding: 13px;
+       border-radius: 4%;
+   }
 }

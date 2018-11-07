@@ -55,8 +55,11 @@
         this.mark(event.notification,1);
       }else if(event.action === 'no') {
         this.mark(event.notification,0);
+      }else if(event.action === 'close') {
+        event.notification.close();
       }else{
         self.clients.openWindow('/cvs')
+        event.notification.close();
         this.notificationClose(event)
       }
     },
