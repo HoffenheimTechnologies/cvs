@@ -13,20 +13,30 @@
 
 
 Auth::routes();
-
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/history', 'HomeController@history')->name('attendance.history');
+//user
 Route::match(['get', 'post'], '/profile', 'HomeController@profile')->name('profile');
 Route::get('/profile/edit', 'HomeController@profileEdit')->name('profile.edit');
 Route::post('/attendance/mark', 'HomeController@mark')->name('mark');
-Route::get('/event', 'AdminController@event')->name('event');
+Route::get('/history', 'HomeController@history')->name('attendance.history');
 Route::get('/event/get', 'HomeController@getevent')->name('getevent');
+Route::get('/attendances', 'HomeController@at')->name('at');
+
+//admin
+Route::get('/event', 'AdminController@event')->name('event');
 Route::post('/event/create', 'AdminController@eventCreate')->name('event.create');
 Route::get('/report', 'AdminController@report')->name('report');
-Route::get('/attendances', 'HomeController@at')->name('at');
 Route::get('/event/report', 'AdminController@eventReport')->name('event.report');
 //service
 Route::post('/service/create', 'AdminController@createService')->name('service.create');
+//ajax
+Route::get('/service/get', 'AjaxController@getServices')->name('services.get');
+Route::post('/service/delete', 'AjaxController@deleteService')->name('service.delete');
+Route::post('/service/update', 'AjaxController@updateService')->name('service.update');
+//admin
+
+
+//public
+Route::get('/', 'HomeController@index')->name('home');
 //
 Route::get('/welcome', function () {
     return view('welcome');

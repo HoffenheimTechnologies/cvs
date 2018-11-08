@@ -13,7 +13,12 @@ class Event extends Model
 	];
 
   public static function getActive(){
-    return Event::where('active', '1')->first();
+    $datetime = now("+1 hours");//substr(NOW(), 11,2);date("Y-m-d H:i:s", strtotime("+1 hours"))
+    return Event::
+    // select(\DB::raw('SUBSTRING(event_sdate,11,3) as sub', 'event_edate'))->
+    where('active', '1')->where('event_sdate', '<=' , $datetime)->where('event_edate', '>=' , $datetime)
+    // ->where(\DB::raw('SUBSTRING(event_sdate,11,3)'), '<=' , $datetime)
+    ->first();
   }
 
   public static function getEventByEndDate($event_date){

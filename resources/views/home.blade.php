@@ -42,19 +42,19 @@
                               <div class="row" >
                                 <div class="col-xs-3">
                                   <span id="day" class="timer bg-success"></span>
-                                  <span id="" class="">Days</span>
+                                  <span id="" class="intervals">Days</span>
                                 </div>
                                 <div class="col-xs-3">
                                   <span id="hour" class="timer bg-primary"></span>
-                                  <span id="" class="">Hrs</span>
+                                  <span id="" class="intervals">Hrs</span>
                                 </div>
                                 <div class="col-xs-3">
                                   <span id="min" class="timer bg-info"></span>
-                                  <span id="" class="">Mins</span>
+                                  <span id="" class="intervals">Mins</span>
                                 </div>
                                 <div class="col-xs-3">
                                   <span id="sec" class="timer bg-danger"></span>
-                                  <span id="" class="">Secs</span>
+                                  <span id="" class="intervals">Secs</span>
                                 </div>
                               </div>
                         	</div>
