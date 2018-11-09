@@ -26,12 +26,6 @@
     <link rel="stylesheet" href="{{URL::asset('css/sweetalert.css')}}">
     @yield('css')
 
-    <!-- Fonts -->
-    <!-- <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> -->
-
-    <!-- Styles -->
-    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 </head>
 <body>
 
@@ -39,6 +33,7 @@
   <div class="preloader">
       <div class="spinner"></div>
   </div>
+
   <!-- end preloader -->
 
   <!-- navbar -->
@@ -160,6 +155,7 @@
     <script src="{{URL::asset('js/owl.carousel.min.js')}}"></script>
     <script src="{{URL::asset('js/main.js')}}"></script>
     <script src="{{URL::asset('js/sweetalert.min.js')}}"></script>
+    <script src="{{URL::asset('js/bootstrap.min.js')}}"></script>
     <!-- <script src="{{URL::asset('js/script.js')}}"></script> -->
     @yield('jslink')
 

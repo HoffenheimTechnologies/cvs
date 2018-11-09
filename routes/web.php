@@ -26,6 +26,8 @@ Route::get('/event', 'AdminController@event')->name('event');
 Route::post('/event/create', 'AdminController@eventCreate')->name('event.create');
 Route::get('/report', 'AdminController@report')->name('report');
 Route::get('/event/report', 'AdminController@eventReport')->name('event.report');
+//event
+Route::post('/event/able', 'AjaxController@toggleEventActivity')->name('event.able');
 //service
 Route::post('/service/create', 'AdminController@createService')->name('service.create');
 //ajax

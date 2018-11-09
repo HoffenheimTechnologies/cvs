@@ -38,4 +38,13 @@ class AjaxController extends Controller
       }
       return response()->json(['status' => false]);
     }
+
+    public function toggleEventActivity(Request $request){
+      $event = \App\Event::findOrFail($request->id);
+      if ($event) {
+        $state = \App\Event::disableEvent($event);
+        return response()->json(['status' => true, 'state' => $state]);
+      }
+      return response()->json(['status' => false]);
+    }
 }

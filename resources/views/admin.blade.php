@@ -25,8 +25,11 @@
 					<div class="row" id="draggableWithoutImg">
 						<div class="col-md-3 col-sm-offset-4 col-xs-12 m-b-20 text-center">
 							<div class="card-sub">
-								<div class="card-block">
+								<div class="card-block text-center">
 									<h4 class="card-title">{{date('l jS \of F Y', strtotime($active->event_edate))}}</h4>
+									<button id="disable-event" type="button"
+									class="tabledit-save-button btn btn-sm btn-info" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order">Disable</button><br>
+									<input id="event_id" type="hidden" value="{{$active->id}}" />
 									<!-- <div class="col-6 counter-card-icon card-block-big">
 										<i class="icofont icofont-chart-line"></i>
 									</div> -->
@@ -208,17 +211,14 @@
 									<h4 class="sub-title">Service Start Day
 										<!-- And Time -->
 									</h4>
+									<?php $weekdays = ["Sundays","Mondays","Tuesdays","Wednesdays","Thursdays","Fridays","Saturdays"]; ?>
 										<div class="form-group">
 											<div class="input-group">
 												<select class="form-control form-txt-primary" id="service_start" required style="display:block">
 													<option selected disabled value="">Choose day</option>
-													<option value="Sundays">Sundays</option>
-													<option value="Mondays">Mondays</option>
-													<option value="Tuesdays">Tuesdays</option>
-													<option value="Wednesdays">Wednesdays</option>
-													<option value="Thursdays">Thursdays</option>
-													<option value="Fridays">Fridays</option>
-													<option value="Saturdays">Saturdays</option>
+													@foreach($weekdays as $day)
+													<option value="{{$day}}">{{$day}}</option>
+													@endforeach
 												</select>
 												<span class="input-group-addon bg-default">
 													<span class="icofont icofont-ui-calendar"></span>
@@ -230,17 +230,13 @@
 									<h4 class="sub-title">Service End Day
 										<!-- And Time -->
 									</h4>
-										<div class="form-group">
+										<div id="service-div" class="form-group">
 											<div class="input-group">
 												<select class="form-control form-txt-primary" id="service_end" required style="display:block">
 													<option selected disabled value="">Choose day</option>
-													<option value="Sundays">Sundays</option>
-													<option value="Mondays">Mondays</option>
-													<option value="Tuesdays">Tuesdays</option>
-													<option value="Wednesdays">Wednesdays</option>
-													<option value="Thursdays">Thursdays</option>
-													<option value="Fridays">Fridays</option>
-													<option value="Saturdays">Saturdays</option>
+													@foreach($weekdays as $day)
+													<option value="{{$day}}">{{$day}}</option>
+													@endforeach
 												</select>
 												<span class="input-group-addon bg-default">
 													<span class="icofont icofont-ui-calendar"></span>
@@ -261,19 +257,14 @@
 							<h5 class="card-header-text">List Of Services</h5>
 						</div>
 						<div class="card-block">
-							<table id="service" class="table table-striped table-bordered nowrap">
-								<thead>
-								<!-- <tr>
-									<th>Firstname</th>
-									<th>Lastname</th>
-									<th>Department</th>
-									<th>Action</th>
-									<th>Date</th>
-								</tr> -->
-								</thead>
-							<tbody>
-							</tbody>
-							</table>
+							<div class="table-responsive">
+								<table id="service" class="table table-striped table-bordered nowrap">
+									<thead>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
 						</div>
 
 					</div>
@@ -395,6 +386,7 @@
 	  var serviceTable = $('#service').DataTable({
 	    processing: true,
 	    serverSide: true,
+			oLanguage: {sProcessing: "<div id='loader'></div>"},
 	    ajax: {
 	      "url": "{{route('services.get')}}",
 	      "type": "GET",
@@ -497,11 +489,36 @@
 		})
 
  	});
+	//disable event
+	$('#disable-event').click(function(){
+		let $this = $(this);
+		let id = $('#event_id').val()
+	  var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';
+	  if ($(this).html() !== loadingText) {
+	    $this.data('original-text', $(this).html());
+			// $this.data('false-text', $this.text())
+	    $this.html(loadingText);
+	  }
+		ajaxConnect("{{route('event.able')}}", {'id': id, '_token': '{{ csrf_token() }}'}, false, function(response){
+			console.log(response)
+			$this.html($this.data('original-text'))
+			if (response.state) {
+				$this.text('Disable')
+			}else{
+				$this.text('Enable')
+			}
+			// $this.prop('disabled', true)
+		})
+
+	})
+
 	function toggleAble(element,bool){
 		$(element).prop('disabled', bool);
 		// $(element).find('#loader').show();
 	}
-	function ajaxConnect(url, data, reloadcall){
+
+	function ajaxConnect(url, data, reloadcall, fn){
+		// let status = 'false'
 		$.ajax({
 			type: "POST",
 			url: url,
@@ -510,13 +527,17 @@
 		})
 		.done(function(response){
 			if(response.status){
-						swal("Success!", "", "success");
-						reloadcall();
+				swal("Success!", "", "success");
+				if (reloadcall) {
+					reloadcall()
+				}
 			}else{
 				swal("Oops", "Not successfull", "error");
 			}
+			fn(response)
 		})
-		.error(function(){
+		.error(function(error){
+			return error;
 			swal("Oops", "Error occured", "error");
 		})
 	}

@@ -38,6 +38,12 @@ class Event extends Model
       ->where('event_id', $event->id)->first();
   }
 
+  public static function disableEvent(Event $event){
+  	$event->active = !$event->active;
+    $event->save();
+    return $event->active;
+  }
+
   public function attendance(){
   	return $this->hasMany(Attendance::class);
   }
