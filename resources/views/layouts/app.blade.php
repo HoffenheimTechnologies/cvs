@@ -51,9 +51,18 @@
                       <a href="{{route('home')}}"><h1>{{ config('app.name') }}</h1></a>
                   </div>
               </div>
+
               <div class="col s3">
                   <div class="content-right">
-                      <a href="#" onclick="askPermission();"><i class="fa fa-clipboard">Notification Subscription</i></a>
+                    <div class="dropdown">
+            					<a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-clipboard"></i></a>
+            					<div class="dropdown-menu dropdown-menu-right text-center">
+            					  <h5 class="p-b-10">Push Notification</h5>
+            					  <div class="dropdown-divider"></div>
+            					  <button type="button" onclick="askPermission();" class="btn btn-success">Subscribe</button>
+            					</div>
+          				  </div>
+                      <!-- <a href="#" onclick="askPermission();"><i class="fa fa-clipboard">Notification Subscription</i></a> -->
                   </div>
               </div>
           </div>
@@ -75,38 +84,27 @@
             </li>
             <hr>
             @auth
-            <li><a href="{{route('home')}}"><i class="fa fa-home"></i>Home</a></li>
+            <li><a href="{{route('home')}}"><i class="fa fa-home fa-spin"></i>Home</a></li>
             <li>
                 <div class="collapsible-header">
-                    <i class="fa fa-file"></i>Attendance<span><i class="fa fa-caret-right right fa-spin"></i></span>
+                    <i class="fa fa-file fa-spin"></i>Attendance<span><i class="fa fa-caret-right right fa-spin"></i></span>
                 </div>
                 <div class="collapsible-body">
                     <ul>
-                        <li><a href="{{route('attendance.history')}}"><i class="fa fa-table fa-spin"></i>History</a></li>
+                        <li><a class="" href="{{route('attendance.history')}}"><i class="fa fa-table fa-spin"></i>History</a></li>
                     </ul>
                 </div>
             </li>
             <li><a href="{{route('profile')}}"><i class="fa fa-user-circle-o fa-spin"></i>Profile</a></li>
-            <!-- <li>
-                <div class="collapsible-header">
-                    <i class="fa fa-user"></i>Profile<span><i class="fa fa-caret-right right"></i></span>
-                </div>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="{{route('profile')}}"><i class="fa fa-user-circle-o fa-spin"></i>Profile</a></li>
-                        <li><a href="{{route('profile.edit')}}"><i class="fa fa-edit fa-spin"></i>Edit Profile</a></li>
-                    </ul>
-                </div>
-            </li> -->
             @if(Auth::user()->Admin())
               <li>
                 <div class="collapsible-header">
-                    <i class="fa fa-lock"></i>Admin<span><i class="fa fa-caret-right right fa-spin"></i></span>
+                    <i class="fa fa-lock fa-spin"></i>Admin<span><i class="fa fa-caret-right right fa-spin"></i></span>
                 </div>
                 <div class="collapsible-body">
                     <ul>
-                      <li><a href="{{route('event')}}"><i class="fa fa-lock"></i>Event</a></li>
-                      <li><a href="{{route('report')}}"><i class="icofont icofont-chart-histogram"></i>Report</a></li>
+                      <li><a href="{{route('event')}}"><i class="fa fa-lock fa-spin"></i>Event</a></li>
+                      <li><a href="{{route('report')}}"><i class="icofont icofont-chart-histogram fa-spin"></i>Report</a></li>
                     </ul>
                 </div>
               </li>

@@ -15,4 +15,8 @@ class Service extends Model
   public static function createServiceEvent(Event $event){
   	return ;
   }
+
+  public function event(){
+  	return $this->hasMany(Event::class);
+  }
 }

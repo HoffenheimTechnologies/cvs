@@ -54,7 +54,7 @@ class AdminController extends Controller
       ]);
       if ($create) {
         # deactivate ative event
-        $active = Event::where('active', 1)->where('id', '!=', $create->id)->get();
+        // $active = Event::where('active', 1)->where('id', '!=', $create->id)->get();
         #set users that hasnt mark the active attendance to NULL
         //select users not in attendance with active event
         //$ignoring =  Users::select()->whereRaw()->with('users')->get();
@@ -68,11 +68,12 @@ class AdminController extends Controller
             'event_id' => $create->id
           ]);
         }
-        foreach ($active as $key => $value) {
-          # code...
-          $value->active = 0;
-          $value->save();
-        }
+        // # deactivate ative event
+        // foreach ($active as $key => $value) {
+        //   # code...
+        //   $value->active = 0;
+        //   $value->save();
+        // }
         $users = User::all();
         foreach ($users as $key => $user) {
           // code...

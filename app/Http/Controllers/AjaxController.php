@@ -14,6 +14,12 @@ class AjaxController extends Controller
       // return response()->json([]);
     }
 
+    public function getEvents(Request $request){
+      $event = \App\Event::with('service')->get();
+      return Datatables::of($event)->make();
+      // return response()->json([]);
+    }
+
     public function deleteService(Request $request){
       $service = \App\Service::find($request->id);
       if($service){
@@ -44,6 +50,16 @@ class AjaxController extends Controller
       if ($event) {
         $state = \App\Event::disableEvent($event);
         return response()->json(['status' => true, 'state' => $state]);
+      }
+      return response()->json(['status' => false]);
+    }
+
+    public function deleteEvent(Request $request){
+      $event = \App\Event::find($request->id);
+      if($event){
+        $event->delete();
+        // $event->save();
+        return response()->json(['status' => true]);
       }
       return response()->json(['status' => false]);
     }

@@ -47,4 +47,8 @@ class Event extends Model
   public function attendance(){
   	return $this->hasMany(Attendance::class);
   }
+
+  public function service(){
+  	return $this->belongsTo(Service::class);
+  }
 }

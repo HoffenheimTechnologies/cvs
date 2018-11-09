@@ -30,9 +30,6 @@
 									<button id="disable-event" type="button"
 									class="tabledit-save-button btn btn-sm btn-info" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order">Disable</button><br>
 									<input id="event_id" type="hidden" value="{{$active->id}}" />
-									<!-- <div class="col-6 counter-card-icon card-block-big">
-										<i class="icofont icofont-chart-line"></i>
-									</div> -->
 								</div>
 							</div>
 						</div>
@@ -40,7 +37,7 @@
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 countdown-wrapper text-center mb20" style="padding-right: 15px; padding-left: 0;">
 									<div class="card-header">
-										<h5 class="card-header-text">Event Countdown</h5>
+										<h5 class="card-header-text" style="margin-bottom:50px">Event Countdown</h5>
 									</div>
 									<div id="countdown">
 											<div class="row" >
@@ -66,64 +63,64 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="card-header">
-					<h5 class="card-header-text">Stat</h5>
-				</div>
-				<div class="col-sm-12 col-md-4 col-xl-4">
-					<div class="card counter-card-1">
-						<div class="card-block-big">
-							<div class="row">
-								<div class="col-6 counter-card-icon">
-									<i class="icofont icofont-chart-histogram"></i>
-								</div>
-								<div class="col-6  text-right">
-									<div class="counter-card-text">
-										<h3>{{$stat->yes}}</h3>
-										<p>Coming</p>
+					<div class="card-header">
+						<h5 class="card-header-text">Stat</h5>
+					</div>
+					<div class="col-sm-12 col-md-4 col-xl-4">
+						<div class="card counter-card-1">
+							<div class="card-block-big">
+								<div class="row">
+									<div class="col-6 counter-card-icon">
+										<i class="icofont icofont-chart-histogram"></i>
+									</div>
+									<div class="col-6  text-right">
+										<div class="counter-card-text">
+											<h3>{{$stat->yes}}</h3>
+											<p>Coming</p>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="col-sm-12 col-md-4 col-xl-4">
-					<div class="card counter-card-2">
-						<div class="card-block-big">
-							<div class="row">
-								<div class="col-6 counter-card-icon">
-									<i class="icofont icofont-chart-line-alt"></i>
-								</div>
-								<div class="col-6 text-right">
-									<div class="counter-card-text">
-										<h3>{{$stat->no}}</h3>
-										<p>Not Coming</p>
+					<div class="col-sm-12 col-md-4 col-xl-4">
+						<div class="card counter-card-2">
+							<div class="card-block-big">
+								<div class="row">
+									<div class="col-6 counter-card-icon">
+										<i class="icofont icofont-chart-line-alt"></i>
+									</div>
+									<div class="col-6 text-right">
+										<div class="counter-card-text">
+											<h3>{{$stat->no}}</h3>
+											<p>Not Coming</p>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="col-sm-12 col-md-4 col-xl-4">
-					<div class="card counter-card-3">
-						<div class="card-block-big">
-							<div class="row">
-								<div class="col-6 counter-card-icon">
-									<i class="icofont icofont-chart-line"></i>
-								</div>
-								<div class="col-6 text-right">
-									<div class="counter-card-text">
-										<h3>{{$stat->ignored}}</h3>
-										<p>Ignoring</p>
+					<div class="col-sm-12 col-md-4 col-xl-4">
+						<div class="card counter-card-3">
+							<div class="card-block-big">
+								<div class="row">
+									<div class="col-6 counter-card-icon">
+										<i class="icofont icofont-chart-line"></i>
+									</div>
+									<div class="col-6 text-right">
+										<div class="counter-card-text">
+											<h3>{{$stat->ignored}}</h3>
+											<p>Ignoring</p>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
+				</div>
 			</div>
 
 		@endif
@@ -174,6 +171,21 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="card-header">
+							<h5 class="card-header-text">List Of Events</h5>
+						</div>
+						<div class="card-block">
+							<div class="table-responsive">
+								<table id="events" class="table table-striped table-bordered nowrap">
+									<thead>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
 					</div>
 
 				</div>
@@ -320,6 +332,7 @@
 			    });
 			});
 		});
+
 		//counter
 		counter("{{$active->event_edate}}");
 		//time picker for create event
@@ -337,6 +350,8 @@
         pick12HourFormat: false
 	    });
 		});
+
+		//cretae eveent
   	// $('#dropper-default').dateDropper();
 		$('#create').click(function(){
 			let sdate = $('#start').val();
@@ -370,7 +385,8 @@
 			  	).done(function(response){
 						toggleAble('#create', false);
 			  		if(response.status){
-          				swal("Success!", "Event Created", "success");
+      				swal("Success!", "Event Created", "success");
+							eventTable.ajax.reload()
 			  		}else{
 			  			swal("Oops", ""+response.reason, "error");
 			  		}
@@ -381,8 +397,8 @@
 			    });
 			});
 	 	});
+
 		//service table
-		//report table
 	  var serviceTable = $('#service').DataTable({
 	    processing: true,
 	    serverSide: true,
@@ -401,14 +417,60 @@
 	       	{ title: "Day end", "data": "3" },
 	       	{ title: "Action", //"data": "4",
 	         render : function( data, type, full, meta ) {
-	           return `<div class="tabledit-toolbar btn-toolbar" style="text-align: left;"><div class="btn-group btn-group-sm" style="float: none;">
-						 <button type="button" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-edit"></span></button>
-						 <button type="button" class="deleteBtn tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-delete"></span></button></div>
-						 <button type="button" class="tabledit-confirm-button btn btn-sm btn-danger" style="display: none; float: none;">Confirm</button>
+	           return `
+						 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;"><div class="btn-group btn-group-sm" style="float: none;">
+							 <button type="button" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-edit"></span></button>
+							 <button type="button" class="deleteBtn tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-delete"></span></button>
+						 </div>
 						 `
 	         }
 	       },
-	       // { "data": "4" }
+	     ]
+	  });
+
+		//event table
+	  var eventTable = $('#events').DataTable({
+	    processing: true,
+	    serverSide: true,
+			oLanguage: {sProcessing: "<div class='text-center' id='loader'></div>"},
+	    ajax: {
+	      "url": "{{route('events.get')}}",
+	      "type": "GET",
+	      "data": {
+	         "report": "1"
+	      }
+	    },
+	    "columns": [
+					{ title: "S/N", "data": "0" },
+	      	{ title: "Start Date", "data": "1" },
+	       	{ title: "End Date", "data": "2" },
+	       	{ title: "Service Type", "data": "7.name" },
+					{ title: "Active", //"data": "4",
+					render : function( data, type, full, meta ) {
+					 return `
+					 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+	 		 			<div class="btn-group btn-group-sm" style="float: none;">`+
+						(data == '0' ? `
+						 <button type="button" data-placement="up" title="Enable" class="event-toggle tabledit-edit-button btn btn-success waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-check"></span></button>
+						 `:`
+						 <button type="button" data-placement="up" title="Disable" class="event-toggle deleteBtn tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-close"></span></button>
+					 	`)+`</div>
+					 </div>
+					 `
+				 }
+					},
+	       	{ title: "Action", //"data": "4",
+	         render : function( data, type, full, meta ) {
+	           return `
+						 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+		 		 			<div class="btn-group btn-group-sm" style="float: none;">
+							 <button type="button" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-edit"></span></button>
+							 <button type="button" class="deleteBtn tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-delete"></span></button>
+						 	</div>
+						 </div>
+						 `
+	         }
+	       },
 	     ]
 	  });
 
@@ -424,15 +486,9 @@
 				dangerMode: true,
 				showCancelButton: true,
 			},function(){
-					//get the id
-					// let id = alert($(this).parent().closest('tr').find('td').first().text())
 					//delete from server
 					ajaxConnect("{{route('service.delete')}}", {'id': id, '_token': '{{ csrf_token() }}'}, serviceTable.ajax.reload)
 			})
-			// $(this).html('<input value="'+value+'" />')
-			// alert($(this).find('td').first().text())
-			// this.remove().draw();
-        // serviceTable.inline( this );
     });
 
 		// edit table row
@@ -463,6 +519,7 @@
 			})
     });
 
+		//service
 		//for cancel
 		$('#service').on( 'click', 'tbody tr td .tabledit-restore-button', function (e) {
 			serviceTable.ajax.reload()
@@ -488,33 +545,66 @@
 			})
 		})
 
- 	});
-	//disable event
-	$('#disable-event').click(function(){
-		let $this = $(this);
-		let id = $('#event_id').val()
-	  var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';
-	  if ($(this).html() !== loadingText) {
-	    $this.data('original-text', $(this).html());
-			// $this.data('false-text', $this.text())
-	    $this.html(loadingText);
-	  }
-		ajaxConnect("{{route('event.able')}}", {'id': id, '_token': '{{ csrf_token() }}'}, false, function(response){
-			console.log(response)
-			$this.html($this.data('original-text'))
-			if (response.state) {
-				$this.text('Disable')
-			}else{
-				$this.text('Enable')
-			}
-			// $this.prop('disabled', true)
+		//event
+		// toggleEventActivity table
+		$('#events').on( 'click', 'tbody tr td .event-toggle', function (e) {
+			let id = $($(this).parent().closest('tr').find('td')[0]).text()
+			toggleEventActivity(id, function(response){
+				eventTable.ajax.reload()
+			})
 		})
 
-	})
+		// delete table row
+    $('#events').on( 'click', 'tbody tr td .deleteBtn', function (e) { //td:not(:first-child)
+			id = $(this).parent().closest('tr').find('td').first().text()
+			//confirm delete
+			swal({
+				title: "Are you sure",
+				confirmButtonText: 'Delete',
+				type: "warning",
+				buttons: true,
+				dangerMode: true,
+				showCancelButton: true,
+			},function(){
+					//delete from server
+					ajaxConnect("{{route('event.delete')}}", {'id': id, '_token': '{{ csrf_token() }}'}, function(){
+						serviceTable.ajax.reload()
+					})
+			})
+    });
+
+		//disable event
+		$('#disable-event').click(function(){
+			let $this = $(this);
+			let id = $('#event_id').val()
+			var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';
+			if ($(this).html() !== loadingText) {
+				$this.data('original-text', $(this).html());
+				// $this.data('false-text', $this.text())
+				$this.html(loadingText);
+			}
+			toggleEventActivity(id, function(response){
+				console.log(response)
+				$this.html($this.data('original-text'))
+				if (response.state) {
+					$this.text('Disable')
+				}else{
+					$this.text('Enable')
+				}
+				eventTable.ajax.reload()
+			})
+		})
+
+ 	});
 
 	function toggleAble(element,bool){
 		$(element).prop('disabled', bool);
 		// $(element).find('#loader').show();
+	}
+
+	//disable event
+	function toggleEventActivity(id, fn){
+		ajaxConnect("{{route('event.able')}}", {'id': id, '_token': '{{ csrf_token() }}'}, false, fn)
 	}
 
 	function ajaxConnect(url, data, reloadcall, fn){
@@ -534,7 +624,11 @@
 			}else{
 				swal("Oops", "Not successfull", "error");
 			}
-			fn(response)
+			if (typeof fn === "function") {
+				fn()
+			}else{
+				fn(response)
+			}
 		})
 		.error(function(error){
 			return error;
