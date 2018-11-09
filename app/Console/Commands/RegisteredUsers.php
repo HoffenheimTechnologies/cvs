@@ -76,13 +76,12 @@ class RegisteredUsers extends Command
     public function handleEventDown()
     {
         //check for expired events
-        \DB::table('events')->where('active', 1)->where()->get();
-        $totalUsers = \DB::table('users')
-                  ->whereRaw('Date(created_at) = CURDATE()')
-                  ->count();
-        Event::create([
-                'event_sdate' => NOW(),
-                'event_edate' => NOW("+24 hours")
-            ]);
+        $expired_events = \DB::table('events')->where('active', 1)->where('event_edate', NOW())->get();
+        //disable each expired events
+        foreach ($expired_events as $key => $event) {
+          // set event not active
+          $event->active = 0;
+          $event->save();
+        }
     }
 }

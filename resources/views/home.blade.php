@@ -19,7 +19,8 @@
 @if(isset($pending_attendance))
 <!-- slide -->
 <div class="container bg-primary" id="question" style="{{isset($success) && ($success == 1 ) || !(isset($message)) ? 'display:block' : 'display:none'}}">
-    <div class="slide">
+  <!-- <div id='loader'></div> -->
+    <div id="question-div" class="slide">
         <div class="slide-show owl-carousel owl-theme">
           <div class="row">
             <div class="col-md-12">
@@ -31,7 +32,7 @@
                     <h5 class="text-capitalize p-b-10">{{ucwords($user->firstname.' '.$user->lastname)}}</h5>
                   </div>
                   <div class="card-contain text-center p-t-10">
-                    <h5 class="text-capitalize p-b-10">Will you attend the service on:</h5>
+                    <h5 class="text-capitalize p-b-10">Will you attend the {{$pending_attendance->service->name}} on:</h5>
                     <p class="text-muted">{{date('l jS \of F Y', strtotime($pending_attendance->event_edate))}}?</p>
                     <div id="timer">
                       <div class="row">
@@ -77,6 +78,9 @@
                   </div>
                 </div>
               </div>
+
+              <div id='root'></div>
+
             </div>
           </div>
         </div>
@@ -107,6 +111,105 @@
 
 @section('script')
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/babel" >
+function Header(props){
+  return (
+    <div className="top-card text-center section-title">
+      <i className="fa fa-user-circle"></i>
+      <h5 className="p-b-10">Hello!</h5>
+      <h5 className="text-capitalize p-b-10">{props.name[0] +' '+props.name[1]}</h5>
+    </div>
+  )
+}
+
+function Timer(props){
+  return (
+    <div id="timer">
+      <div className="row">
+        <div className="col-xs-12 col-sm-12 col-md-12 countdown-wrapper text-center mb20" style=@{{paddingRight:" 15px", paddingLeft: "0"}}>
+          <div id="countdown">
+            <p className="text-muted">Time Left</p>
+            <br />
+              <div className="row" >
+                <div className="col-xs-3">
+                  <span id="day" className="timer bg-success">{props.time.days}</span>
+                  <span id="" className="intervals">Days</span>
+                </div>
+                <div className="col-xs-3">
+                  <span id="hour" className="timer bg-primary">{props.time.days}</span>
+                  <span id="" className="intervals">Hrs</span>
+                </div>
+                <div className="col-xs-3">
+                  <span id="min" className="timer bg-info">{props.time.days}</span>
+                  <span id="" className="intervals">Mins</span>
+                </div>
+                <div className="col-xs-3">
+                  <span id="sec" className="timer bg-danger">{props.time.days}</span>
+                  <span id="" className="intervals">Secs</span>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Event(props){
+  return (
+    <div className="card-contain text-center p-t-10">
+      <h5 className="text-capitalize p-b-10">Will you attend the {props.event.name} on:</h5>
+      <p className="text-muted">{props.event.edate}?</p>
+      <Timer time=@{{days: 2, hours: 3, mins: 4, secs: 5}} />
+    </div>
+  )
+}
+function Marker(props){
+  return (
+    <div className="card-button">
+      <form id="mark_form" method="post" onsubmit="event.preventDefault();">
+        <input id="attendance_input" type="hidden" name="attendance" />
+        <input id="" type="hidden" name="event_id" value={props.attendance.id} />
+        <div className="col-6 pull-right">
+          <button id="yes" className="btn btn-success btn-round"><i className="fa fa-thumbs-up"></i> Yes</button>
+        </div>
+        <div className="col-6 pull-left">
+          <button id="no" className="btn btn-danger btn-round"><i className="fa fa-thumbs-down"></i> No</button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+function Card(props){
+  return(
+    <div className="user-card-block card" id="prompt">
+      <div class="card-block">
+        <Header name={["Michael", "Ishola"]} />
+        <Event event=@{{name: "Sunday Service", edate: "2018-10-09"}} />
+        <Marker attendance=@{{"id": 3}} />
+      </div>
+    </div>
+  )
+}
+class App extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      todos : [],
+    }
+  }
+  render(){
+    return (
+      <Card />
+    )
+  }
+}
+ReactDOM.render(
+<App />,
+document.getElementById('roots')
+)
+</script>
 <script>
   $(document).ready(function(){
     @if(isset($pending_attendance))
@@ -181,4 +284,7 @@
 @endsection
 @section('jslink')
 <script src="{{URL::asset('js/counter.js')}}"></script>
+<script src="{{URL::asset('js/react.min.js')}}"></script>
+<script src="{{URL::asset('js/react-dom.min.js')}}"></script>
+<script src="{{URL::asset('js/babel.js')}}"></script>
 @endsection
