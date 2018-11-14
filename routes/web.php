@@ -21,6 +21,9 @@ Route::get('/history', 'HomeController@history')->name('attendance.history');
 Route::get('/event/get', 'HomeController@getevent')->name('getevent');
 Route::get('/attendances', 'HomeController@at')->name('at');
 
+//attendance
+Route::get('/attendance/get', 'AjaxController@getAttendance')->name('attendance.get');
+
 //admin
 Route::get('/event', 'AdminController@event')->name('event');
 Route::post('/event/create', 'AdminController@eventCreate')->name('event.create');
