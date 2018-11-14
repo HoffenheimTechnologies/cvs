@@ -21,6 +21,13 @@ class Event extends Model
     ->first();
   }
 
+  public static function getActives(){
+    $datetime = now("+1 hours");
+    return Event::
+    where('active', '1')->where('event_sdate', '<=' , $datetime)->where('event_edate', '>=' , $datetime)->with('service')
+    ->get();
+  }
+
   public static function getEventByEndDate($event_date){
     return Event::where('event_edate', $event_date)->first();
   }
