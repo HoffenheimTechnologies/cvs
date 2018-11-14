@@ -16,68 +16,14 @@
         </div>
     </div>
 	<!-- end done process -->
-@if(isset($pending_attendance))
+<!-- @ ''' if(isset($pending_attendance)) -->
 <!-- slide -->
-<div class="container bg-primary" id="question" style="{{isset($success) && ($success == 1 ) || !(isset($message)) ? 'display:block' : 'display:none'}}">
+<div class="container bg-primary" id="question" style="">
   <!-- <div id='loader'></div> -->
     <div id="question-div" class="slide">
         <div class="slide-show owl-carousel owl-theme">
           <div class="row">
             <div class="col-md-12">
-              <div class="user-card-block card" id="prompt">
-                <div class="card-block">
-                  <div class="top-card text-center section-title">
-                    <!-- <i class="fa fa-user-circle"></i> -->
-                    <h5 class="p-b-10">Hello!</h5>
-                    <h5 class="text-capitalize p-b-10">{{ucwords($user->firstname.' '.$user->lastname)}}</h5>
-                  </div>
-                  <div class="card-contain text-center p-t-10">
-                    <h5 class="text-capitalize p-b-10">Will you attend the {{$pending_attendance->service->name}} on:</h5>
-                    <p class="text-muted">{{date('l jS \of F Y', strtotime($pending_attendance->event_edate))}}?</p>
-                    <div id="timer">
-                      <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 countdown-wrapper text-center mb20" style="padding-right: 15px; padding-left: 0;">
-        	                <div id="countdown">
-                            <p class="text-muted">Time Left</p>
-                            <br>
-                              <div class="row" >
-                                <div class="col-xs-3">
-                                  <span id="day" class="timer bg-success"></span>
-                                  <span id="" class="intervals">Days</span>
-                                </div>
-                                <div class="col-xs-3">
-                                  <span id="hour" class="timer bg-primary"></span>
-                                  <span id="" class="intervals">Hrs</span>
-                                </div>
-                                <div class="col-xs-3">
-                                  <span id="min" class="timer bg-info"></span>
-                                  <span id="" class="intervals">Mins</span>
-                                </div>
-                                <div class="col-xs-3">
-                                  <span id="sec" class="timer bg-danger"></span>
-                                  <span id="" class="intervals">Secs</span>
-                                </div>
-                              </div>
-                        	</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-button"><!-- p-t-50 -->
-                    <form id="mark_form" method="post" onsubmit="event.preventDefault();">
-                      @csrf
-                      <input id="attendance_input" type="hidden" name="attendance" />
-                      <input id="" type="hidden" name="event_id" value="{{$pending_attendance->id}}" />
-                      <div class="col-6 pull-right">
-                        <button id="yes" class="btn btn-success btn-round"><i class="fa fa-thumbs-up"></i> Yes</button>
-                      </div>
-                      <div class="col-6 pull-left">
-                        <button id="no" class="btn btn-danger btn-round"><i class="fa fa-thumbs-down"></i> No</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
 
               <div id='root'></div>
 
@@ -86,26 +32,6 @@
         </div>
     </div>
 </div>
-<!-- end slide -->
-@else
-<!-- No event yet -->
-<div class="container" style="{{isset($success) && !($success == 1 ) || !(isset($message)) ? 'display:block' : 'display:none'}}">
-    <div class="col-md-12 col-xl-12">
-        <div class="bg-primary card week-status-card">
-            <div class="card-block-big text-center">
-                <p>No Attendance Yet</p>
-                <h2>Check back later</h2>
-            </div>
-            <div class="card-footer">
-                <p class="text-right m-0">
-                    {{NOW()}} <span> </span> <i class="icofont icofont-caret-down text-danger"></i>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end no event yet -->
-@endif
 
 @endsection
 
@@ -168,6 +94,7 @@ function Event(props){
     </div>
   )
 }
+
 function Marker(props){
   let id = props.id
   return (
@@ -177,15 +104,33 @@ function Marker(props){
         <input id="" type="hidden" name="_token" value="{{csrf_token()}}" />
         <input id="" type="hidden" name="event_id" value={id} />
         <div className="col-6 pull-right">
-          <a onClick={() => props.mark(event, 1)}  id={"yes" + id} className="btn btn-success btn-round"><i className="fa fa-thumbs-up"></i> Yes</a>
+          <a onClick={() => props.mark(event, 1,() => {props.refresh()})}  id={"yes" + id} className="btn btn-success btn-round"><i className="fa fa-thumbs-up"></i> Yes</a>
         </div>
         <div className="col-6 pull-left">
-          <a onClick={() => props.mark(event, 0)} id={"no" + id} className="btn btn-danger btn-round"><i className="fa fa-thumbs-down"></i> No</a>
+          <a onClick={() => props.mark(event, 0,() => {props.refresh()})} id={"no" + id} className="btn btn-danger btn-round"><i className="fa fa-thumbs-down"></i> No</a>
         </div>
       </form>
     </div>
   )
 }
+
+var NoAttendnace = () => (
+  <div className="container">
+      <div className="col-md-12 col-xl-12">
+          <div className="bg-primary card week-status-card">
+              <div className="card-block-big text-center">
+                  <p>No Attendance Yet</p>
+                  <h2>Check back later</h2>
+              </div>
+              <div className="card-footer">
+                  <p className="text-right m-0">
+                      {"{{NOW()}}" }<span> </span> <i className="icofont icofont-caret-down text-danger"></i>
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+)
 
 class Attendance extends React.Component {
   constructor(props) {
@@ -206,8 +151,7 @@ class Attendance extends React.Component {
     clearInterval(this.state.x)
   }
 
-  mark = (e,num) => {
-    console.log(num)
+  mark = (e,num,fn) => {
     let id = this.state.attendance.id
     $('#attendance_input' + id).val(num);
     swal({
@@ -231,16 +175,15 @@ class Attendance extends React.Component {
         }).done(function(response){
           if(response.status){
             swal("Success!", "Attendance Marked Successfully", "success");
-            console.log(this.state.refresh);
-            () => this.state.refresh
+            fn()
           }else{
             if(response.e){
               console.log(response.e);
               swal("Oops", "Error occured! Error: "+response.e, "error");
-              () => this.state.refresh
+              fn()
             }else{
               swal("Oops", ""+response.reason, "error");
-              () => this.state.refresh
+              fn()
             }
           }
         });
@@ -284,7 +227,7 @@ class Attendance extends React.Component {
           <Event timer=@{{id: this.state.attendance.id}}
             event=@{{name: this.state.attendance.service.name, edate: this.state.attendance.event_edate}}
           />
-          <Marker id={this.state.attendance.id} mark={this.mark} />
+          <Marker refresh={this.state.refresh} id={this.state.attendance.id} mark={this.mark} />
         </div>
       </div>
     )
@@ -323,7 +266,7 @@ class App extends React.Component {
     })
     return (
       <div>
-        {cards}
+        { cards.length === 0 ? <NoAttendnace /> : cards }
       </div>
     )
   }

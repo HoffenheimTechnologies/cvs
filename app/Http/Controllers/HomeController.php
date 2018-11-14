@@ -105,26 +105,26 @@ class HomeController extends Controller
         return response()->json(['status' => false, 'reason' => 'couldnt check attendance', "e" => $e]);
       }
       //mark the attendance
-      // try {
-      //   $active = Event::getActive();
-      //   $mark = Attendance::where('user_id', $user->id)->where('event_id', $active->id)->first();
-      //   //probably the user might be a new user
-      //   if (!$mark) {
-      //     // code...
-      //     Attendance::create([
-      //       'attendance' => $attendance,
-      //       'user_id' => $user->id,
-      //       'event_id' => $active
-      //     ]);
-      //   }else{
-      //     $mark->attendance = $attendance;
-      //     $mark->save();
-      //     //notify successfull attendance
-      //     $user->notify(new \App\Notifications\WebNotice('Attendance Marked', 'You will '.($attendance ? 'attend ' : 'not attend ').explode(' ', $active->event_edate)[0].' event', route('home')));
-      //   }
-      // } catch (\Exception $e) {
-      //   return response()->json(['status' => false, "e" => $e->getMessage()]);
-      // }
+      try {
+        $active = Event::getActive();
+        $mark = Attendance::where('user_id', $user->id)->where('event_id', $active->id)->first();
+        //probably the user might be a new user
+        if (!$mark) {
+          // code...
+          Attendance::create([
+            'attendance' => $attendance,
+            'user_id' => $user->id,
+            'event_id' => $active
+          ]);
+        }else{
+          $mark->attendance = $attendance;
+          $mark->save();
+          //notify successfull attendance
+          $user->notify(new \App\Notifications\WebNotice('Attendance Marked', 'You will '.($attendance ? 'attend ' : 'not attend ').explode(' ', $active->event_edate)[0].' event', route('home')));
+        }
+      } catch (\Exception $e) {
+        return response()->json(['status' => false, "e" => $e->getMessage()]);
+      }
       //return data
       return response()->json(['status' => true]);
     }
