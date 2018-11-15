@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Datatables;
+use Auth;
 
 class AjaxController extends Controller
 {
@@ -62,5 +63,20 @@ class AjaxController extends Controller
         return response()->json(['status' => true]);
       }
       return response()->json(['status' => false]);
+    }
+
+    public function getAttendance(Request $request){
+      $user = Auth::user();
+      $marked = false;
+      $pending_attendance = collect(new \App\Attendance);
+      //check for active event
+      $attendancess = \App\Event::getActives();
+      foreach($attendancess as $attendances){
+        //check if user already marked the event attendance
+        if(!$attendance = \App\Attendance::isMarked($attendances, $user)){
+          $pending_attendance->push($attendances);
+        }
+      }
+      return response()->json(['status' => true, 'pending_attendance' => $pending_attendance]);
     }
 }
