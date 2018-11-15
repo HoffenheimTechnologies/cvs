@@ -106,7 +106,7 @@ class HomeController extends Controller
       }
       //mark the attendance
       try {
-        $active = Event::getActive();
+        $active = $event;//Event::getActive();
         $mark = Attendance::where('user_id', $user->id)->where('event_id', $active->id)->first();
         //probably the user might be a new user
         if (!$mark) {
