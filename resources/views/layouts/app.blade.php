@@ -148,20 +148,6 @@
         </div>
     </footer>
     <!-- end footer -->
-
-<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBJd9XyDOZYH_kemaY4lfSvapWLM4TqAgY",
-    authDomain: "cvms-4bd42.firebaseapp.com",
-    databaseURL: "https://cvms-4bd42.firebaseio.com",
-    projectId: "cvms-4bd42",
-    storageBucket: "cvms-4bd42.appspot.com",
-    messagingSenderId: "523551357632"
-  };
-  firebase.initializeApp(config);
-</script>
     <script src="{{URL::asset('js/jquery.min.js')}}"></script>
     <script src="{{URL::asset('js/materialize.min.js')}}"></script>
     <script src="{{URL::asset('js/owl.carousel.min.js')}}"></script>
