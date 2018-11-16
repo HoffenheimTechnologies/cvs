@@ -319,7 +319,7 @@
 			  	).done(function(response){
 			  		if(response.status){
       				swal("Success!", "Service Created", "success");
-							serviceTable.ajax.reload();
+							serviceTable.ajax.reload(null, false);
 							name.val('')
 							sdate.val('')
 							edate.val('')
@@ -386,7 +386,7 @@
 						toggleAble('#create', false);
 			  		if(response.status){
       				swal("Success!", "Event Created", "success");
-							eventTable.ajax.reload()
+							eventTable.ajax.reload(null, false)
 			  		}else{
 			  			swal("Oops", ""+response.reason, "error");
 			  		}
@@ -522,7 +522,7 @@
 		//service
 		//for cancel
 		$('#service').on( 'click', 'tbody tr td .tabledit-restore-button', function (e) {
-			serviceTable.ajax.reload()
+			serviceTable.ajax.reload(null, false)
 		})
 
 		//for save
@@ -550,7 +550,7 @@
 		$('#events').on( 'click', 'tbody tr td .event-toggle', function (e) {
 			let id = $($(this).parent().closest('tr').find('td')[0]).text()
 			toggleEventActivity(id, function(response){
-				eventTable.ajax.reload()
+				eventTable.ajax.reload(null, false)
 			})
 		})
 
@@ -568,7 +568,7 @@
 			},function(){
 					//delete from server
 					ajaxConnect("{{route('event.delete')}}", {'id': id, '_token': '{{ csrf_token() }}'}, function(){
-						serviceTable.ajax.reload()
+						serviceTable.ajax.reload(null, false)
 					})
 			})
     });
@@ -591,7 +591,7 @@
 				}else{
 					$this.text('Enable')
 				}
-				eventTable.ajax.reload()
+				eventTable.ajax.reload(null, false )
 			})
 		})
 

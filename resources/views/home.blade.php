@@ -23,9 +23,7 @@
     <div id="question-div" class="slide">
         <div class="slide-show owl-carousel owl-theme">
           <div class="row">
-            <div class="col-md-12">
-
-              <div id='root'></div>
+            <div id='root' class="col-md-12">
 
             </div>
           </div>
@@ -43,7 +41,7 @@ function Header(props){
     <div className="top-card text-center section-title">
       <i className="fa fa-user-circle"></i>
       <h5 className="p-b-10">Hello!</h5>
-      <h5 className="text-capitalize p-b-10">{props.name[0] +' '+props.name[1]}</h5>
+      <h5 className="text-capitalize p-b-10">{props.name}</h5>
     </div>
   )
 }
@@ -222,8 +220,8 @@ class Attendance extends React.Component {
   render(){
     return(
       <div className="user-card-block card" id="prompt">
-        <div class="card-block">
-          <Header name={["Michael", "Ishola"]} />
+        <div className="card-block">
+          <Header name="{{ucwords($user->firstname.' '.$user->lastname)}}" />
           <Event timer=@{{id: this.state.attendance.id}}
             event=@{{name: this.state.attendance.service.name, edate: this.state.attendance.event_edate}}
           />
