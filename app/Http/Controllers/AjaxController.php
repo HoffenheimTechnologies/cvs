@@ -79,4 +79,9 @@ class AjaxController extends Controller
       }
       return response()->json(['status' => true, 'pending_attendance' => $pending_attendance]);
     }
+
+    public function getService(){
+      $services = \App\Service::all();
+      return response()->json(['status' => true, 'services' => $services]);
+    }
 }

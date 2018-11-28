@@ -37,6 +37,7 @@ Route::post('/event/delete', 'AjaxController@deleteEvent')->name('event.delete')
 Route::post('/service/create', 'AdminController@createService')->name('service.create');
 //ajax
 Route::get('/service/get', 'AjaxController@getServices')->name('services.get');
+Route::get('/service/get/all', 'AjaxController@getService')->name('getService');
 Route::post('/service/delete', 'AjaxController@deleteService')->name('service.delete');
 Route::post('/service/update', 'AjaxController@updateService')->name('service.update');
 //admin
