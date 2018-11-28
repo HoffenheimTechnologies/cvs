@@ -3,10 +3,12 @@
 @section('css')
 <link rel="stylesheet" href="{{URL::asset('css/bootstrap-datetimepicker.min.css')}}">
 <link rel="stylesheet" href="{{URL::asset('css/counter.css')}}">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="{{URL::asset('css/jquery.dataTables.min.css')}}">
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> -->
 <!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.4/css/buttons.dataTables.min.css"> -->
 <!-- <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css"> -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
+<link rel="stylesheet" href="{{URL::asset('css/material.min.css')}}">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css"> -->
 <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css"> -->
 @endsection
 @section('content')
@@ -643,9 +645,11 @@
 <script src="{{URL::asset('js/bootstrap-datetimepicker.min.js')}}"></script>
 <script src="{{URL::asset('js/counter.js')}}"></script>
 <!--  -->
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="{{URL::asset('js/jquery.dataTables.min.js')}}"></script>
+<!-- <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
 <!-- <script src="https://cdn.datatables.net/buttons/1.5.4/js/dataTables.buttons.min.js"></script> -->
 <!-- <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script> -->
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.material.min.js"></script>
+<script src="{{URL::asset('js/dataTables.material.min.js')}}"></script>
+<!-- <script src="https://cdn.datatables.net/1.10.19/js/dataTables.material.min.js"></script> -->
 <!-- <script src="{{URL::asset('js/dataTables.editor.min.js')}}"></script> -->
 @endsection
