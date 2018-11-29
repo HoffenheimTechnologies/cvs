@@ -117,7 +117,7 @@ class AdminController extends Controller
           if ($request->find || $request->report) {
             if ($request->find) {
               // code...for finding event
-              $event_date = $request->sdate;
+              $event_date = $request->date;
               $event = Event::getEventByEndDate($event_date);
             }else {
               //initial

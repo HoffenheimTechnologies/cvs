@@ -76,7 +76,7 @@
             <li>
                 <div class="user-view">
                     <div class="background">
-                        <img src="images/bg-user.html" alt="">
+                        <img src="push.png" alt="">
                     </div>
                     <h2><span></span>{{ config('app.name') }}</h2>
                     <p>Validation Management System</p>
@@ -160,6 +160,18 @@
 
     @yield('script')
     <script type="text/javascript">
+      function toggleAble(element,bool){
+    		$(element).prop('disabled', bool);
+    		// $(element).find('#loader').show();
+    		let $this = $(element);
+    		var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';
+    		if (bool) {
+    			$this.data('original-text', $($this).html());
+    			$this.html(loadingText);
+    		}else{
+    			$this.html($this.data('original-text'))
+    		}
+    	}
       $(document).ready(function(){
         $(".card-header-right .icofont-rounded-down").on('click',function(){
           var $this=$(this);var port=$($this.parents('.card'));

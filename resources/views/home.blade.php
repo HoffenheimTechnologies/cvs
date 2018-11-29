@@ -137,7 +137,6 @@ class Attendance extends React.Component {
       attendance : props.attendance,
       refresh: props.refresh
     }
-    console.log(this.state.refresh)
   }
 
   componentDidMount(){
@@ -165,22 +164,30 @@ class Attendance extends React.Component {
           values[field.name] = field.value;
         });
         //disble buttons
-        $('#yes' + id).prop('disabled', true);
-        $('#no' + id).prop('disabled', true);
+        toggleAble('#yes' + id, true)
+        toggleAble('#no' + id, true)
         //process the form
         $.ajax({
             type: 'POST', url: "{{route('mark')}}", data: values, dataType: 'json', encode: true
         }).done(function(response){
           if(response.status){
             swal("Success!", "Attendance Marked Successfully", "success");
+            toggleAble($('#yes' + id), false)
+            toggleAble($('#no' + id), false)
             fn()
           }else{
             if(response.e){
               console.log(response.e);
+              toggleAble($('#yes' + id), false)
+              toggleAble($('#no' + id), false)
               swal("Oops", "Error occured! Error: "+response.e, "error");
               fn()
             }else{
               swal("Oops", ""+response.reason, "error");
+              $('#yes' + id).prop('disabled', false)
+              $('#no' + id).prop('disabled', false)
+              toggleAble($('#yes' + id), false)
+              toggleAble($('#no' + id), false)
               fn()
             }
           }
@@ -248,9 +255,7 @@ class App extends React.Component {
     $.ajax({url: "{{route('attendance.get')}}", type: 'GET', dataType: 'json', encode: true})
     .done((response) => {
       if (response.status) {
-        this.setState({attendance: response.pending_attendance})
-      }else{
-
+        this.setState({attendance: response.pending_attendance}, () => console.log(this.state.attendance))
       }
     })
     .error(() => {
@@ -258,31 +263,16 @@ class App extends React.Component {
     })
   }
   render(){
-    let cards = []
-    this.state.attendance.forEach((attendance) => {
-      cards.push(<Attendance refresh={this.getAttendance} attendance={attendance} />)
-    })
     return (
       <div>
-        { cards.length === 0 ? <NoAttendnace /> : cards }
+        { this.state.attendance === 0 ? <NoAttendnace /> : this.state.attendance.map((attendance) => (
+          <Attendance refresh={this.getAttendance} attendance={attendance} />
+        )).reverse()}
       </div>
     )
   }
 }
 
-class Apps extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      todos : [],
-    }
-  }
-  render(){
-    return (
-      <Card />
-    )
-  }
-}
 ReactDOM.render(
 <App />,
 document.getElementById('root')
@@ -290,10 +280,6 @@ document.getElementById('root')
 </script>
 <script>
   $(document).ready(function(){
-    @if(isset($pending_attendance))
-    counter("{{$pending_attendance->event_edate}}");
-    @endif
-
     $('#close').click(function(){
       $('#done').hide();
     });
@@ -305,58 +291,10 @@ document.getElementById('root')
     $('#no').click(function(){
         mark(0);
     });
-    //
-    // $('#yes, #no').click(function(){
-    //   $('#question').hide();
-    //   $('#done').show();
-    // });
   });
-  function mark(num){
-    $('#attendance_input').val(num);
-    swal({
-          title: "Are you sure?",
-          text: "After success wait till the next event",
-          type: "warning",
-          buttons: true,
-          dangerMode: true,
-          showCancelButton: true,
-        },function(){
-        var values = {};
-        $.each($('#mark_form').serializeArray(), function(i, field) {
-          values[field.name] = field.value;
-        });
-        //disble buttons
-        $('#yes').prop('disabled', true);
-        $('#no').prop('disabled', true);
-        //process the form
-        $.ajax({
-            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : "{{route('mark')}}", // the url where we want to POST
-            data        : values, // our data object
-            dataType    : 'json', // what type of data do we expect back from the server
-            encode      : true
-        }).done(function(response){
-          if(response.status){
-            swal("Success!", "Attendance Marked Successfully", "success");
-                setTimeout(location.reload.bind(location), 2000);
-          }else{
-            if(response.e){
-              console.log(response.e);
-              swal("Oops", "Error occured! Error: "+response.e, "error");
-              //setTimeout(location.reload.bind(location), 2000);
-            }else{
-              swal("Oops", ""+response.reason, "error");
-              setTimeout(location.reload.bind(location), 2000);
-            }
-          }
-        });
-            });
-  }
   function status(message){
     $('#question').hide();
-    swal("Success!", ""+message, "success");
-    // $('#message-text').html(message);
-    // $('#done').show();
+    swal("Success!", ""+message, "success")
   }
 </script>
 @endsection

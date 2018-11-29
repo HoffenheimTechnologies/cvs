@@ -301,6 +301,7 @@
 		}
 		//create service
 		$('#create_service').click(function(){
+			let $this = $(this)
 			let name = $('#name');
 			let sdate = $('#service_start');
 			let edate = $('#service_end');
@@ -322,20 +323,24 @@
 			  dangerMode: true,
 			  showCancelButton: true,
 			},function(){
+				toggleAble($($this), true)
 				let values = {'sdays': sdate.val(), 'edays': edate.val(), 'name': name.val(), '_token': '{{ csrf_token() }}'};
 			  	$.ajax(
 			  		{type: "POST", url: "{{route('service.create')}}", data: values, dataType: "json", encode: true}
 			  	).done(function(response){
 			  		if(response.status){
+							toggleAble($($this), false)
       				swal("Success!", "Service Created", "success");
 							serviceTable.ajax.reload(null, false);
 							name.val('')
 							sdate.val('')
 							edate.val('')
 			  		}else{
+							toggleAble($($this), false)
 			  			swal("Oops", ""+response.reason, "error");
 			  		}
           		}).error(function(data) {
+								toggleAble($($this), false)
 								console.log(data.responseText);
 			        swal("Oops", "Error occured! Error: "+data.statusText, "error");
 			    });
@@ -350,9 +355,6 @@
 				format: 'yyyy-mm-dd hh:00',
 				autoclose: true,
 				startDate: "{{NOW()}}",
-        // pickDate: false,
-				// pickTime: false,
-        // pickSeconds: false,
 				todayHighlight: true,
 		    autoclose: true,
 		    clearBtn: true,
@@ -395,6 +397,8 @@
 						toggleAble('#create', false);
 			  		if(response.status){
       				swal("Success!", "Event Created", "success");
+							$('#start').val(null)
+							$('#end').val(null)
 							eventTable.ajax.reload(null, false)
 			  		}else{
 			  			swal("Oops", ""+response.reason, "error");
@@ -453,20 +457,27 @@
 					{ title: "S/N", "data": "0" },
 	      	{ title: "Start Date", "data": "1" },
 	       	{ title: "End Date", "data": "2" },
-	       	{ title: "Service Type", "data": "7.name" },
+	       	{ title: "Service Type", "data": "7",//<input type='hidden' value='7.id' />" },
+						render : (data) => {
+							return `<td>
+							${data.name}
+							<input id="" type='hidden' value='${data.id}' />
+							</td>`
+						},
+					},
 					{ title: "Active", //"data": "4",
-					render : function( data, type, full, meta ) {
-					 return `
-					 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
-	 		 			<div class="btn-group btn-group-sm" style="float: none;">`+
-						(data == '0' ? `
-						 <button type="button" data-placement="up" title="Enable" class="event-toggle tabledit-edit-button btn btn-danger  waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-close"></span></button>
-						 `:`
-						 <button type="button" data-placement="up" title="Disable" class="event-toggle deleteBtn tabledit-delete-button btn btn-success waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-check"></span></button>
-					 	`)+`</div>
-					 </div>
-					 `
-				 }
+						render : function( data, type, full, meta ) {
+						 return `
+						 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+		 		 			<div class="btn-group btn-group-sm" style="float: none;">`+
+							(data == '0' ? `
+							 <button type="button" data-placement="up" title="Enable" class="event-toggle tabledit-edit-button btn btn-danger  waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-close"></span></button>
+							 `:`
+							 <button type="button" data-placement="up" title="Disable" class="event-toggle deleteBtn tabledit-delete-button btn btn-success waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-check"></span></button>
+						 	`)+`</div>
+						 </div>
+						 `
+					 	}
 					},
 	       	{ title: "Action", //"data": "4",
 	         render : function( data, type, full, meta ) {
@@ -564,7 +575,7 @@
 			})
 		})
 
-		// delete table row
+		// delete event table row
     $('#events').on( 'click', 'tbody tr td .deleteBtn', function (e) { //td:not(:first-child)
 			id = $(this).parent().closest('tr').find('td').first().text()
 			//confirm delete
@@ -578,7 +589,7 @@
 			},function(){
 					//delete from server
 					ajaxConnect("{{route('event.delete')}}", {'id': id, '_token': '{{ csrf_token() }}'}, function(){
-						serviceTable.ajax.reload(null, false)
+						eventTable.ajax.reload(null, false)
 					})
 			})
     });
@@ -607,26 +618,35 @@
 
 		// event edit table row
 		$('#events').on( 'click', 'tbody tr td .tabledit-edit-button ', async function (e) {
+			let makeOption = (service) => {
+				let value = []
+				service.forEach((res) => {
+					// '<option value="Sundays">Sundays</option>'
+					value.push(`<option value="${res.id}">${res.name}</option>`)
+				})
+				return value
+			}
 			services((service) => {
 
 				id = $(this).parent().closest('tr').find('td').first().text()
 				let i = 0;
 				columns = $(this).parent().closest('tr').find('td').each(function(){
-					if (i == 1) {
-						$(this).html('<input value="'+$(this).text()+'" />')
-					}else if (i == 2 || i == 3) {
-						$(this).html(`<select class="days-select form-control form-txt-primary" id="" required style="display:block">
-							<option selected value="`+$(this).text()+`">`+$(this).text()+`</option>
-							${service.forEach((res.name) => {
-								'<option value="Sundays">Sundays</option>'
-								console.log('e');
-							})}
+					if (i == 1 || i == 2) {
+						$(this).html(`<input id="" value="${$(this).text()}" class="form-control form-txt-primary datetimepicker" type="text" readonly="readonly">
+						`)
+					}else if (i == 3) {
+						$(this).html(`<select class="service-select form-control form-txt-primary" id="" required style="display:block">
+							<option selected value="`+$(this).find('input').val()+`">`+$(this).text()+`</option> ${makeOption(service)}
 						</select>`)
 					}else if (i == 4) {
-							$(this).html(`
-								<button type="button" class="tabledit-restore-button btn btn-sm btn-warning" style="float: left;">Cancel</button><div>
-								<button type="button" class="tabledit-save-button btn btn-sm btn-success" style="float: right;">Save</button>
-								`)
+						$(this).html(`
+							${$(this).html()}
+						`)
+					}else if (i == 5) {
+						$(this).html(`
+							<button type="button" class="tabledit-restore-button btn btn-sm btn-warning" style="float: left;">Cancel</button><div>
+							<button type="button" class="tabledit-save-button btn btn-sm btn-success" style="float: right;">Save</button>
+						`)
 					}
 					i++
 				})
@@ -642,11 +662,11 @@
 		// event
 		//for save
 		$('#events').on( 'click', 'tbody tr td .tabledit-save-button', function (e) {
-			let days = $(this).parent().closest('tr').find('td .days-select')
+			let service = $(this).parent().closest('tr').find('td .service-select').val()
 			let id = $($(this).parent().closest('tr').find('td')[0]).text()
-			let name = $($(this).parent().closest('tr').find('td input')).val()
-			let sdays = $(days[0]).val()
-			let edays = $(days[1]).val()
+			let dates = $(this).parent().closest('tr').find('td .datetimepicker')
+			let sdate = $(dates[0]).val()
+			let edate = $(dates[1]).val()
 			swal({
 				title: "Are you sure",
 				confirmButtonText: 'Save',
@@ -656,17 +676,13 @@
 				showCancelButton: true,
 			},function(){
 				// update from server
-				ajaxConnect("{{route('service.update')}}", {'id': id, 'sdays': sdays, 'edays': edays, 'name': name, '_token': '{{ csrf_token() }}'}, serviceTable.ajax.reload)
+				ajaxConnect("{{route('event.update')}}", {'id': id, 'service_id': service, 'event_sdate': sdate, 'event_edate': edate, '_token': '{{ csrf_token() }}'}, () => {
+					eventTable.ajax.reload(null, false)
+				})
 			})
 		})
 
  	});
-
-
-	function toggleAble(element,bool){
-		$(element).prop('disabled', bool);
-		// $(element).find('#loader').show();
-	}
 
 	//disable event
 	function toggleEventActivity(id, fn){
@@ -691,7 +707,9 @@
 				swal("Oops", "Not successfull", "error");
 			}
 			if (typeof fn === "function") {
-				fn()
+				fn(response)
+			}else if(!fn){
+				// fn()
 			}else{
 				fn(response)
 			}

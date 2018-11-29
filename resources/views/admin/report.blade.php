@@ -114,7 +114,7 @@ $(document).ready(function() {
           ajax: {
             "url": "{{route('event.report')}}",
             "type": "GET",
-            data: {"find": "1", 'sdate': sdate},
+            data: {"find": "1", 'date': sdate},
             dataType: 'json', encode: true,
             error: function(response){
               alert('Error Occured');

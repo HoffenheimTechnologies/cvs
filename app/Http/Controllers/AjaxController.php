@@ -84,4 +84,19 @@ class AjaxController extends Controller
       $services = \App\Service::all();
       return response()->json(['status' => true, 'services' => $services]);
     }
+
+    public function updateEvent(Request $request){
+      $event = \App\Event::find($request->id);
+      if ($event) {
+        $index = ['service_id','event_sdate','event_edate'];
+        foreach ($index as $key => $value) {
+          if($request->$value){
+            $event->$value = $request->$value;
+          }
+          $event->save();
+        }
+        return response()->json(['status' => true]);
+      }
+      return response()->json(['status' => false]);
+    }
 }

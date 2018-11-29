@@ -29,7 +29,7 @@ class Event extends Model
   }
 
   public static function getEventByEndDate($event_date){
-    return Event::where('event_edate', $event_date)->first();
+    return Event::whereRaw("event_edate LIKE '$event_date%'")->first();
   }
 
   public static function getUserStat(Event $event){
