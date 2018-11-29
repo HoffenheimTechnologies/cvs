@@ -265,7 +265,7 @@ class App extends React.Component {
   render(){
     return (
       <div>
-        { this.state.attendance === 0 ? <NoAttendnace /> : this.state.attendance.map((attendance) => (
+        { this.state.attendance.length === 0 ? <NoAttendnace /> : this.state.attendance.map((attendance) => (
           <Attendance refresh={this.getAttendance} attendance={attendance} />
         )).reverse()}
       </div>
