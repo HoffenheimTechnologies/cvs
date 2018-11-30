@@ -33,7 +33,9 @@ class MarkedAttendance extends Mailable
      */
     public function build()
     {
-      return $this->from('hello@cvms.trueworthfabrics.com.ng')
+      return $this->from('hello@cvms.trueworthfabrics.com.ng', 'CVMS')
+      ->subject('Attendance Marked')
+      // >replyTo('hello@cvms.trueworthfabrics.com.ng', 'No reply')
       ->with([
           'event' => $this->event,
           'attendance' => $this->attendance,

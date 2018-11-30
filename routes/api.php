@@ -37,3 +37,6 @@ Route::post('/send-notification/', function(Request $request){
     'success' => true
   ]);
 })->name('push.send');
+
+Route::get('/status', 'ApiController@status')->name('api.status');
+Route::get('attendance/mark/{user_id}/{event_id}', 'ApiController@mark')->name('api.mark');

@@ -9,10 +9,12 @@
 
     <title>{{ config('app.name') }}</title>
 
+    <link rel="shortcut icon" href="{{{ URL::asset('img/fav.png') }}}">
+
     <!-- Scripts -->
     <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="{{URL::asset('css/icon.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/materialize.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/loaders.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/font-awesome.min.css')}}">

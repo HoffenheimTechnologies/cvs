@@ -84,9 +84,22 @@ Route::get('manifest.json', function () {
 });
 
 // mail preview
-Route::get('/mailable', function () {
+Route::get('/mailable/marked', function () {
     $event = App\Event::find(69);
     $attendance = App\Attendance::find(242);
 
     return new App\Mail\MarkedAttendance($event, $attendance);
+});
+
+Route::get('/mailable/new-event', function () {
+    $event = App\Event::find(69);
+    $event->name = (App\Service::find($event->service_id))->name;
+    $user = App\User::find(1);
+    return new App\Mail\NewEventMail($event, $user);
+});
+// end mail preview
+
+// view datatables
+Route::get('/view-data-tables', function () {
+    return view('vendor.datatables.print');
 });
