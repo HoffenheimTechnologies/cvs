@@ -255,7 +255,7 @@ class App extends React.Component {
     $.ajax({url: "{{route('attendance.get')}}", type: 'GET', dataType: 'json', encode: true})
     .done((response) => {
       if (response.status) {
-        this.setState({attendance: response.pending_attendance}, () => console.log(this.state.attendance))
+        this.setState({attendance: response.pending_attendance})
       }
     })
     .error(() => {

@@ -1,4 +1,5 @@
 <?php
+use App\Attendance;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,4 +81,12 @@ Route::get('manifest.json', function () {
         'name' => config('app.name'),
         'gcm_sender_id' => config('webpush.gcm.sender_id')
     ];
+});
+
+// mail preview
+Route::get('/mailable', function () {
+    $event = App\Event::find(69);
+    $attendance = App\Attendance::find(242);
+
+    return new App\Mail\MarkedAttendance($event, $attendance);
 });

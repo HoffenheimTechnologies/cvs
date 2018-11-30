@@ -78,8 +78,8 @@
                     <div class="background">
                         <img src="push.png" alt="">
                     </div>
-                    <h2><span></span>{{ config('app.name') }}</h2>
-                    <p>Validation Management System</p>
+                    <h2 class="text-danger"><span></span>{{ config('app.name') }}</h2>
+                    <p class="text-danger">Church Validation Management System</p>
                 </div>
             </li>
             <hr>
