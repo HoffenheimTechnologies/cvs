@@ -23,7 +23,7 @@ class AdminController extends Controller
   public function __construct()
   {
       $this->middleware('auth');
-      $this->middleware('role');
+      // $this->middleware('role');
   }
     //
 
@@ -81,7 +81,7 @@ class AdminController extends Controller
         foreach ($users as $key => $user) {
           // code...
           $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event_edate, $user->id, $create->id));
-          Mail::to($user)->send(new NewEventMail($create));
+          Mail::to($user)->send(new NewEventMail($create, $user));
         }
         // Notification::send($user = User::all(), );
         return response()->json(['status' => true]);

@@ -97,15 +97,15 @@ function Marker(props){
   let id = props.id
   return (
     <div className="card-button">
-      <form id={"mark_form" + id} method="post" onSubmit={event.preventDefault()}>
+      <form id={"mark_form" + id} method="post">
         <input id={"attendance_input" + id} type="hidden" name="attendance" />
         <input id="" type="hidden" name="_token" value="{{csrf_token()}}" />
         <input id="" type="hidden" name="event_id" value={id} />
         <div className="col-6 pull-right">
-          <a onClick={() => props.mark(event, 1,() => {props.refresh()})}  id={"yes" + id} className="btn btn-success btn-round"><i className="fa fa-thumbs-up"></i> Yes</a>
+          <a onClick={(event) => props.mark(event, 1,() => {props.refresh()})}  id={"yes" + id} className="btn btn-success btn-round"><i className="fa fa-thumbs-up"></i> Yes</a>
         </div>
         <div className="col-6 pull-left">
-          <a onClick={() => props.mark(event, 0,() => {props.refresh()})} id={"no" + id} className="btn btn-danger btn-round"><i className="fa fa-thumbs-down"></i> No</a>
+          <a onClick={(event) => props.mark(event, 0,() => {props.refresh()})} id={"no" + id} className="btn btn-danger btn-round"><i className="fa fa-thumbs-down"></i> No</a>
         </div>
       </form>
     </div>
