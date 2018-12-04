@@ -74,9 +74,7 @@ class EventService extends Command
               }
               $users = User::all();
               foreach ($users as $key => $user) {
-                // send notification
-                $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$end, $user->id, $create->id));
-                Mail::to($user)->send(new NewEventMail($create, $user));
+                User::notifyMe($user,$create);
               }
             }
           }

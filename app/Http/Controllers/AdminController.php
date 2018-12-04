@@ -40,44 +40,28 @@ class AdminController extends Controller
     public function eventCreate(Request $request){
       $event_sdate =  $request->event_sdate;
       $event_edate =  $request->event_edate;//date('Y-m-d',strtotime());
+      $service_id = isset($request->service_id) ? $request->service_id : 1;
       //check for past date
         if (NOW() > $event_edate)
         {
           return response()->json(['status' => false, 'reason' => 'Date already past']);
         }
-      //check if already exists
-      // $exists = Event::where('event_sdate', $event_edate)->get(['id'])->count();
-      //   if($exists > 0){
-      //     return response()->json(['status' => false, 'reason' => 'Event exists for that date']);
-      //   }
-      //try to create
       $create = Event::create([
+        'service_id' => $service_id,
         'event_sdate' => $event_sdate,
         'event_edate' => $event_edate,
       ]);
       if ($create) {
-        # deactivate ative event
-        // $active = Event::where('active', 1)->where('id', '!=', $create->id)->get();
-        #set users that hasnt mark the active attendance to NULL
-        //select users not in attendance with active event
-        //$ignoring =  Users::select()->whereRaw()->with('users')->get();
-        //get all users and make each attendance to the newly created event = NULL
+        //get all users and make each attendance to the newly created event = 3
         $users = User::select('id')->get();
         foreach ($users as $key => $user) {
           // code...
           Attendance::initiate($create, $user);
         }
-        // # deactivate ative event
-        // foreach ($active as $key => $value) {
-        //   # code...
-        //   $value->active = 0;
-        //   $value->save();
-        // }
         $users = User::all();
         foreach ($users as $key => $user) {
           // code...
-          $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event_edate, $user->id, $create->id));
-          Mail::to($user)->send(new NewEventMail($create, $user));
+          User::notifyMe($user,$create);
         }
         // Notification::send($user = User::all(), );
         return response()->json(['status' => true]);

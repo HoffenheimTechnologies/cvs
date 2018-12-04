@@ -6,6 +6,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use NotificationChannels\WebPush\HasPushSubscriptions;
+use App\Notifications\NewEventNotification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewEventMail;
 
 class User extends Authenticatable
 {
@@ -36,5 +39,12 @@ class User extends Authenticatable
 
     public function Admin(){
         return $this->admin;
+    }
+
+    public static function notifyMe(User $user, Event $event){
+      $event->name = (Service::find($event->service_id))->name;
+      // send notification
+      $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event->end, $user->id, $event->id));
+      Mail::to($user)->send(new NewEventMail($event, $user));
     }
 }

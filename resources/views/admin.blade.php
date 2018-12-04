@@ -167,6 +167,18 @@
 								</div>
 								<div class="col-xs-12 col-md-6 mobile-inputs">
 									<h4 class="sub-title">Submit</h4>
+									<!-- <form>
+										<div class="form-group">
+											<div class="input-group">
+												<select class="form-control form-txt-primary" id="service_id" required style="display:block">
+													<option selected disabled value="">Service Type</option>
+												</select>
+												<span class="input-group-addon bg-default">
+													<span class="icofont icofont-ui-calendar"></span>
+												</span>
+											</div>
+										</div>
+									</form> -->
 									<button style="background-color: #dd4b39;" id="create" class="btn btn-inverse">
 										<i class="icofont icofont-exchange"></i>Create event
 									</button>
@@ -299,6 +311,15 @@
 				fn(res.services)
 			})
 		}
+		//get services and append to service_id select options element
+		// services((res) => {
+		// 	res.forEach((service) => {
+		// 		var o = new Option("option text", service.id);
+		// 		/// jquerify the DOM object 'o' so we can use the html method
+		// 		$(o).html(service.name);
+		// 		$("#service_id").append(o);
+		// 	})
+		// })
 		//create service
 		$('#create_service').click(function(){
 			let $this = $(this)
@@ -367,6 +388,12 @@
 		$('#create').click(function(){
 			let sdate = $('#start').val();
 			let edate = $('#end').val();
+			// let service_id = $('#service_id').val();
+			// //validate service type
+			// if (!service_id) {
+			// 	swal("Oops", "Please select service type", "error");
+			// 	return ;
+			// }
 			//validate on empty fields
 			if (sdate === '' || edate === '') {
 				swal("Oops", "Please choose event dates", "error");
