@@ -9,7 +9,7 @@ class Event extends Model
 {
     //
     protected $fillable = [
-    	'event_sdate', 'active','event_edate',
+    	'event_sdate', 'active','event_edate','service_id',
 	];
 
   public static function getActive(){

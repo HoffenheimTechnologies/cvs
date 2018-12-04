@@ -41,6 +41,14 @@ class Attendance extends Model
       ->where('user_id', $user->id)->get();
   }
 
+  public static function initiate(Event $create, User $user){
+    return Attendance::create([
+      'attendance' => 3,
+      'user_id' => $user->id,
+      'event_id' => $create->id
+    ]);
+  }
+
   public function user(){
     return $this->belongsTo(User::class);
   }

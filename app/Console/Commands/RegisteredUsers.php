@@ -40,6 +40,7 @@ class RegisteredUsers extends Command
     public function handle()
     {
         //
+        $this->info('Display this on the screen');
         $totalUsers = \DB::table('users')
                   ->whereRaw('Date(created_at) = CURDATE()')
                   ->count();

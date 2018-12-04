@@ -23,7 +23,7 @@ class AdminController extends Controller
   public function __construct()
   {
       $this->middleware('auth');
-      // $this->middleware('role');
+      $this->middleware('role');
   }
     //
 
@@ -63,13 +63,9 @@ class AdminController extends Controller
         //$ignoring =  Users::select()->whereRaw()->with('users')->get();
         //get all users and make each attendance to the newly created event = NULL
         $users = User::select('id')->get();
-        foreach ($users as $key => $value) {
+        foreach ($users as $key => $user) {
           // code...
-          Attendance::create([
-            'attendance' => 3,
-            'user_id' => $value->id,
-            'event_id' => $create->id
-          ]);
+          Attendance::initiate($create, $user);
         }
         // # deactivate ative event
         // foreach ($active as $key => $value) {

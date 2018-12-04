@@ -103,3 +103,23 @@ Route::get('/mailable/new-event', function () {
 Route::get('/view-data-tables', function () {
     return view('vendor.datatables.print');
 });
+
+//single php out put
+Route::get('/php', function(){
+  $day = strtotime('sunday');
+  $weekNo = date('W');
+  $weekNoDay = date('W', $day);
+
+  if ($weekNoDay != $weekNo) {
+      //past tuesday
+      return 'past';
+  }else{
+    return date('Y-m-d', $day);
+  }
+  return date('Y-m-d', strtotime('Mondays', strtotime(NOW())));
+  return date('Y-m-d', strtotime('last sunday', strtotime(NOW())));
+  return date('w', strtotime(NOW()));
+  return $dayofweek = date('l', strtotime('2018-12-04 11:14:16'));
+  return $result    = date('Y-m-d', strtotime(($day - $dayofweek).' day', strtotime($date)));
+  // strtotime('j s', NOW());
+});
