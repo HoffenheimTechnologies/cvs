@@ -106,20 +106,40 @@ Route::get('/view-data-tables', function () {
 
 //single php out put
 Route::get('/php', function(){
-  $day = strtotime('sunday');
-  $weekNo = date('W');
-  $weekNoDay = date('W', $day);
+  //get todays day
+  $today = date('l');
 
-  if ($weekNoDay != $weekNo) {
-      //past tuesday
-      return 'past';
-  }else{
-    return date('Y-m-d', $day);
+  //fetch services up for creation
+  $services = App\Service::where('sdays', $today.'s')->get();
+
+  if($services){
+    // for each services up
+    $i = 0;
+    foreach ($services as $key => $service) {
+      //get current date
+      $now = NOW();
+      //get the date of the end day
+      $end = date('Y-m-d', strtotime($service->edays)).' 23:58:00';
+      // create its event
+      $create = App\Event::create([
+        'service_id' => $service->id,
+        'event_sdate' => $now,
+        'event_edate' => $end//$end_date.' 23:58:00'
+      ]);
+      if ($create) {
+        $users = App\User::select('id')->get();
+        foreach ($users as $key => $user) {
+          // code...
+          App\Attendance::initiate($create, $user);
+        }
+        $users = App\User::all();
+        foreach ($users as $key => $user) {
+          // send notification
+          $user->notify(new App\Notifications\NewEventNotification('New Attendance Available','Will you attend service on '.$end, $user->id, $create->id));
+          Illuminate\Support\Facades\Mail::to($user)->send(new App\Mail\NewEventMail($create, $user));
+        }
+      }
+    }
   }
-  return date('Y-m-d', strtotime('Mondays', strtotime(NOW())));
-  return date('Y-m-d', strtotime('last sunday', strtotime(NOW())));
-  return date('w', strtotime(NOW()));
-  return $dayofweek = date('l', strtotime('2018-12-04 11:14:16'));
-  return $result    = date('Y-m-d', strtotime(($day - $dayofweek).' day', strtotime($date)));
-  // strtotime('j s', NOW());
+  return 'true';
 });

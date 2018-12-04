@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        'App\Console\Commands\RegisteredUsers',
+        // 'App\Console\Commands\RegisteredUsers',
         'App\Console\Commands\EventTimeUp',
         'App\Console\Commands\EventService',
     ];
@@ -34,9 +34,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('registered:users')
         //            ->everyMinute();
        $schedule->command('event:timeup')
-                  ->everyMinute();
+                  ->hourly();
         $schedule->command('service:event')
-                   ->everyMinute();
+                   ->daily();
     }
 
     /**

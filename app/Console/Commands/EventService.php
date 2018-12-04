@@ -8,6 +8,10 @@ use App\Event;
 use App\Service;
 use App\User;
 use App\Attendance;
+use App\Notifications\NewEventNotification;
+use Notification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewEventMail;
 
 class EventService extends Command
 {
@@ -70,9 +74,9 @@ class EventService extends Command
               }
               $users = User::all();
               foreach ($users as $key => $user) {
-                // code...
-                // $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event_edate, $user->id, $create->id));
-                // Mail::to($user)->send(new NewEventMail($create, $user));
+                // send notification
+                $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$end, $user->id, $create->id));
+                Mail::to($user)->send(new NewEventMail($create, $user));
               }
             }
           }
