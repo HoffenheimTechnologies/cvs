@@ -81,10 +81,8 @@ function Timer(props){
 }
 
 function Event(props){
-  var date = new Date(props.event.edate).toLocaleDateString('en-GB', {
-  	day : 'numeric',
-  	month : 'short',
-  	year : 'numeric',
+  var date = new Date(props.event.edate).toLocaleDateString('en-GB', { weekday: "long", year: "numeric", month: "short",
+    day: "numeric",
     hour: '2-digit',
   	minute: '2-digit',
   })
