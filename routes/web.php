@@ -104,8 +104,13 @@ Route::get('/view-data-tables', function () {
     return view('vendor.datatables.print');
 });
 
+Route::get('/test/log', function(){
+  Illuminate\Support\Facades\Log::debug('logging...');
+  return 'logged';
+});
+
 //single php out put
-Route::get('/php', function(){
+Route::get('/test/cron', function(){
   //get todays day
   $today = date('l');
 

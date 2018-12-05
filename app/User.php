@@ -9,6 +9,7 @@ use NotificationChannels\WebPush\HasPushSubscriptions;
 use App\Notifications\NewEventNotification;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewEventMail;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -45,14 +46,20 @@ class User extends Authenticatable
       $event->name = (Service::find($event->service_id))->name;
       // send notification
       try {
+        Log::debug('before mail');
         Mail::to($user)->send(new NewEventMail($event, $user));
+        Log::debug('after mail');
       } catch (\Exception $e) {
         // judt log the error
+        Log::debug($e);
       }
       try {
+        Log::debug('after push');
         $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event->end, $user->id, $event->id));
+        Log::debug('before push');
       } catch (\Exception $e) {
         // judt log the error
+        Log::debug($e);
       }
     }
 }
