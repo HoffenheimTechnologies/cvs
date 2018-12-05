@@ -44,19 +44,19 @@
 									<div id="countdown">
 											<div class="row" >
 												<div class="col-xs-3">
-													<span id="day" class="timer bg-success"></span>
+													<span id="day" class="day timer bg-success"></span>
 													<span id="" class="intervals">Days</span>
 												</div>
 												<div class="col-xs-3">
-													<span id="hour" class="timer bg-primary"></span>
+													<span id="hour" class="hour timer bg-primary"></span>
 													<span id="" class="intervals">Hrs</span>
 												</div>
 												<div class="col-xs-3">
-													<span id="min" class="timer bg-warning"></span>
+													<span id="min" class="min timer bg-warning"></span>
 													<span id="" class="intervals">Mins</span>
 												</div>
 												<div class="col-xs-3">
-													<span id="sec" class="timer bg-danger"></span>
+													<span id="sec" class="sec timer bg-danger"></span>
 													<span id="" class="intervals">Secs</span>
 												</div>
 											</div>
@@ -498,9 +498,9 @@
 						 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
 		 		 			<div class="btn-group btn-group-sm" style="float: none;">`+
 							(data == '0' ? `
-							 <button type="button" data-placement="up" title="Enable" class="event-toggle tabledit-edit-button btn btn-danger  waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-close"></span></button>
+							 <button id="event-toggle" type="button" data-placement="up" title="Enable" class="tabledit-edit-button btn btn-danger  waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-close"></span></button>
 							 `:`
-							 <button type="button" data-placement="up" title="Disable" class="event-toggle deleteBtn tabledit-delete-button btn btn-success waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-check"></span></button>
+							 <button id="event-toggle" type="button" data-placement="up" title="Disable" class="deleteBtn tabledit-delete-button btn btn-success waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-check"></span></button>
 						 	`)+`</div>
 						 </div>
 						 `
@@ -511,8 +511,8 @@
 	           return `
 						 <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
 		 		 			<div class="btn-group btn-group-sm" style="float: none;">
-							 <button type="button" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-edit"></span></button>
-							 <button type="button" class="deleteBtn tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-delete"></span></button>
+							 <button id="tabledit-edit-button" type="button" class="btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-edit"></span></button>
+							 <button id="deleteBtn" type="button" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;"><span class="icofont icofont-ui-delete"></span></button>
 						 	</div>
 						 </div>
 						 `
@@ -595,7 +595,7 @@
 
 		//event
 		// toggleEventActivity table
-		$('#events').on( 'click', 'tbody tr td .event-toggle', function (e) {
+		$('#events').on( 'click', 'tbody tr td #event-toggle', function (e) {
 			let id = $($(this).parent().closest('tr').find('td')[0]).text()
 			toggleEventActivity(id, function(response){
 				eventTable.ajax.reload(null, false)
@@ -603,7 +603,7 @@
 		})
 
 		// delete event table row
-    $('#events').on( 'click', 'tbody tr td .deleteBtn', function (e) { //td:not(:first-child)
+    $('#events').on( 'click', 'tbody tr td #deleteBtn', function (e) { //td:not(:first-child)
 			id = $(this).parent().closest('tr').find('td').first().text()
 			//confirm delete
 			swal({
@@ -644,7 +644,7 @@
 		})
 
 		// event edit table row
-		$('#events').on( 'click', 'tbody tr td .tabledit-edit-button ', async function (e) {
+		$('#events').on( 'click', 'tbody tr td #tabledit-edit-button', async function (e) {
 			let makeOption = (service) => {
 				let value = []
 				service.forEach((res) => {
@@ -713,7 +713,10 @@
 
 	//disable event
 	function toggleEventActivity(id, fn){
-		ajaxConnect("{{route('event.able')}}", {'id': id, '_token': '{{ csrf_token() }}'}, false, fn)
+		$.ajax({url: "{{route('event.able')}}", data: {'id': id, '_token': '{{ csrf_token() }}'}, type: "POST"})
+		.done((res) => {
+			fn(res)
+		})
 	}
 
 	function ajaxConnect(url, data, reloadcall, fn){

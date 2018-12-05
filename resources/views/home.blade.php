@@ -57,20 +57,20 @@ function Timer(props){
             <br />
               <div className="row" >
                 <div className="col-xs-3">
-                  <span id={"day"+id} className="timer bg-success">{props.time.days}</span>
-                  <span id="" className="intervals">Days</span>
+                  <span id={"day"+id} className="day timer bg-success">{props.time.days}</span><br />
+                  <span id="intervals" className="intervals">Days</span>
                 </div>
                 <div className="col-xs-3">
-                  <span id={"hour"+id} className="timer bg-primary">{props.time.hours}</span>
-                  <span id="" className="intervals">Hrs</span>
+                  <span id={"hour"+id} className="hour timer bg-primary">{props.time.hours}</span><br />
+                  <span id="intervals" className="intervals">Hrs</span>
                 </div>
                 <div className="col-xs-3">
-                  <span id={"min"+id} className="timer bg-info">{props.time.mins}</span>
-                  <span id="" className="intervals">Mins</span>
+                  <span id={"min"+id} className="min timer bg-info">{props.time.mins}</span><br />
+                  <span id="intervals" className="intervals">Mins</span>
                 </div>
                 <div className="col-xs-3">
-                  <span id={"sec"+id} className="timer bg-danger">{props.time.secs}</span>
-                  <span id="" className="intervals">Secs</span>
+                  <span id={"sec"+id} className="sec timer bg-danger">{props.time.secs}</span><br />
+                  <span id="intervals" className="intervals">Secs</span>
                 </div>
               </div>
           </div>
@@ -266,7 +266,7 @@ class App extends React.Component {
     return (
       <div>
         { this.state.attendance.length === 0 ? <NoAttendnace /> : this.state.attendance.map((attendance) => (
-          <Attendance refresh={this.getAttendance} attendance={attendance} />
+          <Attendance key={attendance.id} refresh={this.getAttendance} attendance={attendance} />
         )).reverse()}
       </div>
     )
