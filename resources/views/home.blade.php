@@ -81,13 +81,20 @@ function Timer(props){
 }
 
 function Event(props){
+  var date = new Date(props.event.edate).toLocaleDateString('en-GB', {
+  	day : 'numeric',
+  	month : 'short',
+  	year : 'numeric',
+    hour: '2-digit',
+  	minute: '2-digit',
+  })
   function slicer(num){
     return ("0" + num).slice(-2)
   }
   return (
     <div className="card-contain text-center p-t-10">
       <h5 className="text-capitalize p-b-10">Will you attend the {props.event.name} on:</h5>
-      <p className="text-muted">{props.event.edate}?</p>
+      <p className="text-muted">{date}?</p>
       <Timer id={props.timer.id} time=@{{days: slicer(2), hours: slicer(3), mins: slicer(4), secs: slicer(5)}} />
     </div>
   )
