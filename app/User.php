@@ -44,7 +44,15 @@ class User extends Authenticatable
     public static function notifyMe(User $user, Event $event){
       $event->name = (Service::find($event->service_id))->name;
       // send notification
-      $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event->end, $user->id, $event->id));
-      Mail::to($user)->send(new NewEventMail($event, $user));
+      try {
+        Mail::to($user)->send(new NewEventMail($event, $user));
+      } catch (\Exception $e) {
+        // judt log the error
+      }
+      try {
+        $user->notify(new NewEventNotification('New Attendance Available','Will you attend service on '.$event->end, $user->id, $event->id));
+      } catch (\Exception $e) {
+        // judt log the error
+      }
     }
 }
